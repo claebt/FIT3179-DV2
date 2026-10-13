@@ -1,0 +1,61 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 420,
+  "autosize": {"type": "fit", "contains": "padding"},
+  "background": null,
+  "data": {"url": "data/vic_beach_facilities.csv", "format": {"type": "csv"}},
+  "transform": [
+    {"calculate": "toNumber(datum.HAZARD_RAT)", "as": "rating"},
+    {"joinaggregate": [{"op": "count", "as": "n_rating"}], "groupby": ["rating"]},
+    {"fold": ["ROCKS","REEFS","HEADLANDS","STRUCTURES","INLET","OUTFALLS","WINDS","SHARKS","BLUEBOTTLE","STINGERS"],
+     "as": ["feature", "flag"]},
+    {"calculate": "datum.flag === 'T' ? 1 : 0", "as": "has"},
+    {"aggregate": [{"op": "sum", "field": "has", "as": "n_with"}, {"op": "max", "field": "n_rating", "as": "n_r"}],
+     "groupby": ["feature", "rating"]},
+    {"calculate": "round(100 * datum.n_with / datum.n_r)", "as": "pct"}
+  ],
+  "encoding": {
+    "x": {
+      "field": "rating", "type": "ordinal", "title": "Hazard rating (0-10)",
+      "axis": {"labelAngle": 0, "labelFontSize": 11, "titleFontSize": 12, "titleColor": "#1f2a33", "domain": false, "ticks": false}
+    },
+    "y": {
+      "field": "feature", "type": "nominal", "title": null,
+      "sort": {"field": "pct", "op": "mean", "order": "descending"},
+      "axis": {"labelExpr": "upper(slice(datum.value, 0, 1)) + lower(slice(datum.value, 1))", "labelFontSize": 11, "domain": false, "ticks": false}
+    }
+  },
+  "layer": [
+    {
+      "mark": {"type": "rect", "stroke": "white", "strokeWidth": 1},
+      "encoding": {
+        "color": {
+          "field": "pct", "type": "quantitative",
+          "scale": {"range": ["#fbeee0", "#b5471a"], "domain": [0, 100]},
+          "legend": {
+            "title": "% of beaches at this rating", "orient": "bottom", "direction": "horizontal",
+            "gradientLength": 220, "gradientThickness": 12, "gradientStrokeWidth": 0,
+            "values": [0, 25, 50, 75, 100], "labelFontSize": 11, "titleFontSize": 12,
+            "titleFontWeight": 600, "titleColor": "#1f2a33", "labelColor": "#4a5560"
+          }
+        },
+        "tooltip": [
+          {"field": "feature", "title": "Feature"},
+          {"field": "rating", "type": "quantitative", "title": "Hazard rating"},
+          {"field": "pct", "type": "quantitative", "title": "% of beaches with feature"},
+          {"field": "n_with", "type": "quantitative", "title": "Beaches with feature"},
+          {"field": "n_r", "type": "quantitative", "title": "Beaches at this rating"}
+        ]
+      }
+    },
+    {
+      "mark": {"type": "text", "fontSize": 10, "fontWeight": 600},
+      "encoding": {
+        "text": {"field": "pct", "type": "quantitative"},
+        "color": {"condition": {"test": "datum.pct > 60", "value": "white"}, "value": "#1f2a33"}
+      }
+    }
+  ],
+  "config": {"view": {"stroke": null}}
+}

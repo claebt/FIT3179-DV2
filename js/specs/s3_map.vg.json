@@ -1,0 +1,46 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 420,
+  "autosize": {"type": "fit", "contains": "padding"},
+  "background": null,
+  "projection": {"type": "mercator"},
+  "layer": [
+    {
+      "data": {"url": "data/vic_outline.json", "format": {"type": "topojson", "feature": "vic"}},
+      "mark": {"type": "geoshape", "fill": "#eef2f4", "stroke": "#b9cfdf", "strokeWidth": 1}
+    },
+    {
+      "data": {"url": "data/vic_beach_facilities.csv"},
+      "mark": {"type": "circle", "size": 34, "stroke": "white", "strokeWidth": 0.4, "opacity": 0.9},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude": {"field": "lat", "type": "quantitative"},
+        "order": {"field": "N_FACILITIES", "type": "quantitative", "sort": "ascending"},
+        "color": {
+        "field": "N_FACILITIES", "type": "quantitative",
+        "scale": {
+            "type": "threshold",
+            "domain": [1, 4, 7, 10],
+            "range": ["#cfd8de", "#b9d3e8", "#7fb0d6", "#3f85bd", "#14508a"]
+        },
+        "legend": {
+            "title": "Facilities (out of 13)",
+            "type": "symbol",
+            "orient": "bottom", "direction": "horizontal",
+            "symbolType": "circle", "symbolSize": 140,
+            "labelExpr": "['None','1–3','4–6','7–9','10–13'][datum.index]",
+            "labelFontSize": 11, "titleFontSize": 12, "titleFontWeight": 600,
+            "titleColor": "#1f2a33", "labelColor": "#4a5560"
+        }
+        },
+        "tooltip": [
+          {"field": "BEACH", "type": "nominal", "title": "Beach"},
+          {"field": "N_FACILITIES", "type": "quantitative", "title": "Facilities (of 13)"},
+          {"field": "HAZARD_RAT", "type": "quantitative", "title": "Hazard rating (0-10)"}
+        ]
+      }
+    }
+  ],
+  "config": {"view": {"stroke": null}}
+}

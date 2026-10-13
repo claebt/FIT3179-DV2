@@ -1,0 +1,65 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 420,
+  "autosize": {"type": "fit", "contains": "padding"},
+  "background": null,
+  "data": {"url": "data/vic_beach_facilities.csv"},
+  "transform": [
+    {"fold": ["BBQ","KIOSK","PARK","PHONE","PICNIC","PLAYGROUND","POOL","SHADE","SHELTERS","SHOPS","WATER","SHOWERS","TOILETS"], "as": ["fac_a", "a_val"]},
+    {"filter": "datum.a_val == 1"},
+    {"fold": ["BBQ","KIOSK","PARK","PHONE","PICNIC","PLAYGROUND","POOL","SHADE","SHELTERS","SHOPS","WATER","SHOWERS","TOILETS"], "as": ["fac_b", "b_val"]},
+    {"filter": "datum.b_val == 1"},
+    {"aggregate": [{"op": "count", "as": "n"}], "groupby": ["fac_a", "fac_b"]},
+    {"joinaggregate": [{"op": "max", "field": "n", "as": "base_a"}], "groupby": ["fac_a"]},
+    {"joinaggregate": [{"op": "max", "field": "n", "as": "base_b"}], "groupby": ["fac_b"]},
+    {"filter": "datum.fac_a !== datum.fac_b"},
+    {"calculate": "round(100 * datum.n / datum.base_a)", "as": "pct"},
+    {"calculate": "({'BBQ':'BBQ','KIOSK':'Kiosk','PARK':'Park','PHONE':'Phone','PICNIC':'Picnic area','PLAYGROUND':'Playground','POOL':'Pool','SHADE':'Shade','SHELTERS':'Shelters','SHOPS':'Shops','WATER':'Water','SHOWERS':'Showers','TOILETS':'Toilets'})[datum.fac_a]", "as": "label_a"},
+    {"calculate": "({'BBQ':'BBQ','KIOSK':'Kiosk','PARK':'Park','PHONE':'Phone','PICNIC':'Picnic area','PLAYGROUND':'Playground','POOL':'Pool','SHADE':'Shade','SHELTERS':'Shelters','SHOPS':'Shops','WATER':'Water','SHOWERS':'Showers','TOILETS':'Toilets'})[datum.fac_b]", "as": "label_b"}
+  ],
+  "encoding": {
+    "y": {
+      "field": "label_a", "type": "nominal", "title": "Beaches that have",
+      "sort": {"field": "base_a", "op": "max", "order": "descending"},
+      "axis": {"labelFontSize": 11, "titleFontSize": 12, "titleColor": "#1f2a33", "domain": false, "ticks": false}
+    },
+    "x": {
+      "field": "label_b", "type": "nominal", "title": "also have (% of those beaches)",
+      "sort": {"field": "base_b", "op": "max", "order": "descending"},
+      "axis": {"labelAngle": -45, "labelFontSize": 11, "titleFontSize": 12, "titleColor": "#1f2a33", "domain": false, "ticks": false, "orient": "bottom"}
+    }
+  },
+  "layer": [
+    {
+      "mark": {"type": "rect", "stroke": "white", "strokeWidth": 1},
+      "encoding": {
+        "color": {
+          "field": "pct", "type": "quantitative",
+          "scale": {"range": ["#f6ecd6", "#a8742a"], "domain": [0, 100]},
+          "legend": {
+            "title": "% also with", "orient": "bottom", "direction": "horizontal",
+            "gradientLength": 220, "gradientThickness": 12, "gradientStrokeWidth": 0,
+            "values": [0, 25, 50, 75, 100], "labelFontSize": 11, "titleFontSize": 12,
+            "titleFontWeight": 600, "titleColor": "#1f2a33", "labelColor": "#4a5560"
+          }
+        },
+        "tooltip": [
+          {"field": "label_a", "title": "Beaches with"},
+          {"field": "label_b", "title": "...also have"},
+          {"field": "pct", "type": "quantitative", "title": "% of those beaches"},
+          {"field": "n", "type": "quantitative", "title": "Beaches with both"},
+          {"field": "base_a", "type": "quantitative", "title": "Beaches with first"}
+        ]
+      }
+    },
+    {
+      "mark": {"type": "text", "fontSize": 10, "fontWeight": 600},
+      "encoding": {
+        "text": {"field": "pct", "type": "quantitative"},
+        "color": {"condition": {"test": "datum.pct > 60", "value": "white"}, "value": "#1f2a33"}
+      }
+    }
+  ],
+  "config": {"view": {"stroke": null}}
+}

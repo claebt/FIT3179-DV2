@@ -1,0 +1,170 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "background": null,
+  "spacing": 24,
+  "hconcat": [
+    {
+      "width": 570,
+      "height": 548,
+      "projection": {"type": "conicEqualArea", "parallels": [-18, -36], "rotate": [-132, 0, 0]},
+      "layer": [
+        {
+          "data": {"url": "data/aus_states.json", "format": {"type": "topojson", "feature": "states"}},
+          "transform": [{
+            "lookup": "properties.STE_NAME21",
+            "from": {"data": {"url": "data/coastline_by_state.csv"}, "key": "state",
+                     "fields": ["total_km", "mainland_km", "island_km"]}
+          }],
+          "mark": {"type": "geoshape", "stroke": "white", "strokeWidth": 1},
+          "encoding": {
+            "color": {
+              "field": "total_km", "type": "quantitative",
+              "scale": {"scheme": "blues", "domain": [0, 25000]},
+              "legend": {
+                "title": "Coastline (km)", "orient": "left", "direction": "vertical",
+                "values": [0, 5000, 10000, 15000, 20000, 25000],
+                "labelExpr": "datum.value === 0 ? '0' : datum.value / 1000 + 'k'",
+                "gradientLength": 220, "gradientThickness": 14, "gradientStrokeWidth": 0,
+                "labelOverlap": false, "labelFontSize": 11, "labelColor": "#4a5560",
+                "titleFontSize": 12, "titleFontWeight": 600, "titleColor": "#1f2a33",
+                "titlePadding": 8, "offset": 8
+              }
+            },
+            "tooltip": [
+              {"field": "properties.STE_NAME21", "title": "State"},
+              {"field": "total_km", "type": "quantitative", "title": "Total (km)", "format": ","},
+              {"field": "mainland_km", "type": "quantitative", "title": "Mainland (km)", "format": ","},
+              {"field": "island_km", "type": "quantitative", "title": "Islands (km)", "format": ","}
+            ]
+          }
+        },
+        {
+          "data": {"url": "data/top10_beaches.csv", "format": {"parse": {"rank": "number"}}},
+          "encoding": {
+            "longitude": {"field": "lon", "type": "quantitative"},
+            "latitude": {"field": "lat", "type": "quantitative"},
+            "opacity": {"condition": {"param": "beachHover", "empty": true, "value": 1}, "value": 0.25},
+            "tooltip": [
+              {"field": "beach", "title": "Beach"},
+              {"field": "location", "title": "Where"},
+              {"field": "country", "title": "Country"}
+            ]
+          },
+          "layer": [
+            {"mark": {"type": "circle", "size": 1000, "color": "#d9b97a", "stroke": "white", "strokeWidth": 1.5}},
+            {
+              "mark": {"type": "text", "color": "white", "fontSize": 15, "fontWeight": 700},
+              "encoding": {"text": {"field": "rank", "type": "quantitative"}}
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "width": 280,
+      "height": 548,
+      "layer": [
+        {
+          "data": {"values": [{"k": 1}]},
+          "mark": {"type": "rule", "stroke": "#d9cfbd", "strokeWidth": 1},
+          "encoding": {"x": {"value": -12}, "y": {"value": 0}, "y2": {"value": 548}}
+        },
+        {
+          "data": {"values": [{"k": 1}]},
+          "mark": {"type": "text", "align": "left", "baseline": "top", "fontSize": 20, "fontWeight": 600, "color": "#1f2a33"},
+          "encoding": {"x": {"value": 0}, "y": {"value": 6}, "text": {"value": "Best Beaches 2026"}}
+        },
+        {
+          "data": {"url": "data/top10_beaches.csv", "format": {"parse": {"rank": "number"}}},
+          "transform": [{"calculate": "datum.beach + ' (' + datum.state + ')'", "as": "label"}],
+          "encoding": {
+            "y": {"field": "rank", "type": "ordinal", "sort": "ascending", "axis": null,
+                  "scale": {"range": [40, 360]}}
+          },
+          "layer": [
+            {
+              "params": [{
+                "name": "beachHover",
+                "select": {"type": "point", "fields": ["rank"], "on": "pointerover", "clear": "pointerout"}
+              }],
+              "mark": {"type": "bar", "fill": "#eef2f4", "cornerRadius": 4},
+              "encoding": {
+                "x": {"value": 0}, "x2": {"value": 280},
+                "fillOpacity": {"condition": {"param": "beachHover", "empty": false, "value": 1}, "value": 0}
+              }
+            },
+            {
+              "mark": {"type": "circle", "size": 500, "color": "#d9b97a", "stroke": "white", "strokeWidth": 1.5},
+              "encoding": {
+                "x": {"value": 12},
+                "opacity": {"condition": {"param": "beachHover", "empty": true, "value": 1}, "value": 0.3}
+              }
+            },
+            {
+              "mark": {"type": "text", "color": "white", "fontSize": 12, "fontWeight": 700},
+              "encoding": {"x": {"value": 12}, "text": {"field": "rank", "type": "quantitative"}}
+            },
+            {
+              "mark": {"type": "text", "align": "left", "fontSize": 12, "color": "#1f2a33"},
+              "encoding": {
+                "x": {"value": 28},
+                "text": {"field": "label"},
+                "opacity": {"condition": {"param": "beachHover", "empty": true, "value": 1}, "value": 0.35}
+              }
+            }
+          ]
+        },
+        {
+          "data": {"values": [{"k": 1}]},
+          "mark": {"type": "rule", "stroke": "#d9cfbd", "strokeWidth": 1},
+          "encoding": {"x": {"value": 0}, "x2": {"value": 280}, "y": {"value": 376}}
+        },
+        {
+          "data": {"values": [{"k": 1}]},
+          "mark": {"type": "text", "align": "left", "baseline": "top", "fontSize": 10, "fontWeight": 700, "color": "#6b7780"},
+          "encoding": {"x": {"value": 0}, "y": {"value": 388}, "text": {"value": "ABOUT THIS BEACH"}}
+        },
+        {
+          "data": {"values": [{"k": 1}]},
+          "mark": {"type": "text", "align": "left", "baseline": "top", "fontSize": 12, "fontStyle": "italic", "color": "#6b7780"},
+          "encoding": {
+            "x": {"value": 0}, "y": {"value": 410},
+            "text": {"value": "Hover over a beach in the list for details"},
+            "opacity": {"condition": {"param": "beachHover", "empty": true, "value": 1}, "value": 0}
+          }
+        },
+        {
+          "data": {"url": "data/top10_beaches.csv", "format": {"parse": {"rank": "number"}}},
+          "transform": [
+            {"filter": {"param": "beachHover", "empty": false}},
+            {"calculate": "'#' + datum.rank + ' ' + datum.beach", "as": "title"},
+            {"calculate": "'Country: ' + datum.country", "as": "country_line"}
+          ],
+          "layer": [
+            {
+              "mark": {"type": "text", "align": "left", "baseline": "top", "fontSize": 14, "fontWeight": 700, "color": "#1f2a33", "limit": 280},
+              "encoding": {"x": {"value": 0}, "y": {"value": 408}, "text": {"field": "title"}}
+            },
+            {
+              "mark": {"type": "text", "align": "left", "baseline": "top", "fontSize": 12, "color": "#4a5560", "limit": 280},
+              "encoding": {"x": {"value": 0}, "y": {"value": 428}, "text": {"field": "location"}}
+            },
+            {
+              "mark": {"type": "text", "align": "left", "baseline": "top", "fontSize": 12, "fontWeight": 600, "color": "#1b6ca8", "limit": 280},
+              "encoding": {"x": {"value": 0}, "y": {"value": 444}, "text": {"field": "country_line"}}
+            },
+            {
+              "mark": {"type": "rule", "stroke": "#e6e0d4"},
+              "encoding": {"x": {"value": 0}, "x2": {"value": 280}, "y": {"value": 466}}
+            },
+            {
+              "mark": {"type": "text", "align": "left", "baseline": "top", "lineBreak": "|", "lineHeight": 15, "fontSize": 12, "color": "#4a5560", "limit": 280},
+              "encoding": {"x": {"value": 0}, "y": {"value": 476}, "text": {"field": "fact_lines"}}
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "config": {"view": {"stroke": null}}
+}

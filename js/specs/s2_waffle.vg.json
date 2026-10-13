@@ -1,0 +1,25 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 260,
+  "height": 300,
+  "autosize": {"type": "fit", "contains": "padding"},
+  "background": null,
+  "data": {"sequence": {"start": 0, "stop": 100, "as": "i"}},
+  "transform": [
+    {"calculate": "datum.i % 10", "as": "col"},
+    {"calculate": "floor(datum.i / 10)", "as": "row"},
+    {"calculate": "datum.i < 88 ? 'Beach' : 'Other coastal places'", "as": "type"}
+  ],
+  "mark": {"type": "square", "size": 380, "filled": true},
+  "encoding": {
+    "x": {"field": "col", "type": "ordinal", "axis": null},
+    "y": {"field": "row", "type": "ordinal", "axis": null},
+    "color": {
+      "field": "type", "type": "nominal",
+      "scale": {"domain": ["Beach", "Other coastal places"], "range": ["#d9b97a", "#cfd8de"]},
+      "legend": {"orient": "bottom", "title": null}
+    },
+    "tooltip": [{"field": "type", "title": "Visit type"}]
+  },
+  "config": {"view": {"stroke": null}}
+}

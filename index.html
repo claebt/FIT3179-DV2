@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Why We Love the Coast</title>
+
+  <!-- Vega libraries (major-version pins = latest v5/v6, needed for "params" selections) -->
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+
+  <!-- Pure.css grid (Week 5) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css">
+
+  <!-- Google Fonts: swap for your chosen coastal typeface -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;800&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- HERO -->
+<header class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">FIT3179 · Data Visualisation 2 · Monash</p>
+
+    <div class="hero-row">
+      <div class="hero-body">
+        <h1>Why We Love the Coast</h1>
+        <p class="hero-lead">
+          A data story about what makes a great Australian beach, and how to find yours.
+        </p>
+        <p class="hero-text">
+          Australia's beaches are a national obsession. This story looks at their scale, how
+          often we use them, what's on offer at them, and how to enjoy them safely.
+        </p>
+      </div>
+
+      <div class="hero-stat">
+        <p class="stat-label">Live within 50 km of the coast</p>
+        <p class="stat-number">87%</p>
+        <p class="stat-text">
+          More than 16 million adults made over 630 million coastal visits in a single year.
+        </p>
+      </div>
+
+      <nav class="hero-toc" aria-label="Story sections">
+        <p class="toc-label">In this story</p>
+        <ol id="toc-list"></ol>
+      </nav>
+    </div>
+  </div>
+</header>
+
+  <main class="container">
+
+    <!-- SECTION 1 -->
+<section id="s1">
+  <h2>A coastline like no other</h2>
+
+  <div class="card">
+    <h3>Western Australia alone has more coastline than most countries</h3>
+    <p class="card-desc">
+      Australia's coastline is spread very unevenly. Western Australia, Queensland and the
+      Northern Territory hold most of it, while New South Wales, the most populous state,
+      has one of the shortest.
+    </p>
+    <p class="card-howto">
+      How to read: darker blue means more coastline. Hover over a state for its mainland and
+      island split, or over an orange dot for one of 2026's best beaches.
+    </p>
+
+    <div id="vis_s1_map" class="vis"></div>
+
+    <div class="callout">
+      <strong>Key takeaway:</strong> Western Australia's 20,788 km is about 35% of the national
+      total, and almost 40% of Australia's coastline is around islands.
+    </div>
+
+    <p class="source">
+      Source: Geoscience Australia, <em>Border Lengths - States and Territories</em>;
+      Tourism Australia, <em>Australia's Best Beaches 2026</em>;
+      ABS, <em>ASGS Edition 3 State and Territory boundaries</em>.
+    </p>
+  </div>
+</section>
+
+    <!-- SECTION 2 -->
+<section id="s2">
+  <h2>Where we go and what we do</h2>
+
+  <div class="card">
+    <h3>The coast is part of everyday Australian life</h3>
+    <p class="card-desc">
+      87% of Australians live within 50 km of the coast, and more than 16 million adults
+      made over 630 million coastal visits in a single year.
+    </p>
+
+    <div class="card-split">
+      <!-- Left column -->
+      <div class="col">
+        <h4>88 in every 100 coastal visits are to a beach</h4>
+        <p class="card-desc">When Australians head to the coast, they overwhelmingly head to the sand.</p>
+        <p class="card-howto">How to read: each square is 1% of coastal visits.</p>
+        <div id="vis_s2_waffle" class="vis"></div>
+        <div class="callout">
+          <strong>Key takeaway:</strong> for most people, "the coast" means the beach.
+        </div>
+      </div>
+
+      <!-- Right column -->
+      <div class="col">
+        <h4>Swimming is by far the most popular coastal activity</h4>
+        <p class="card-desc">More than half of adults swim at the coast, but most only go occasionally.</p>
+        <p class="card-howto">How to read: dark blue is at least once a month, light blue is less often.</p>
+        <div id="vis_s2_activities" class="vis"></div>
+        <div class="callout">
+          <strong>Key takeaway:</strong> surfing and rock fishing are the only activities where
+          regulars outnumber occasional participants.
+        </div>
+      </div>
+    </div>
+
+    <p class="source">Source: Surf Life Saving Australia, <em>National Coastal Safety Report 2025</em>.</p>
+  </div>
+</section>
+
+<section id="s3">
+  <h2>3. What's at the beach</h2>
+
+  <div class="card">
+    <h3>Facilities vary enormously from beach to beach</h3>
+    <p class="card-desc">
+      Beach-by-beach data isn't publicly available nationally, so from here we zoom into
+      Victoria, which publishes open data on every ocean beach.
+    </p>
+
+    <div class="card-split">
+      <div class="col">
+        <h4>Where Victoria's beaches are well equipped</h4>
+        <p class="card-desc">734 ocean beaches, each coloured by how many of 13 facilities it has.</p>
+        <p class="card-howto">How to read: darker blue means more facilities. Hover over a dot for the beach name.</p>
+        <div id="vis_s3_map" class="vis"></div>
+        <div class="callout">
+          <strong>Key takeaway:</strong> [write this once you've seen where the dark dots are]
+        </div>
+      </div>
+
+      <div class="col">
+        <h4>Which facilities come as a package</h4>
+        <p class="card-desc">If a beach has one facility, how likely is it to have each of the others?</p>
+        <p class="card-howto">How to read: pick a row, then read across. Darker cells mean the column facility is more likely.</p>
+        <div id="vis_s3_cooccur" class="vis"></div>
+        <div class="callout">
+          <strong>Key takeaway:</strong> [write this once you've seen the heatmap]
+        </div>
+      </div>
+    </div>
+
+    <p class="source">
+      Source: DataVic (DEECA), <em>Beach Facilities and Safety Rating</em>, derived from the
+      Australian Beach Safety and Management Program, 1999.
+    </p>
+  </div>
+</section>
+
+<section id="s4">
+  <h2>4. What the beach is like</h2>
+
+  <div class="card">
+    <h3>What makes a beach hazardous?</h3>
+    <p class="card-desc">
+      Facilities are only half the picture. The same Victorian survey also scored every ocean
+      beach from 0 to 10 for physical hazards that could affect swimming safety.
+    </p>
+
+    <div class="card-split">
+      <div class="col">
+        <h4>Do well-equipped beaches tend to be safer?</h4>
+        <p class="card-desc">Each dot is a beach, plotted by its hazard rating and its number of facilities.</p>
+        <p class="card-howto">How to read: the orange line is the average number of facilities at each hazard rating. Dots are nudged slightly so they don't overlap.</p>
+        <div id="vis_s4_strip" class="vis"></div>
+        <div class="callout">
+          <strong>Key takeaway:</strong> [write this once you've seen the chart]
+        </div>
+      </div>
+
+      <div class="col">
+        <h4>Which physical features go with higher hazard?</h4>
+        <p class="card-desc">For each hazard rating, the share of beaches that have each feature.</p>
+        <p class="card-howto">How to read: darker cells mean more of the beaches at that rating have the feature. Faded cells are based on fewer than 5 beaches.</p>
+        <div id="vis_s4_flags" class="vis"></div>
+        <div class="callout">
+          <strong>Key takeaway:</strong> [write this once you've seen the heatmap]
+        </div>
+      </div>
+    </div>
+
+    <p class="source">
+      Source: DataVic (DEECA), <em>Beach Facilities and Safety Rating</em>, derived from the
+      Australian Beach Safety and Management Program, 1999.
+    </p>
+  </div>
+</section>
+
+  </main>
+
+  <footer class="container" id="sources">
+    <h3>Sources</h3>
+    <ul>
+      <li>Data source - publisher, URL, date accessed</li>
+    </ul>
+    <p>Author: Caleb Tay · Created: October 2026 · AI use acknowledged: ...</p>
+  </footer>
+
+  <!-- Load embed script last (Week 7 Part A: external embedding) -->
+  <script src="js/main.js"></script>
+</body>
+</html>

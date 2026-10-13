@@ -1,0 +1,55 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 420,
+  "autosize": {"type": "fit", "contains": "padding"},
+  "background": null,
+  "data": {
+    "url": "data/vic_beach_facilities.csv",
+    "format": {"type": "csv", "parse": {"HAZARD_RAT": "number", "N_FACILITIES": "number", "lon": "number", "lat": "number"}}
+  },
+  "layer": [
+    {
+      "transform": [
+        {"calculate": "datum.HAZARD_RAT + (((floor(abs(datum.lon * 100000)) % 10) / 9) - 0.5) * 0.7", "as": "jx"},
+        {"calculate": "datum.N_FACILITIES + (((floor(abs(datum.lat * 100000)) % 10) / 9) - 0.5) * 0.7", "as": "jy"}
+      ],
+      "mark": {"type": "circle", "size": 26, "color": "#1b6ca8", "opacity": 0.4},
+      "encoding": {
+        "x": {
+          "field": "jx", "type": "quantitative", "title": "Hazard rating (0-10)",
+          "scale": {"domain": [-0.7, 10.7]},
+          "axis": {"values": [0,1,2,3,4,5,6,7,8,9,10], "grid": false, "labelFontSize": 11, "titleFontSize": 12, "titleColor": "#1f2a33"}
+        },
+        "y": {
+          "field": "jy", "type": "quantitative", "title": "Facilities (out of 13)",
+          "scale": {"domain": [-0.7, 13.7]},
+          "axis": {"values": [0,1,2,3,4,5,6,7,8,9,10,11,12,13], "grid": true, "gridColor": "#eef2f4",
+                   "labelFontSize": 11, "titleFontSize": 12, "titleColor": "#1f2a33", "domain": false, "ticks": false}
+        },
+        "tooltip": [
+          {"field": "BEACH", "type": "nominal", "title": "Beach"},
+          {"field": "HAZARD_RAT", "type": "quantitative", "title": "Hazard rating"},
+          {"field": "N_FACILITIES", "type": "quantitative", "title": "Facilities (of 13)"}
+        ]
+      }
+    },
+    {
+      "transform": [
+        {"aggregate": [{"op": "mean", "field": "N_FACILITIES", "as": "mean_fac"}, {"op": "count", "as": "n_beaches"}], "groupby": ["HAZARD_RAT"]}
+      ],
+      "mark": {"type": "line", "color": "#e07a2f", "strokeWidth": 2.5,
+               "point": {"filled": true, "size": 80, "color": "#e07a2f", "stroke": "white", "strokeWidth": 1.2}},
+      "encoding": {
+        "x": {"field": "HAZARD_RAT", "type": "quantitative", "title": "Hazard rating (0-10)", "scale": {"domain": [-0.7, 10.7]}},
+        "y": {"field": "mean_fac", "type": "quantitative", "title": "Facilities (out of 13)", "scale": {"domain": [-0.7, 13.7]}},
+        "tooltip": [
+          {"field": "HAZARD_RAT", "type": "quantitative", "title": "Hazard rating"},
+          {"field": "mean_fac", "type": "quantitative", "title": "Average facilities", "format": ".1f"},
+          {"field": "n_beaches", "type": "quantitative", "title": "Beaches"}
+        ]
+      }
+    }
+  ],
+  "config": {"view": {"stroke": null}}
+}

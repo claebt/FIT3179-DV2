@@ -1,0 +1,59 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 300,
+  "autosize": {"type": "fit", "contains": "padding"},
+  "background": null,
+  "data": {"url": "data/coastal_activities.csv"},
+  "transform": [
+    {"calculate": "datum.frequency === 'Less than once a month' ? 0 : 1", "as": "freq_order"},
+    {"stack": "pct", "groupby": ["activity"], "sort": [{"field": "freq_order"}], "as": ["x0", "x1"]},
+    {"joinaggregate": [{"op": "sum", "field": "pct", "as": "total"}], "groupby": ["activity"]}
+  ],
+  "encoding": {
+    "y": {
+      "field": "activity", "type": "nominal", "title": null,
+      "sort": {"field": "total", "op": "max", "order": "descending"}
+    }
+  },
+  "layer": [
+    {
+      "mark": {"type": "bar"},
+      "encoding": {
+        "x": {
+          "field": "x0", "type": "quantitative",
+          "title": "Percentage of adults (%)",
+          "scale": {"domain": [0, 60]},
+          "axis": {"tickCount": 6, "grid": false}
+        },
+        "x2": {"field": "x1"},
+        "color": {
+          "field": "frequency", "type": "nominal",
+          "scale": {
+            "domain": ["Less than once a month", "At least once a month"],
+            "range": [ "#b9cfdf","#1b6ca8"]
+          },
+          "legend": {"orient": "bottom", "title": null}
+        },
+        "tooltip": [
+          {"field": "activity", "title": "Activity"},
+          {"field": "frequency", "title": "Frequency"},
+          {"field": "pct", "type": "quantitative", "title": "% of adults"},
+          {"field": "total", "type": "quantitative", "title": "Total %"}
+        ]
+      }
+    },
+    {
+      "mark": {"type": "text", "align": "right", "dx": -2, "fontSize": 10, "fontWeight": 600},
+      "encoding": {
+        "x": {"field": "x1", "type": "quantitative"},
+        "text": {"field": "pct", "type": "quantitative", "format": ".0f"},
+        "color": {
+          "condition": {"test": "datum.frequency === 'At least once a month'", "value": "white"},
+          "value": "#1f2a33"
+        }
+      }
+    }
+  ],
+  "config": {"view": {"stroke": null}}
+}
