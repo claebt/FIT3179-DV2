@@ -7,13 +7,13 @@
   "data": {"url": "data/vic_beach_facilities.csv", "format": {"type": "csv"}},
   "transform": [
     {"calculate": "toNumber(datum.HAZARD_RAT)", "as": "rating"},
+    {"filter": "isValid(datum.rating) && isFinite(datum.rating)"},
     {"joinaggregate": [{"op": "count", "as": "n_rating"}], "groupby": ["rating"]},
-    {"fold": ["ROCKS","REEFS","HEADLANDS","STRUCTURES","INLET","OUTFALLS","WINDS","SHARKS","BLUEBOTTLE","STINGERS"],
-     "as": ["feature", "flag"]},
+    {"fold": ["ROCKS","REEFS","HEADLANDS","STRUCTURES","INLET","OUTFALLS","WINDS","SHARKS","BLUEBOTTLE","STINGERS"], "as": ["feature", "flag"]},
     {"calculate": "datum.flag === 'T' ? 1 : 0", "as": "has"},
-    {"aggregate": [{"op": "sum", "field": "has", "as": "n_with"}, {"op": "max", "field": "n_rating", "as": "n_r"}],
-     "groupby": ["feature", "rating"]},
-    {"calculate": "round(100 * datum.n_with / datum.n_r)", "as": "pct"}
+    {"aggregate": [{"op": "sum", "field": "has", "as": "n_with"}, {"op": "max", "field": "n_rating", "as": "n_r"}], "groupby": ["feature", "rating"]},
+    {"calculate": "round(100 * datum.n_with / datum.n_r)", "as": "pct"},
+    {"filter": "datum.pct > 0"}
   ],
   "encoding": {
     "x": {

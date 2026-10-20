@@ -1,0 +1,289 @@
+region,month,mean_ent,n
+Ballina,1,42.4,55
+Ballina,2,47.78181818,55
+Ballina,3,,0
+Ballina,4,,0
+Ballina,5,,0
+Ballina,6,,0
+Ballina,7,,0
+Ballina,8,,0
+Ballina,9,,0
+Ballina,10,,0
+Ballina,11,33.37735849,53
+Ballina,12,30.46296296,54
+Bathurst,1,13.5,4
+Bathurst,2,9.5,4
+Bathurst,3,3.25,4
+Bathurst,4,1.8,5
+Bathurst,5,1,3
+Bathurst,6,12,1
+Bathurst,7,9,1
+Bathurst,8,5,1
+Bathurst,9,5,1
+Bathurst,10,2.2,5
+Bathurst,11,6.25,4
+Bathurst,12,3.333333333,3
+Bellingen,1,78.92857143,28
+Bellingen,2,33.82142857,28
+Bellingen,3,82.14285714,28
+Bellingen,4,99.38095238,21
+Bellingen,5,,0
+Bellingen,6,,0
+Bellingen,7,,0
+Bellingen,8,,0
+Bellingen,9,,0
+Bellingen,10,9.833333333,12
+Bellingen,11,,0
+Bellingen,12,,0
+Botany Bay,1,463.1555556,45
+Botany Bay,2,12.06818182,44
+Botany Bay,3,125.6571429,35
+Botany Bay,4,712.5098039,51
+Botany Bay,5,16.69230769,13
+Botany Bay,6,10.1,10
+Botany Bay,7,49,11
+Botany Bay,8,1474,10
+Botany Bay,9,7.636363636,11
+Botany Bay,10,39.59259259,54
+Botany Bay,11,81.57407407,54
+Botany Bay,12,36.23214286,56
+Central Coast North,1,686.3043478,69
+Central Coast North,2,222.8591549,71
+Central Coast North,3,72.77777778,72
+Central Coast North,4,677,67
+Central Coast North,5,251.9393939,33
+Central Coast North,6,19.79310345,29
+Central Coast North,7,11.44827586,29
+Central Coast North,8,390.9,40
+Central Coast North,9,2323.333333,30
+Central Coast North,10,210.5697674,86
+Central Coast North,11,240.3661972,71
+Central Coast North,12,235.7325581,86
+Central Coast South,1,228.2876712,73
+Central Coast South,2,80.21917808,73
+Central Coast South,3,491.6516854,89
+Central Coast South,4,837.2407407,54
+Central Coast South,5,452.6666667,24
+Central Coast South,6,9.526315789,19
+Central Coast South,7,33.2,20
+Central Coast South,8,71.55,20
+Central Coast South,9,16.25714286,35
+Central Coast South,10,17.43137255,51
+Central Coast South,11,18.91176471,68
+Central Coast South,12,18.48809524,84
+Clarence Valley,1,44.02173913,46
+Clarence Valley,2,27.16666667,48
+Clarence Valley,3,,0
+Clarence Valley,4,,0
+Clarence Valley,5,,0
+Clarence Valley,6,,0
+Clarence Valley,7,,0
+Clarence Valley,8,,0
+Clarence Valley,9,,0
+Clarence Valley,10,,0
+Clarence Valley,11,23.29166667,24
+Clarence Valley,12,13.47916667,48
+Eurobodalla Coast,1,67.72727273,55
+Eurobodalla Coast,2,38.58181818,55
+Eurobodalla Coast,3,2.345454545,55
+Eurobodalla Coast,4,,0
+Eurobodalla Coast,5,,0
+Eurobodalla Coast,6,,0
+Eurobodalla Coast,7,,0
+Eurobodalla Coast,8,,0
+Eurobodalla Coast,9,,0
+Eurobodalla Coast,10,,0
+Eurobodalla Coast,11,21.30909091,55
+Eurobodalla Coast,12,7.222222222,54
+Georges River,1,306.125,16
+Georges River,2,7.1875,16
+Georges River,3,203.4166667,12
+Georges River,4,146.1578947,19
+Georges River,5,39,4
+Georges River,6,10.25,4
+Georges River,7,17,4
+Georges River,8,990,4
+Georges River,9,6,4
+Georges River,10,5.1,20
+Georges River,11,41.5,20
+Georges River,12,18.3,20
+Illawarra Coast,1,13.53398058,103
+Illawarra Coast,2,24.42857143,119
+Illawarra Coast,3,15.66666667,114
+Illawarra Coast,4,31.83035714,112
+Illawarra Coast,5,62.70526316,95
+Illawarra Coast,6,6.746835443,79
+Illawarra Coast,7,21.05555556,90
+Illawarra Coast,8,7.866666667,75
+Illawarra Coast,9,6.493333333,75
+Illawarra Coast,10,17.25263158,95
+Illawarra Coast,11,8.330578512,121
+Illawarra Coast,12,13.33333333,123
+Lake Macquarie,1,16.43333333,30
+Lake Macquarie,2,2.533333333,30
+Lake Macquarie,3,2.3,30
+Lake Macquarie,4,3.6,30
+Lake Macquarie,5,42.93333333,30
+Lake Macquarie,6,1.333333333,30
+Lake Macquarie,7,18.41666667,36
+Lake Macquarie,8,2.4,30
+Lake Macquarie,9,32.03333333,30
+Lake Macquarie,10,2.9,30
+Lake Macquarie,11,17.76666667,30
+Lake Macquarie,12,3.3,30
+Newcastle,1,14.45454545,55
+Newcastle,2,7.436363636,55
+Newcastle,3,9.527272727,55
+Newcastle,4,24.21276596,47
+Newcastle,5,69.91428571,35
+Newcastle,6,2.171428571,35
+Newcastle,7,23.14285714,42
+Newcastle,8,10.31428571,35
+Newcastle,9,9.685714286,35
+Newcastle,10,2.542857143,35
+Newcastle,11,32.08571429,35
+Newcastle,12,2.314285714,35
+Northern Sydney,1,35.4875,80
+Northern Sydney,2,17.64772727,88
+Northern Sydney,3,49.35227273,88
+Northern Sydney,4,25.93684211,95
+Northern Sydney,5,19.77981651,109
+Northern Sydney,6,36.87155963,109
+Northern Sydney,7,7.172727273,110
+Northern Sydney,8,144.5636364,110
+Northern Sydney,9,32.51612903,124
+Northern Sydney,10,22.96330275,109
+Northern Sydney,11,7.190909091,110
+Northern Sydney,12,4.880733945,109
+Parkes,1,14.75,4
+Parkes,2,13.75,4
+Parkes,3,6.25,4
+Parkes,4,1.666666667,3
+Parkes,5,,0
+Parkes,6,,0
+Parkes,7,,0
+Parkes,8,,0
+Parkes,9,,0
+Parkes,10,8.5,2
+Parkes,11,21.25,4
+Parkes,12,9.5,2
+Pittwater,1,8.04,50
+Pittwater,2,8.133333333,30
+Pittwater,3,30.825,40
+Pittwater,4,24.47916667,48
+Pittwater,5,23.1,10
+Pittwater,6,40.2,10
+Pittwater,7,36.1,10
+Pittwater,8,24.1,10
+Pittwater,9,3.3,10
+Pittwater,10,6.34,50
+Pittwater,11,4.42,50
+Pittwater,12,1.68,50
+Port Hacking,1,134.35,20
+Port Hacking,2,14,20
+Port Hacking,3,99,15
+Port Hacking,4,32.15,20
+Port Hacking,5,5,5
+Port Hacking,6,10.6,5
+Port Hacking,7,26.6,5
+Port Hacking,8,1214,5
+Port Hacking,9,30.8,5
+Port Hacking,10,15.72,25
+Port Hacking,11,29.44,25
+Port Hacking,12,17.24,25
+Port Stephens,1,2.65,20
+Port Stephens,2,2.25,20
+Port Stephens,3,1.1,20
+Port Stephens,4,2.7,20
+Port Stephens,5,6.5,20
+Port Stephens,6,2.4,20
+Port Stephens,7,1.833333333,24
+Port Stephens,8,3.8,20
+Port Stephens,9,0.9,20
+Port Stephens,10,2.05,20
+Port Stephens,11,4.05,20
+Port Stephens,12,4.35,20
+Region,1,,0
+Region,2,,0
+Region,3,,0
+Region,4,,0
+Region,5,,0
+Region,6,,0
+Region,7,,0
+Region,8,,0
+Region,9,,0
+Region,10,,0
+Region,11,,0
+Region,12,,0
+Richmond Valley,1,58.8,20
+Richmond Valley,2,12.05,20
+Richmond Valley,3,118.65,20
+Richmond Valley,4,50,5
+Richmond Valley,5,726.5,4
+Richmond Valley,6,158,4
+Richmond Valley,7,113.8,5
+Richmond Valley,8,30.75,4
+Richmond Valley,9,115.8,5
+Richmond Valley,10,7.6,20
+Richmond Valley,11,1.85,20
+Richmond Valley,12,4.533333333,15
+Shoalhaven Coast,1,3.7,40
+Shoalhaven Coast,2,5.525,40
+Shoalhaven Coast,3,,0
+Shoalhaven Coast,4,,0
+Shoalhaven Coast,5,,0
+Shoalhaven Coast,6,,0
+Shoalhaven Coast,7,,0
+Shoalhaven Coast,8,,0
+Shoalhaven Coast,9,,0
+Shoalhaven Coast,10,,0
+Shoalhaven Coast,11,,0
+Shoalhaven Coast,12,1.333333333,30
+Southern Sydney,1,10.875,40
+Southern Sydney,2,5.71875,32
+Southern Sydney,3,19.12903226,31
+Southern Sydney,4,5.333333333,24
+Southern Sydney,5,22.125,40
+Southern Sydney,6,4.875,40
+Southern Sydney,7,5.541666667,48
+Southern Sydney,8,9.236842105,38
+Southern Sydney,9,33.02631579,38
+Southern Sydney,10,4.948717949,39
+Southern Sydney,11,29.025,40
+Southern Sydney,12,126.125,48
+Sydney City,1,25,55
+Sydney City,2,28.45454545,44
+Sydney City,3,151.8181818,55
+Sydney City,4,21.95454545,22
+Sydney City,5,35.56060606,66
+Sydney City,6,17.32727273,55
+Sydney City,7,61.48484848,66
+Sydney City,8,12.23636364,55
+Sydney City,9,72.61363636,44
+Sydney City,10,21.90740741,54
+Sydney City,11,97.09090909,44
+Sydney City,12,8.430769231,65
+Sydney Harbour,1,108.4965517,145
+Sydney Harbour,2,5.913793103,116
+Sydney Harbour,3,60.8,145
+Sydney Harbour,4,130.1465517,116
+Sydney Harbour,5,5,29
+Sydney Harbour,6,9.344827586,29
+Sydney Harbour,7,9,29
+Sydney Harbour,8,775.8275862,29
+Sydney Harbour,9,1.862068966,29
+Sydney Harbour,10,4.797687861,173
+Sydney Harbour,11,9.648275862,145
+Sydney Harbour,12,4.232758621,116
+Western Sydney,1,643.9666667,30
+Western Sydney,2,603.5,28
+Western Sydney,3,410.7826087,23
+Western Sydney,4,198.3333333,9
+Western Sydney,5,59,4
+Western Sydney,6,26.66666667,3
+Western Sydney,7,116.6666667,3
+Western Sydney,8,105,3
+Western Sydney,9,234,3
+Western Sydney,10,209.56,25
+Western Sydney,11,189.56,25
+Western Sydney,12,170.6944444,36

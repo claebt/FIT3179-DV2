@@ -1,0 +1,51 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 440,
+  "autosize": {"type": "fit", "contains": "padding"},
+  "background": null,
+  "projection": {"type": "conicEqualArea", "parallels": [-18, -36], "rotate": [-132, 0, 0]},
+  "layer": [
+    {
+      "data": {"url": "data/aus_cartogram.json", "format": {"type": "topojson", "feature": "cartogram"}},
+      "transform": [
+        {"lookup": "properties.STE_NAME21", "from": {"data": {"url": "data/coastal_drowning_2025.csv"}, "key": "state", "fields": ["deaths", "rate", "vs_avg"]}},
+        {"calculate": "datum.vs_avg === 'above' ? 'Above' : 'Below'", "as": "avg_label"}
+      ],
+      "mark": {"type": "geoshape", "stroke": "#4a5560", "strokeWidth": 0.5},
+      "encoding": {
+        "color": {
+          "field": "rate", "type": "quantitative",
+          "scale": {"type": "threshold", "domain": [0.4, 0.6, 0.8], "range": ["#f4c08f", "#eb9a55", "#d4682a", "#9c3410"]},
+          "legend": {
+            "title": "Drowning rate per 100,000 people", "titleLimit": 400, "type": "symbol",
+            "orient": "bottom-left", "direction": "horizontal", "offset": 6,
+            "symbolType": "square", "symbolSize": 200, "symbolStrokeColor": "#d9cfbd",
+            "values": [0, 0.4, 0.6, 0.8, 1],
+            "labelExpr": "['0','0.4','0.6','0.8','1'][datum.index]",
+            "labelFontSize": 11, "titleFontSize": 12, "titleFontWeight": 600,
+            "titleColor": "#1f2a33", "labelColor": "#4a5560"
+          }
+        },
+        "tooltip": [
+          {"field": "properties.STE_NAME21", "title": "State"},
+          {"field": "deaths", "type": "quantitative", "title": "Coastal drowning deaths, 2024/25"},
+          {"field": "rate", "type": "quantitative", "title": "Rate per 100,000 people", "format": ".2f"},
+          {"field": "avg_label", "title": "Deaths vs 10-year average"}
+        ]
+      }
+    },
+    {
+      "data": {"url": "data/coastal_drowning_2025.csv", "format": {"type": "csv", "parse": {"deaths": "number", "rate": "number", "lat": "number", "lon": "number"}}},
+      "transform": [{"calculate": "datum.abbr + ' ' + datum.deaths", "as": "label"}],
+      "mark": {"type": "text", "fontSize": 12, "fontWeight": 700, "align": "center", "baseline": "middle"},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude": {"field": "lat", "type": "quantitative"},
+        "text": {"field": "label"},
+        "color": {"condition": {"test": "datum.abbr === 'WA' || datum.abbr === 'SA' || datum.abbr === 'TAS'", "value": "white"}, "value": "#1f2a33"}
+      }
+    }
+  ],
+  "config": {"view": {"stroke": null}}
+}

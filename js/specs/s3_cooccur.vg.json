@@ -34,16 +34,24 @@
     {
       "mark": {"type": "rect", "stroke": "white", "strokeWidth": 1},
       "encoding": {
-        "color": {
-          "field": "pct", "type": "quantitative",
-          "scale": {"range": ["#f6ecd6", "#a8742a"], "domain": [0, 100]},
-          "legend": {
-            "title": "% also with", "orient": "bottom", "direction": "horizontal",
-            "gradientLength": 220, "gradientThickness": 12, "gradientStrokeWidth": 0,
-            "values": [0, 25, 50, 75, 100], "labelFontSize": 11, "titleFontSize": 12,
-            "titleFontWeight": 600, "titleColor": "#1f2a33", "labelColor": "#4a5560"
-          }
+      "color": {
+        "field": "pct", "type": "quantitative",
+        "scale": {
+          "type": "threshold",
+          "domain": [0, 25, 50, 75, 95],
+          "range": ["#f6ecd", "#f6ecd6", "#ecd3a0", "#dcb06a", "#c28a3c", "#6e4210"]
         },
+        "legend": {
+          "title": "% also with",
+          "type": "gradient",
+          "orient": "bottom", "direction": "horizontal",
+          "values": [0, 25, 50, 75, 95, 100],
+          "labelExpr": "datum.value === 0 ? '0' : datum.value",
+          "gradientLength": 260, "gradientThickness": 12, "gradientStrokeWidth": 0,
+          "labelFontSize": 11, "titleFontSize": 12, "titleFontWeight": 600,
+          "titleColor": "#1f2a33", "labelColor": "#4a5560"
+        }
+      },
         "tooltip": [
           {"field": "label_a", "title": "Beaches with"},
           {"field": "label_b", "title": "...also have"},
@@ -57,7 +65,7 @@
       "mark": {"type": "text", "fontSize": 10, "fontWeight": 600},
       "encoding": {
         "text": {"field": "pct", "type": "quantitative"},
-        "color": {"condition": {"test": "datum.pct > 60", "value": "white"}, "value": "#1f2a33"}
+        "color": {"condition": {"test": "datum.pct >= 75", "value": "white"}, "value": "#1f2a33"}
       }
     }
   ],

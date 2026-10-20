@@ -1,0 +1,95 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 420,
+  "autosize": {"type": "fit", "contains": "padding"},
+  "background": null,
+  "projection": {
+    "type": "mercator",
+    "center": [151.1, -33.85],
+    "scale": {"expr": "height * 50"},
+    "translate": {"expr": "[width / 2.5, height / 2]"}
+  },
+  "layer": [
+    {
+      "data": {"url": "data/sydney_outline.json", "format": {"type": "topojson", "feature": "sydney"}},
+      "mark": {"type": "geoshape", "clip": true, "fill": "#eef2f4", "stroke": "#b9cfdf", "strokeWidth": 1}
+    },
+    {
+      "data": {
+        "url": "data/nsw_sites_2026.csv",
+        "format": {"type": "csv", "parse": {"lat": "number", "lon": "number", "n": "number", "mean_ent": "number", "median_ent": "number", "max_ent": "number"}}
+      },
+      "params": [
+        {"name": "gradeSel", "select": {"type": "point", "fields": ["grade"]}, "bind": "legend"},
+        {"name": "sizeSel", "select": {"type": "point", "fields": ["ent_band"]}, "bind": "legend"}
+      ],
+      "transform": [
+        {"filter": "datum.lat > -34.25 && datum.lat < -33.45 && datum.lon > 150.55 && datum.lon < 151.65"},
+        {"filter": "datum.n >= 20 && datum.grade !== 'Follow up' && datum.grade !== 'Not graded'"},
+        {"calculate": "datum.mean_ent < 10 ? 'Under 10' : datum.mean_ent < 40 ? '10–39' : '40 or more'", "as": "ent_band"},
+        {"filter": {"param": "gradeSel"}},
+        {"filter": {"param": "sizeSel"}}
+      ],
+      "mark": {"type": "circle", "clip": true, "fillOpacity": 0.5, "stroke": "white", "strokeWidth": 0.4, "strokeOpacity": 0.8},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude": {"field": "lat", "type": "quantitative"},
+        "order": {"field": "mean_ent", "type": "quantitative", "sort": "descending"},
+        "size": {
+          "field": "ent_band", "type": "ordinal",
+          "scale": {"type": "ordinal", "domain": ["Under 10", "10–39", "40 or more"], "range": [70, 200, 480]},
+          "legend": {
+            "title": ["Average enterococci", "(cfu/100 mL, click to filter)"], "type": "symbol",
+            "orient": "bottom-right", "offset": 8,
+            "symbolFillColor": "#dbdbdb", "symbolStrokeColor": "#4a5560", "symbolOpacity": 1,
+            "labelFontSize": 11, "titleFontSize": 12, "titleFontWeight": 600,
+            "titleColor": "#1f2a33", "labelColor": "#4a5560"
+          }
+        },
+        "color": {
+          "field": "grade", "type": "nominal",
+          "scale": {
+            "domain": ["Very Good", "Good", "Fair", "Poor", "Very Poor"],
+            "range": ["#14508a", "#7fb0d6", "#f2d58a", "#e0925a", "#a63d14"]
+          },
+          "legend": {
+            "title": ["2026 annual grade", "(click to filter)"], "type": "symbol",
+            "orient": "top-right", "direction": "vertical", "offset": 8,
+            "symbolType": "circle", "symbolSize": 140, "symbolOpacity": 1,
+            "labelFontSize": 11, "titleFontSize": 12, "titleFontWeight": 600,
+            "titleColor": "#1f2a33", "labelColor": "#4a5560"
+          }
+        },
+        "tooltip": [
+          {"field": "site", "type": "nominal", "title": "Swim site"},
+          {"field": "grade", "type": "nominal", "title": "2026 annual grade"},
+          {"field": "mean_ent", "type": "quantitative", "title": "Average enterococci", "format": ".1f"},
+          {"field": "median_ent", "type": "quantitative", "title": "Median enterococci", "format": ".1f"},
+          {"field": "max_ent", "type": "quantitative", "title": "Highest sample", "format": ".0f"},
+          {"field": "n", "type": "quantitative", "title": "Samples"},
+          {"field": "region", "type": "nominal", "title": "Region"}
+        ]
+      }
+    },
+    {
+      "data": {
+        "url": "data/nsw_sites_2026.csv",
+        "format": {"type": "csv", "parse": {"lat": "number", "lon": "number", "n": "number", "mean_ent": "number"}}
+      },
+      "transform": [
+        {"filter": "datum.lat > -34.25 && datum.lat < -33.45 && datum.lon > 150.55 && datum.lon < 151.65"},
+        {"filter": "datum.n >= 20 && datum.grade !== 'Follow up' && datum.grade !== 'Not graded'"},
+        {"joinaggregate": [{"op": "count", "as": "total"}]},
+        {"calculate": "datum.mean_ent < 10 ? 'Under 10' : datum.mean_ent < 40 ? '10–39' : '40 or more'", "as": "ent_band"},
+        {"filter": {"param": "gradeSel"}},
+        {"filter": {"param": "sizeSel"}},
+        {"aggregate": [{"op": "count", "as": "shown"}, {"op": "max", "field": "total", "as": "total"}]},
+        {"calculate": "'Showing ' + datum.shown + ' of ' + datum.total + ' sites'", "as": "label"}
+      ],
+      "mark": {"type": "text", "align": "left", "baseline": "bottom", "dx": 8, "dy": -8, "fontSize": 13, "fontWeight": 700, "color": "#1f2a33"},
+      "encoding": {"x": {"value": 0}, "y": {"value": "height"}, "text": {"field": "label"}}
+    }
+    ],
+    "config": {"view": {"stroke": null}}
+}

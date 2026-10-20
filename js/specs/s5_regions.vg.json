@@ -1,0 +1,54 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 420,
+  "autosize": {"type": "fit", "contains": "padding"},
+  "background": null,
+  "params": [{"name": "selGrades", "value": []}],
+  "data": {"url": "data/nsw_beachwatch_2026.csv", "format": {"type": "csv"}},
+  "transform": [
+    {"filter": "datum.grade !== 'Follow up' && datum.grade !== 'Not graded'"},
+    {"calculate": "indexof(['Very Good', 'Good', 'Fair', 'Poor', 'Very Poor'], datum.grade)", "as": "grade_order"},
+    {"calculate": "(datum.grade === 'Very Good' || datum.grade === 'Good') ? 1 : 0", "as": "is_good"},
+    {"joinaggregate": [{"op": "mean", "field": "is_good", "as": "good_share"}], "groupby": ["region"]}
+  ],
+  "mark": {"type": "bar"},
+  "encoding": {
+    "y": {
+      "field": "region", "type": "nominal", "title": null,
+      "sort": {"field": "good_share", "op": "mean", "order": "descending"},
+      "scale": {"paddingInner": 0.25},
+      "axis": {"labelFontSize": 11, "labelLimit": 140, "domain": false, "ticks": false}
+    },
+    "x": {
+      "aggregate": "count", "type": "quantitative", "stack": "normalize",
+      "title": "Share of swim sites (%)",
+      "axis": {"format": "%", "values": [0, 0.25, 0.5, 0.75, 1], "labelFontSize": 11, "titleFontSize": 12, "titleColor": "#1f2a33", "grid": false, "domain": false, "ticks": false}
+    },
+    "color": {
+      "field": "grade", "type": "nominal",
+      "scale": {
+        "domain": ["Very Good", "Good", "Fair", "Poor", "Very Poor"],
+        "range": ["#14508a", "#7fb0d6", "#f2d58a", "#e0925a", "#a63d14"]
+      },
+      "legend": {
+        "title": "Annual grade", "type": "symbol",
+        "orient": "bottom", "direction": "horizontal", "columns": 5, "columnPadding": 18,
+        "symbolType": "square", "symbolSize": 200,
+        "labelFontSize": 11, "titleFontSize": 12, "titleFontWeight": 600,
+        "titleColor": "#1f2a33", "labelColor": "#4a5560"
+      }
+    },
+    "opacity": {
+  "condition": {"test": "length(selGrades) === 0 || indexof(selGrades, datum.grade) >= 0", "value": 1},
+  "value": 0.2
+},
+    "order": {"field": "grade_order", "type": "quantitative"},
+    "tooltip": [
+      {"field": "region", "type": "nominal", "title": "Region"},
+      {"field": "grade", "type": "nominal", "title": "Grade"},
+      {"aggregate": "count", "type": "quantitative", "title": "Swim sites"}
+    ]
+  },
+  "config": {"view": {"stroke": null}}
+}

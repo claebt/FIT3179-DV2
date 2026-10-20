@@ -136,18 +136,42 @@
   <div class="card">
     <h3>Facilities vary enormously from beach to beach</h3>
     <p class="card-desc">
-      Beach-by-beach data isn't publicly available nationally, so from here we zoom into
-      Victoria, which publishes open data on every ocean beach.
+      Beach-by-beach data isn't publicly available nationally, so from here we zoom
+      into Victoria, which publishes open data on every ocean beach.
     </p>
+
+    <h4>Where Victoria's beaches are well equipped</h4>
+    <p class="card-desc">734 ocean beaches, each coloured by how many of 13 facilities it has.</p>
+    <p class="card-howto">How to read: darker blue means more facilities. Hover over a dot for the beach name.</p>
+    <div id="vis_s3_map" class="vis"></div>
+    <div class="range-filter">
+      <div class="range-head">
+        <span class="range-title">Show beaches with</span>
+        <span class="range-value" id="fac-label">0 to 13 facilities</span>
+      </div>
+      <div class="range-track">
+        <div class="range-fill" id="fac-fill"></div>
+        <input type="range" id="fac-min" min="0" max="13" step="1" value="0" aria-label="Minimum facilities">
+        <input type="range" id="fac-max" min="0" max="13" step="1" value="13" aria-label="Maximum facilities">
+      </div>
+      <div class="range-ticks">
+        <span>0</span><span>13</span>
+      </div>
+    </div>
+    <div class="callout">
+      <strong>Key takeaway:</strong> [write this once you've seen where the dark dots are]
+    </div>
+
+    <hr class="card-rule">
 
     <div class="card-split">
       <div class="col">
-        <h4>Where Victoria's beaches are well equipped</h4>
-        <p class="card-desc">734 ocean beaches, each coloured by how many of 13 facilities it has.</p>
-        <p class="card-howto">How to read: darker blue means more facilities. Hover over a dot for the beach name.</p>
-        <div id="vis_s3_map" class="vis"></div>
+        <h4>Almost three in four beaches have no facilities at all</h4>
+        <p class="card-desc">The number of Victorian beaches in each facility band, in the same colours as the map.</p>
+        <p class="card-howto">How to read: each bar is a group of beaches. Percentages may not add to 100 because of rounding.</p>
+        <div id="vis_s3_hist" class="vis"></div>
         <div class="callout">
-          <strong>Key takeaway:</strong> [write this once you've seen where the dark dots are]
+          <strong>Key takeaway:</strong> [write this once you've seen the chart]
         </div>
       </div>
 
@@ -157,7 +181,7 @@
         <p class="card-howto">How to read: pick a row, then read across. Darker cells mean the column facility is more likely.</p>
         <div id="vis_s3_cooccur" class="vis"></div>
         <div class="callout">
-          <strong>Key takeaway:</strong> [write this once you've seen the heatmap]
+          <strong>Key takeaway:</strong> [keep your existing heatmap takeaway]
         </div>
       </div>
     </div>
@@ -182,8 +206,8 @@
     <div class="card-split">
       <div class="col">
         <h4>Do well-equipped beaches tend to be safer?</h4>
-        <p class="card-desc">Each dot is a beach, plotted by its hazard rating and its number of facilities.</p>
-        <p class="card-howto">How to read: the orange line is the average number of facilities at each hazard rating. Dots are nudged slightly so they don't overlap.</p>
+        <p class="card-desc">For each facility band, the share of beaches at each hazard rating.</p>
+        <p class="card-howto">How to read: each bar is a group of beaches. Darker orange means a higher hazard rating.</p>
         <div id="vis_s4_strip" class="vis"></div>
         <div class="callout">
           <strong>Key takeaway:</strong> [write this once you've seen the chart]
@@ -204,6 +228,99 @@
     <p class="source">
       Source: DataVic (DEECA), <em>Beach Facilities and Safety Rating</em>, derived from the
       Australian Beach Safety and Management Program, 1999.
+    </p>
+  </div>
+</section>
+
+<section id="s5">
+  <h2>5. Is the water clean?</h2>
+
+  <div class="card">
+    <h3>Ocean beaches nearly always pass, but sheltered waters don't</h3>
+    <p class="card-desc">
+      Beach water quality is graded from Very Good to Very Poor. In 2026, 97% of monitored NSW
+      ocean beaches were Good or Very Good, but only 79% of all swim sites were. Estuaries,
+      lakes, lagoons and rivers did worse because they flush more slowly after rain.
+    </p>
+
+    <div class="card-split">
+      <div class="col">
+        <h4>Bacteria levels at Sydney swim sites</h4>
+        <p class="card-desc">Each circle is one monitored swim site with at least 20 samples and a 2026 grade.</p>
+        <p class="card-howto">
+          How to read: a bigger circle means more enterococci in the 2025 samples. Colour is the
+          site's long-term annual grade, so the two can differ. Click a grade in the legend to show
+          only those sites, or hover over a circle for details.
+        </p>
+        <div id="vis_s5_map" class="vis"></div>
+        <div class="callout">
+          <strong>Key takeaway:</strong> [write this once you've seen the map]
+        </div>
+      </div>
+
+      <div class="col">
+        <h4>How grades differ across regions</h4>
+        <p class="card-desc">The share of each region's swim sites at each grade.</p>
+        <p class="card-howto">
+          How to read: each bar adds up to 100% of that region's sites. Regions at the top have
+          the highest share of Good or Very Good sites.
+        </p>
+        <div id="vis_s5_regions" class="vis"></div>
+        <div class="callout">
+          <strong>Key takeaway:</strong> [write this once you've seen the chart]
+        </div>
+      </div>
+    </div>
+
+    <p class="source">
+      Source: NSW Department of Climate Change, Energy, the Environment and Water,
+      <em>Beachwatch, State of the Beaches 2026</em>; Beachwatch water quality data
+      (enterococci samples, 1 January to 31 December 2025).
+    </p>
+  </div>
+</section>
+
+<section id="s6">
+  <h2>6. Enjoying it safely</h2>
+
+  <div class="card">
+    <h3>Every coastal drowning last year happened away from the flags and patrols</h3>
+    <p class="card-desc">
+      Last year 154 people drowned on Australia's coast, the highest number on record. The
+      national report found that none of those deaths happened between the red and yellow flags
+      while a patrol was on duty.
+    </p>
+
+    <div class="card-split">
+      <div class="col">
+        <h4>Coastal drowning deaths by state, 2024/25</h4>
+        <p class="card-desc">Each state is resized to match its number of deaths: a state with twice the deaths covers twice the area. Colour shows the rate per 100,000 people.</p>
+        <p class="card-howto">How to read: small states have fewer deaths partly because fewer people live there, so compare colours for risk, not sizes. States are moved closer together to save space. Hover for exact figures.</p>
+        <div id="vis_s6_cartogram" class="vis"></div>
+        <div class="callout">
+          <strong>Key takeaway:</strong> [write this once you've seen the cartogram]
+        </div>
+      </div>
+
+      <div class="col">
+        <h4>Why the flags matter</h4>
+        <p class="card-desc">What the national report found about where and how people drowned.</p>
+        <p class="card-howto">National figures for 2024/25, except patrol coverage.</p>
+        <div class="stat-stack">
+          <div class="stat-item"><p class="num">154</p><p class="txt">coastal drowning deaths, the highest ever recorded</p></div>
+          <div class="stat-item"><p class="num">100%</p><p class="txt">outside the flags, outside patrol times, or at unpatrolled locations</p></div>
+          <div class="stat-item"><p class="num">73%</p><p class="txt">more than 1 km from a Surf Life Saving service</p></div>
+          <div class="stat-item"><p class="num">6%</p><p class="txt">of Australia's beaches have lifesavers in peak summer, and 1% year-round</p></div>
+        </div>
+        <div class="callout">
+          <strong>Key takeaway:</strong> [your tip: swim between the flags]
+        </div>
+      </div>
+    </div>
+
+    <p class="source">
+      Source: Surf Life Saving Australia, <em>National Coastal Safety Report 2025</em>;
+      <em>Coastal Safety Brief: Unpatrolled Beaches 2025</em>.
     </p>
   </div>
 </section>

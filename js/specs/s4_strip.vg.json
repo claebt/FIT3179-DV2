@@ -6,48 +6,65 @@
   "background": null,
   "data": {
     "url": "data/vic_beach_facilities.csv",
-    "format": {"type": "csv", "parse": {"HAZARD_RAT": "number", "N_FACILITIES": "number", "lon": "number", "lat": "number"}}
+    "format": {"type": "csv", "parse": {"HAZARD_RAT": "number", "N_FACILITIES": "number"}}
+  },
+  "transform": [
+    {"calculate": "datum.HAZARD_RAT <= 3 ? '0–3' : datum.HAZARD_RAT <= 6 ? '4–6' : '7–10'", "as": "haz_band"},
+    {"calculate": "datum.HAZARD_RAT <= 3 ? 0 : datum.HAZARD_RAT <= 6 ? 1 : 2", "as": "haz_order"},
+    {"aggregate": [{"op": "count", "as": "n"}], "groupby": ["N_FACILITIES", "haz_band", "haz_order"]},
+    {"joinaggregate": [{"op": "sum", "field": "n", "as": "total"}], "groupby": ["N_FACILITIES"]},
+    {"calculate": "100 * datum.n / datum.total", "as": "pct"},
+    {"stack": "pct", "groupby": ["N_FACILITIES"], "sort": [{"field": "haz_order"}], "as": ["x0", "x1"]},
+    {"calculate": "datum.pct >= 8 ? round(datum.pct) + '%' : ''", "as": "seg_label"}
+  ],
+  "encoding": {
+    "y": {
+      "field": "N_FACILITIES", "type": "ordinal",
+      "title": "Number of facilities (of 13)",
+      "sort": "ascending",
+      "scale": {"domain": [0,1,2,3,4,5,6,7,8,9,10,11,12,13], "paddingInner": 0.25},
+      "axis": {"labelFontSize": 11, "titleFontSize": 12, "titleColor": "#1f2a33", "domain": false, "ticks": false}
+    }
   },
   "layer": [
     {
-      "transform": [
-        {"calculate": "datum.HAZARD_RAT + (((floor(abs(datum.lon * 100000)) % 10) / 9) - 0.5) * 0.7", "as": "jx"},
-        {"calculate": "datum.N_FACILITIES + (((floor(abs(datum.lat * 100000)) % 10) / 9) - 0.5) * 0.7", "as": "jy"}
-      ],
-      "mark": {"type": "circle", "size": 26, "color": "#1b6ca8", "opacity": 0.4},
+      "mark": {"type": "bar"},
       "encoding": {
         "x": {
-          "field": "jx", "type": "quantitative", "title": "Hazard rating (0-10)",
-          "scale": {"domain": [-0.7, 10.7]},
-          "axis": {"values": [0,1,2,3,4,5,6,7,8,9,10], "grid": false, "labelFontSize": 11, "titleFontSize": 12, "titleColor": "#1f2a33"}
+          "field": "x0", "type": "quantitative", "title": "Share of beaches (%)",
+          "scale": {"domain": [0, 100]},
+          "axis": {"values": [0, 25, 50, 75, 100], "labelFontSize": 11, "titleFontSize": 12,
+                   "titleColor": "#1f2a33", "grid": false, "domain": false, "ticks": false}
         },
-        "y": {
-          "field": "jy", "type": "quantitative", "title": "Facilities (out of 13)",
-          "scale": {"domain": [-0.7, 13.7]},
-          "axis": {"values": [0,1,2,3,4,5,6,7,8,9,10,11,12,13], "grid": true, "gridColor": "#eef2f4",
-                   "labelFontSize": 11, "titleFontSize": 12, "titleColor": "#1f2a33", "domain": false, "ticks": false}
+        "x2": {"field": "x1"},
+        "color": {
+          "field": "haz_band", "type": "nominal",
+          "scale": {"domain": ["0–3", "4–6", "7–10"], "range": ["#f6e3cf", "#e0925a", "#a63d14"]},
+          "legend": {
+            "title": "Hazard rating (0–10)", "type": "symbol",
+            "orient": "bottom", "direction": "horizontal",
+            "columns": 3, "columnPadding": 26,
+            "symbolType": "square", "symbolSize": 220,
+            "labelFontSize": 11, "titleFontSize": 12, "titleFontWeight": 600,
+            "titleColor": "#1f2a33", "labelColor": "#4a5560"
+          }
         },
         "tooltip": [
-          {"field": "BEACH", "type": "nominal", "title": "Beach"},
-          {"field": "HAZARD_RAT", "type": "quantitative", "title": "Hazard rating"},
-          {"field": "N_FACILITIES", "type": "quantitative", "title": "Facilities (of 13)"}
+          {"field": "N_FACILITIES", "type": "quantitative", "title": "Facilities"},
+          {"field": "haz_band", "title": "Hazard rating"},
+          {"field": "n", "type": "quantitative", "title": "Beaches"},
+          {"field": "total", "type": "quantitative", "title": "Beaches with this many facilities"},
+          {"field": "pct", "type": "quantitative", "title": "% of those beaches", "format": ".0f"}
         ]
       }
     },
     {
-      "transform": [
-        {"aggregate": [{"op": "mean", "field": "N_FACILITIES", "as": "mean_fac"}, {"op": "count", "as": "n_beaches"}], "groupby": ["HAZARD_RAT"]}
-      ],
-      "mark": {"type": "line", "color": "#e07a2f", "strokeWidth": 2.5,
-               "point": {"filled": true, "size": 80, "color": "#e07a2f", "stroke": "white", "strokeWidth": 1.2}},
+      "transform": [{"calculate": "(datum.x0 + datum.x1) / 2", "as": "mid"}],
+      "mark": {"type": "text", "fontSize": 10, "fontWeight": 600},
       "encoding": {
-        "x": {"field": "HAZARD_RAT", "type": "quantitative", "title": "Hazard rating (0-10)", "scale": {"domain": [-0.7, 10.7]}},
-        "y": {"field": "mean_fac", "type": "quantitative", "title": "Facilities (out of 13)", "scale": {"domain": [-0.7, 13.7]}},
-        "tooltip": [
-          {"field": "HAZARD_RAT", "type": "quantitative", "title": "Hazard rating"},
-          {"field": "mean_fac", "type": "quantitative", "title": "Average facilities", "format": ".1f"},
-          {"field": "n_beaches", "type": "quantitative", "title": "Beaches"}
-        ]
+        "x": {"field": "mid", "type": "quantitative"},
+        "text": {"field": "seg_label"},
+        "color": {"condition": {"test": "datum.haz_order == 2", "value": "white"}, "value": "#1f2a33"}
       }
     }
   ],

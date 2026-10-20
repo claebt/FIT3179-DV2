@@ -1,44 +1,119 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "width": "container",
-  "height": 420,
+  "height": 230,
   "autosize": {"type": "fit", "contains": "padding"},
   "background": null,
-  "projection": {"type": "mercator"},
+  "params": [
+    {"name": "minFac", "value": 0},
+    {"name": "maxFac", "value": 13}
+  ],
+  "projection": {
+    "type": "mercator",
+    "center": [145.5, -38.3],
+    "scale": {"expr": "width * 5.6"},
+    "translate": {"expr": "[width / 2, height / 2]"}
+  },
   "layer": [
     {
       "data": {"url": "data/vic_outline.json", "format": {"type": "topojson", "feature": "vic"}},
-      "mark": {"type": "geoshape", "fill": "#eef2f4", "stroke": "#b9cfdf", "strokeWidth": 1}
+      "mark": {"type": "geoshape", "clip": true, "fill": "#eef2f4", "stroke": "#b9cfdf", "strokeWidth": 1}
     },
     {
-      "data": {"url": "data/vic_beach_facilities.csv"},
-      "mark": {"type": "circle", "size": 34, "stroke": "white", "strokeWidth": 0.4, "opacity": 0.9},
+      "data": {
+        "url": "data/vic_beach_facilities.csv",
+        "format": {"type": "csv", "parse": {"N_FACILITIES": "number", "HAZARD_RAT": "number", "lon": "number", "lat": "number"}}
+      },
+      "transform": [
+        {"filter": "datum.N_FACILITIES >= minFac && datum.N_FACILITIES <= maxFac"}
+      ],
+      "mark": {"type": "circle", "size": 60, "stroke": "white", "strokeWidth": 0.5, "opacity": 0.9},
       "encoding": {
         "longitude": {"field": "lon", "type": "quantitative"},
         "latitude": {"field": "lat", "type": "quantitative"},
         "order": {"field": "N_FACILITIES", "type": "quantitative", "sort": "ascending"},
         "color": {
-        "field": "N_FACILITIES", "type": "quantitative",
-        "scale": {
+          "field": "N_FACILITIES", "type": "quantitative",
+          "scale": {
             "type": "threshold",
-            "domain": [1, 4, 7, 10],
-            "range": ["#cfd8de", "#b9d3e8", "#7fb0d6", "#3f85bd", "#14508a"]
-        },
+            "domain": [0, 1, 4, 7, 10],
+            "range": ["#cfd8de", "#cfd8de", "#b9d3e8", "#7fb0d6", "#3f85bd", "#14508a"]
+          },
         "legend": {
-            "title": "Facilities (out of 13)",
-            "type": "symbol",
-            "orient": "bottom", "direction": "horizontal",
-            "symbolType": "circle", "symbolSize": 140,
-            "labelExpr": "['None','1–3','4–6','7–9','10–13'][datum.index]",
-            "labelFontSize": 11, "titleFontSize": 12, "titleFontWeight": 600,
-            "titleColor": "#1f2a33", "labelColor": "#4a5560"
+          "title": "Number of facilities",
+          "type": "gradient",
+          "orient": "bottom-right",
+          "offset": 8,
+          "direction": "horizontal",
+          "values": [0, 1, 4, 7, 10, 13],
+          "labelExpr": "datum.value === 0 ? 'None' : datum.value",
+          "gradientLength": 260, "gradientThickness": 12, "gradientStrokeWidth": 0,
+          "labelFontSize": 11, "titleFontSize": 12, "titleFontWeight": 600,
+          "titleColor": "#1f2a33", "labelColor": "#4a5560"
         }
         },
         "tooltip": [
           {"field": "BEACH", "type": "nominal", "title": "Beach"},
-          {"field": "N_FACILITIES", "type": "quantitative", "title": "Facilities (of 13)"},
+          {"field": "N_FACILITIES", "type": "quantitative", "title": "Number of facilities"},
           {"field": "HAZARD_RAT", "type": "quantitative", "title": "Hazard rating (0-10)"}
         ]
+      }
+    },
+    {
+      "data": {"values": [{"lon": 144.75, "lat": -38.1}]},
+      "mark": {"type": "circle", "size": 7000, "fill": null, "stroke": "#4a5560",
+               "strokeWidth": 1.2, "strokeDash": [4, 3]},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude": {"field": "lat", "type": "quantitative"}
+      }
+    },
+    {
+      "data": {"values": [
+        {"lon": 145.3, "lat": -37.75, "o": 0},
+        {"lon": 144.95, "lat": -37.95, "o": 1}
+      ]},
+      "mark": {"type": "line", "stroke": "#4a5560", "strokeWidth": 1},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude": {"field": "lat", "type": "quantitative"},
+        "order": {"field": "o", "type": "quantitative"}
+      }
+    },
+    {
+      "data": {"values": [{"lon": 144.75, "lat": -38.1}]},
+      "mark": {
+        "type": "text", "align": "left", "baseline": "middle",
+        "dx": 62, "dy": -50,
+        "fontSize": 12, "fontStyle": "italic", "fontWeight": 600,
+        "color": "#1f2a33", "lineHeight": 15
+      },
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude": {"field": "lat", "type": "quantitative"},
+        "text": {"value": ["Beaches with the most", "facilities tend to be within", "the Melbourne metro area"]}
+      }
+    },
+    {
+      "data": {
+        "url": "data/vic_beach_facilities.csv",
+        "format": {"type": "csv", "parse": {"N_FACILITIES": "number"}}
+      },
+      "transform": [
+        {"joinaggregate": [{"op": "count", "as": "total"}]},
+        {"filter": "datum.N_FACILITIES >= minFac && datum.N_FACILITIES <= maxFac"},
+        {"aggregate": [{"op": "count", "as": "n"}, {"op": "max", "field": "total", "as": "total"}]},
+        {"calculate": "'Showing ' + datum.n + ' of ' + datum.total + ' beaches'", "as": "label"}
+      ],
+      "mark": {
+        "type": "text", "align": "right", "baseline": "bottom",
+        "dx": -8, "dy": -100,
+        "fontSize": 14, "fontWeight": 700, "color": "#1f2a33"
+      },
+      "encoding": {
+        "x": {"value": "width"},
+        "y": {"value": "height"},
+        "text": {"field": "label"}
       }
     }
   ],
