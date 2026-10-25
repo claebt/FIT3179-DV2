@@ -71,6 +71,7 @@
       }
     },
     {
+      "transform": [{"filter": "datum.pct >= 95"}],
       "mark": {"type": "text", "fontSize": 10, "fontWeight": 600},
       "encoding": {
         "text": {"field": "pct", "type": "quantitative"},
@@ -78,20 +79,20 @@
       }
     },
     {
-  "transform": [{"filter": "datum.fac_a === 'WATER' && datum.fac_b === 'TOILETS'"}],
-  "mark": {"type": "rect", "color": "#0f3f73"},
-  "encoding": {"x": {"field": "label_b", "type": "nominal"}, "y": {"value": -9}, "y2": {"value": -6}}
-},
-{
-  "transform": [{"filter": "datum.fac_a === 'WATER' && datum.fac_b === 'TOILETS'"}],
-  "mark": {"type": "text", "align": "left", "baseline": "bottom", "fontSize": 13, "fontWeight": 700, "color": "#0f3f73"},
-  "encoding": {"x": {"field": "label_b", "type": "nominal", "bandPosition": 0}, "y": {"value": -31}, "text": {"value": "Toilets are nearly universal"}}
-},
-{
-  "transform": [{"filter": "datum.fac_a === 'WATER' && datum.fac_b === 'TOILETS'"}],
-  "mark": {"type": "text", "align": "left", "baseline": "bottom", "fontSize": 12, "color": "#1b2a33"},
-  "encoding": {"x": {"field": "label_b", "type": "nominal", "bandPosition": 0}, "y": {"value": -14}, "text": {"value": "92–100% of beaches with any other facility have them"}}
-}
+      "transform": [{"filter": "datum.fac_a === 'WATER' && datum.fac_b === 'TOILETS'"}],
+      "mark": {"type": "rect", "color": "#0f3f73"},
+      "encoding": {"x": {"field": "label_b", "type": "nominal"}, "y": {"value": -9}, "y2": {"value": -6}}
+    },
+    {
+      "transform": [{"filter": "datum.fac_a === 'WATER' && datum.fac_b === 'TOILETS'"}],
+      "mark": {"type": "text", "align": "left", "baseline": "bottom", "fontSize": 13, "fontWeight": 700, "color": "#0f3f73"},
+      "encoding": {"x": {"field": "label_b", "type": "nominal", "bandPosition": 0}, "y": {"value": -31}, "text": {"value": "Toilets are nearly universal"}}
+    },
+    {
+      "transform": [{"filter": "datum.fac_a === 'WATER' && datum.fac_b === 'TOILETS'"}],
+      "mark": {"type": "text", "align": "left", "baseline": "bottom", "fontSize": 12, "color": "#1b2a33"},
+      "encoding": {"x": {"field": "label_b", "type": "nominal", "bandPosition": 0}, "y": {"value": -14}, "text": {"value": "92–100% of beaches with any other facility have them"}}
+    }
   ],
   "config": {"view": {"stroke": null}}
 }

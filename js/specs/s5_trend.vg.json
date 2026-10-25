@@ -141,7 +141,7 @@
       "encoding": {
         "x": {"field": "y2025", "type": "quantitative", "scale": {"domain": [58, 106]}},
         "y": {"field": "group", "type": "nominal", "sort": ["Ocean beaches", "Sydney ocean beaches", "Sydney Harbour", "All swim sites", "Estuarine sites"], "scale": {"paddingInner": 0.5}},
-        "text": {"value": "Statewide results|improved with drier|weather,which cut|stormwater runoff"}
+        "text": {"value": "Statewide results|improved with drier|weather, which cut|stormwater runoff"}
       }
     },
     {

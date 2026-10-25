@@ -44,7 +44,7 @@
             "title": ["Average", "enterococci"], "type": "symbol",
             "orient": "none",
             "legendX": {"expr": "width - 100"},
-            "legendY": 275,
+            "legendY": 300,
             "symbolFillColor": "#dbdbdb", "symbolStrokeColor": "#4a5560", "symbolOpacity": 1,
             "labelFontSize": 11, "titleFontSize": 12, "titleFontWeight": 600,
             "titleColor": "#1f2a33", "labelColor": "#4a5560"
@@ -92,7 +92,7 @@
         {"aggregate": [{"op": "count", "as": "shown"}, {"op": "max", "field": "total", "as": "total"}]},
         {"calculate": "'Showing ' + datum.shown + ' of ' + datum.total + ' sites'", "as": "label"}
       ],
-      "mark": {"type": "text", "align": "left", "baseline": "bottom", "dx": 8, "dy": -355, "fontSize": 13, "fontWeight": 700, "color": "#1f2a33"},
+      "mark": {"type": "text", "align": "left", "baseline": "bottom", "dx": 8, "dy": -380, "fontSize": 13, "fontWeight": 700, "color": "#1f2a33"},
       "encoding": {"x": {"value": 0}, "y": {"value": "height"}, "text": {"field": "label"}}
     },
 {

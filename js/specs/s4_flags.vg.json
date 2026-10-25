@@ -99,6 +99,7 @@
       }
     },
     {
+      "transform": [{"filter": "datum.pct >= 95"}],
       "mark": {"type": "text", "fontSize": 12, "fontWeight": 600},
       "encoding": {
         "text": {"field": "pct", "type": "quantitative"},
@@ -125,7 +126,7 @@
       "encoding": {
         "x": {"value": {"expr": "width"}},
         "y": {"value": -15},
-        "text": {"value": "found at 89–100% of beaches at every rating"}
+        "text": {"value": "they are found despite the how hazardous a beach is"}
       }
     },
     {
@@ -169,7 +170,7 @@
       "encoding": {
         "x": {"value": {"expr": "width + 20"}},
         "y": {"value": {"expr": "height / 9 + 3 + (height * 3 / 9 - 6 - 94) / 2 + 49"}},
-        "text": {"value": "5–21% of beaches|at rating 1, and|79–92% at rating 7"}
+        "text": {"value": "less than 25% of|beaches at rating 1,|and over 75% at 7"}
       }
     }
   ],
