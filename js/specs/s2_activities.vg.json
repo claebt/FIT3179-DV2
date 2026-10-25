@@ -1,58 +1,122 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "width": "container",
-  "height": 300,
-  "autosize": {"type": "fit", "contains": "padding"},
+  "title": {"text": "Coastal activities by how often people go", "anchor": "start", "font": "Fraunces", "fontSize": 20, "fontWeight": 600, "color": "#1f2a33", "offset": 14},
   "background": null,
-  "data": {"url": "data/coastal_activities.csv"},
-  "transform": [
-    {"calculate": "datum.frequency === 'Less than once a month' ? 0 : 1", "as": "freq_order"},
-    {"stack": "pct", "groupby": ["activity"], "sort": [{"field": "freq_order"}], "as": ["x0", "x1"]},
-    {"joinaggregate": [{"op": "sum", "field": "pct", "as": "total"}], "groupby": ["activity"]}
-  ],
-  "encoding": {
-    "y": {
-      "field": "activity", "type": "nominal", "title": null,
-      "sort": {"field": "total", "op": "max", "order": "descending"}
-    }
-  },
-  "layer": [
+  "padding": {"left": 10, "right": 38, "top": 4, "bottom": 4},
+  "spacing": 8,
+  "hconcat": [
     {
-      "mark": {"type": "bar"},
+      "width": 165,
+      "height": 320,
+      "data": {"url": "data/coastal_activities.csv", "format": {"type": "csv", "parse": {"pct": "number"}}},
+      "transform": [
+        {"joinaggregate": [{"op": "sum", "field": "pct", "as": "total"}], "groupby": ["activity"]},
+        {"filter": "datum.frequency === 'Less than once a month'"}
+      ],
       "encoding": {
-        "x": {
-          "field": "x0", "type": "quantitative",
-          "title": "Percentage of adults (%)",
-          "scale": {"domain": [0, 60]},
-          "axis": {"tickCount": 6, "grid": false}
+        "y": {"field": "activity", "type": "nominal", "title": null, "sort": {"field": "total", "op": "max", "order": "descending"}, "scale": {"paddingInner": 0.3}, "axis": null}
+      },
+      "layer": [
+        {
+          "mark": {"type": "bar", "cornerRadiusEnd": 3, "color": "#b9cfdf"},
+          "encoding": {
+            "x": {
+              "field": "pct", "type": "quantitative", "scale": {"domain": [0, 40], "reverse": true}, "title": "Less than monthly (%)",
+              "axis": {"values": [0, 10, 20, 30, 40], "labelFontSize": 12, "titleFontSize": 13, "titleFontWeight": 600,
+                       "titleColor": "#000000", "titlePadding": 12, "grid": false, "domain": false, "ticks": false}
+            },
+            "tooltip": [
+              {"field": "activity", "title": "Activity"},
+              {"field": "frequency", "title": "How often"},
+              {"field": "pct", "type": "quantitative", "title": "% of coastal visitors"}
+            ]
+          }
         },
-        "x2": {"field": "x1"},
-        "color": {
-          "field": "frequency", "type": "nominal",
-          "scale": {
-            "domain": ["Less than once a month", "At least once a month"],
-            "range": [ "#b9cfdf","#1b6ca8"]
-          },
-          "legend": {"orient": "bottom", "title": null}
-        },
-        "tooltip": [
-          {"field": "activity", "title": "Activity"},
-          {"field": "frequency", "title": "Frequency"},
-          {"field": "pct", "type": "quantitative", "title": "% of adults"},
-          {"field": "total", "type": "quantitative", "title": "Total %"}
-        ]
-      }
+        {
+          "mark": {"type": "text", "align": "right", "dx": -4, "fontSize": 12, "fontWeight": 600, "color": "#1f2a33"},
+          "encoding": {"x": {"field": "pct", "type": "quantitative", "scale": {"domain": [0, 40], "reverse": true}}, "text": {"field": "pct", "type": "quantitative"}}
+        }
+      ]
     },
     {
-      "mark": {"type": "text", "align": "right", "dx": -2, "fontSize": 10, "fontWeight": 600},
+      "width": 124,
+      "height": 320,
+      "data": {"url": "data/coastal_activities.csv", "format": {"type": "csv", "parse": {"pct": "number"}}},
+      "transform": [
+        {"joinaggregate": [{"op": "sum", "field": "pct", "as": "total"}], "groupby": ["activity"]},
+        {"filter": "datum.frequency === 'At least once a month'"},
+        {"calculate": "replace(datum.activity, ' (PWC)', '|(PWC)')", "as": "label"}
+      ],
       "encoding": {
-        "x": {"field": "x1", "type": "quantitative"},
-        "text": {"field": "pct", "type": "quantitative", "format": ".0f"},
-        "color": {
-          "condition": {"test": "datum.frequency === 'At least once a month'", "value": "white"},
-          "value": "#1f2a33"
+        "y": {"field": "activity", "type": "nominal", "title": null, "sort": {"field": "total", "op": "max", "order": "descending"}, "scale": {"paddingInner": 0.3}, "axis": null},
+        "x": {"value": 62},
+        "text": {"field": "label"},
+        "color": {"condition": {"test": "datum.activity === 'Surfing' || datum.activity === 'Rock fishing'", "value": "#1b6ca8"}, "value": "#1f2a33"}
+      },
+      "mark": {"type": "text", "align": "center", "baseline": "middle", "lineBreak": "|", "lineHeight": 14, "fontSize": 13, "fontWeight": 600}
+    },
+    {
+      "width": 165,
+      "height": 320,
+      "data": {"url": "data/coastal_activities.csv", "format": {"type": "csv", "parse": {"pct": "number"}}},
+      "transform": [
+        {"joinaggregate": [{"op": "sum", "field": "pct", "as": "total"}], "groupby": ["activity"]},
+        {"filter": "datum.frequency === 'At least once a month'"}
+      ],
+      "encoding": {
+        "y": {"field": "activity", "type": "nominal", "title": null, "sort": {"field": "total", "op": "max", "order": "descending"}, "scale": {"paddingInner": 0.3}, "axis": null}
+      },
+      "layer": [
+        {
+          "mark": {"type": "bar", "cornerRadiusEnd": 3, "color": "#1b6ca8"},
+          "encoding": {
+            "x": {
+              "field": "pct", "type": "quantitative", "scale": {"domain": [0, 40]}, "title": "Monthly or more (%)",
+              "axis": {"values": [0, 10, 20, 30, 40], "labelFontSize": 12, "titleFontSize": 13, "titleFontWeight": 600,
+                       "titleColor": "#000000", "titlePadding": 12, "grid": false, "domain": false, "ticks": false}
+            },
+            "tooltip": [
+              {"field": "activity", "title": "Activity"},
+              {"field": "frequency", "title": "How often"},
+              {"field": "pct", "type": "quantitative", "title": "% of coastal visitors"}
+            ]
+          }
+        },
+        {
+          "mark": {"type": "text", "align": "left", "dx": 4, "fontSize": 12, "fontWeight": 600, "color": "#1f2a33"},
+          "encoding": {"x": {"field": "pct", "type": "quantitative", "scale": {"domain": [0, 40]}}, "text": {"field": "pct", "type": "quantitative"}}
+        },
+        {
+          "data": {"values": [{"k": 1}]},
+          "mark": {"type": "rule", "stroke": "#1b6ca8", "strokeWidth": 2, "strokeCap": "round"},
+          "encoding": {"x": {"value": 42}, "y": {"value": 184}, "y2": {"value": 243}}
+        },
+        {
+          "data": {"values": [{"k": 1}]},
+          "mark": {"type": "rule", "stroke": "#1b6ca8", "strokeWidth": 2, "strokeCap": "round"},
+          "encoding": {"x": {"value": 36}, "x2": {"value": 42}, "y": {"value": 184}}
+        },
+        {
+          "data": {"values": [{"k": 1}]},
+          "mark": {"type": "rule", "stroke": "#1b6ca8", "strokeWidth": 2, "strokeCap": "round"},
+          "encoding": {"x": {"value": 36}, "x2": {"value": 42}, "y": {"value": 243}}
+        },
+        {
+          "data": {"values": [{"k": 1}]},
+          "mark": {"type": "rule", "stroke": "#1b6ca8", "strokeWidth": 2, "strokeCap": "round"},
+          "encoding": {"x": {"value": 42}, "x2": {"value": 49}, "y": {"value": 213}}
+        },
+        {
+          "data": {"values": [{"k": 1}]},
+          "mark": {"type": "text", "align": "left", "baseline": "top", "lineBreak": "|", "lineHeight": 14, "fontSize": 12, "fontWeight": 700, "fontStyle": "italic", "color": "#1b6ca8"},
+          "encoding": {"x": {"value": 55}, "y": {"value": 198}, "text": {"value": "Surfing and|rock fishing"}}
+        },
+        {
+          "data": {"values": [{"k": 1}]},
+          "mark": {"type": "text", "align": "left", "baseline": "top", "lineBreak": "|", "lineHeight": 14, "fontSize": 12, "fontStyle": "italic", "color": "#1f2a33"},
+          "encoding": {"x": {"value": 55}, "y": {"value": 229}, "text": {"value": "are the only activities|where regulars outnumber|occasional visitors"}}
         }
-      }
+      ]
     }
   ],
   "config": {"view": {"stroke": null}}

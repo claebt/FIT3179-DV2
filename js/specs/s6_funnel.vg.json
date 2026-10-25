@@ -1,0 +1,821 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "title": {
+        "text": "Drowning rate against state population",
+        "anchor": "start",
+        "font": "Fraunces",
+        "fontSize": 20,
+        "fontWeight": 600,
+        "color": "#1f2a33",
+        "offset": 14
+    },
+    "width": 600,
+    "height": 440,
+    "padding": {
+        "left": 5,
+        "right": 78,
+        "top": 5,
+        "bottom": 10
+    },
+    "autosize": {
+        "type": "fit",
+        "contains": "padding"
+    },
+    "background": null,
+    "params": [
+        {
+            "name": "nat",
+            "value": 0.581
+        }
+    ],
+    "datasets": {
+        "states": [
+            {
+                "state": "NSW",
+                "deaths": 52,
+                "pop": 8.5939,
+                "rate": 0.61,
+                "expected": 48.8,
+                "status": "Within expectation",
+                "grp": "R",
+                "label": "NSW",
+                "note": ""
+            },
+            {
+                "state": "QLD",
+                "deaths": 31,
+                "pop": 5.6698,
+                "rate": 0.55,
+                "expected": 32.2,
+                "status": "Within expectation",
+                "grp": "C",
+                "label": "QLD",
+                "note": ""
+            },
+            {
+                "state": "WA",
+                "deaths": 27,
+                "pop": 3.0437,
+                "rate": 0.89,
+                "expected": 17.3,
+                "status": "Higher than expected",
+                "grp": "L",
+                "label": "WA (27 deaths)",
+                "note": "*about 17 expected"
+            },
+            {
+                "state": "VIC",
+                "deaths": 20,
+                "pop": 7.0745,
+                "rate": 0.28,
+                "expected": 40.2,
+                "status": "Lower than expected",
+                "grp": "R",
+                "label": "VIC (20 deaths)",
+                "note": "*about 40 expected"
+            },
+            {
+                "state": "SA",
+                "deaths": 18,
+                "pop": 1.9023,
+                "rate": 0.95,
+                "expected": 10.8,
+                "status": "Within expectation",
+                "grp": "C",
+                "label": "SA",
+                "note": ""
+            },
+            {
+                "state": "TAS",
+                "deaths": 5,
+                "pop": 0.576,
+                "rate": 0.87,
+                "expected": 3.3,
+                "status": "Within expectation",
+                "grp": "L",
+                "label": "TAS",
+                "note": ""
+            },
+            {
+                "state": "NT",
+                "deaths": 1,
+                "pop": 0.2644,
+                "rate": 0.38,
+                "expected": 1.5,
+                "status": "Within expectation",
+                "grp": "L",
+                "label": "NT",
+                "note": ""
+            }
+        ]
+    },
+    "layer": [
+        {
+            "data": {
+                "sequence": {
+                    "start": 0.2,
+                    "stop": 9.001,
+                    "step": 0.1,
+                    "as": "pop"
+                }
+            },
+            "transform": [
+                {
+                    "calculate": "datum.pop * 10 * nat",
+                    "as": "E"
+                },
+                {
+                    "calculate": "datum.E * pow(max(0, 1 - 1 / (9 * datum.E) + 3.09 / (3 * sqrt(datum.E))), 3) / (datum.pop * 10)",
+                    "as": "hi"
+                },
+                {
+                    "calculate": "datum.E * pow(max(0, 1 - 1 / (9 * datum.E) - 3.09 / (3 * sqrt(datum.E))), 3) / (datum.pop * 10)",
+                    "as": "lo"
+                }
+            ],
+            "mark": {
+                "type": "area",
+                "clip": true,
+                "color": "#f0eadd",
+                "opacity": 1
+            },
+            "encoding": {
+                "x": {
+                    "field": "pop",
+                    "type": "quantitative",
+                    "scale": {
+                        "domain": [
+                            0,
+                            9
+                        ],
+                        "nice": false
+                    },
+                    "title": "State population (millions)",
+                    "axis": {
+                        "labelFontSize": 11,
+                        "labelpadding": 12,
+                        "titleFontSize": 12,
+                        "titleColor": "#1f2a33",
+                        "titlePadding": 10,
+                        "grid": false,
+                        "domain": false,
+                        "ticks": false,
+                        "values": [
+                            0,
+                            1,
+                            2,
+                            3,
+                            4,
+                            5,
+                            6,
+                            7,
+                            8,
+                            9
+                        ]
+                    }
+                },
+                "y": {
+                    "field": "lo",
+                    "type": "quantitative",
+                    "scale": {
+                        "domain": [
+                            0,
+                            2.4
+                        ],
+                        "nice": false
+                    },
+                    "title": "Deaths per 100,000 people",
+                    "axis": {
+                        "labelFontSize": 11,
+                        "titleFontSize": 12,
+                        "titleColor": "#1f2a33",
+                        "gridColor": "#eef2f4",
+                        "domain": false,
+                        "ticks": false,
+                        "values": [
+                            0,
+                            0.5,
+                            1,
+                            1.5,
+                            2
+                        ]
+                    }
+                },
+                "y2": {
+                    "field": "hi"
+                }
+            }
+        },
+        {
+            "data": {
+                "sequence": {
+                    "start": 0.2,
+                    "stop": 9.001,
+                    "step": 0.1,
+                    "as": "pop"
+                }
+            },
+            "transform": [
+                {
+                    "calculate": "datum.pop * 10 * nat",
+                    "as": "E"
+                },
+                {
+                    "calculate": "datum.E * pow(max(0, 1 - 1 / (9 * datum.E) + 1.96 / (3 * sqrt(datum.E))), 3) / (datum.pop * 10)",
+                    "as": "hi"
+                },
+                {
+                    "calculate": "datum.E * pow(max(0, 1 - 1 / (9 * datum.E) - 1.96 / (3 * sqrt(datum.E))), 3) / (datum.pop * 10)",
+                    "as": "lo"
+                }
+            ],
+            "mark": {
+                "type": "area",
+                "clip": true,
+                "color": "#e3dac6",
+                "opacity": 1
+            },
+            "encoding": {
+                "x": {
+                    "field": "pop",
+                    "type": "quantitative",
+                    "scale": {
+                        "domain": [
+                            0,
+                            9
+                        ],
+                        "nice": false
+                    },
+                    "title": "State population (millions)"
+                },
+                "y": {
+                    "field": "lo",
+                    "type": "quantitative",
+                    "scale": {
+                        "domain": [
+                            0,
+                            2.4
+                        ],
+                        "nice": false
+                    },
+                    "title": "Deaths per 100,000 people"
+                },
+                "y2": {
+                    "field": "hi"
+                }
+            }
+        },
+        {
+            "data": {
+                "values": [
+                    {
+                        "r": 0.581
+                    }
+                ]
+            },
+            "mark": {
+                "type": "rule",
+                "stroke": "#4a5560",
+                "strokeWidth": 1.4,
+                "strokeDash": [
+                    5,
+                    4
+                ]
+            },
+            "encoding": {
+                "y": {
+                    "field": "r",
+                    "type": "quantitative",
+                    "scale": {
+                        "domain": [
+                            0,
+                            2.4
+                        ],
+                        "nice": false
+                    },
+                    "title": "Deaths per 100,000 people"
+                }
+            }
+        },
+        {
+            "data": {
+                "values": [
+                    {
+                        "pop": 9
+                    }
+                ]
+            },
+            "transform": [
+                {
+                    "calculate": "datum.pop * 10 * nat",
+                    "as": "E"
+                },
+                {
+                    "calculate": "datum.E * pow(max(0, 1 - 1 / (9 * datum.E) + 3.09 / (3 * sqrt(datum.E))), 3) / (datum.pop * 10)",
+                    "as": "yy"
+                }
+            ],
+            "mark": {
+                "type": "text",
+                "align": "left",
+                "baseline": "middle",
+                "dx": 6,
+                "fontSize": 11,
+                "color": "#6b7780"
+            },
+            "encoding": {
+                "x": {
+                    "field": "pop",
+                    "type": "quantitative",
+                    "scale": {
+                        "domain": [
+                            0,
+                            9
+                        ],
+                        "nice": false
+                    },
+                    "title": "State population (millions)"
+                },
+                "y": {
+                    "field": "yy",
+                    "type": "quantitative",
+                    "scale": {
+                        "domain": [
+                            0,
+                            2.4
+                        ],
+                        "nice": false
+                    },
+                    "title": "Deaths per 100,000 people"
+                },
+                "text": {
+                    "value": "99.8%"
+                }
+            }
+        },
+        {
+            "data": {
+                "values": [
+                    {
+                        "pop": 9
+                    }
+                ]
+            },
+            "transform": [
+                {
+                    "calculate": "datum.pop * 10 * nat",
+                    "as": "E"
+                },
+                {
+                    "calculate": "datum.E * pow(max(0, 1 - 1 / (9 * datum.E) + 1.96 / (3 * sqrt(datum.E))), 3) / (datum.pop * 10)",
+                    "as": "yy"
+                }
+            ],
+            "mark": {
+                "type": "text",
+                "align": "left",
+                "baseline": "middle",
+                "dx": 6,
+                "fontSize": 11,
+                "color": "#6b7780"
+            },
+            "encoding": {
+                "x": {
+                    "field": "pop",
+                    "type": "quantitative",
+                    "scale": {
+                        "domain": [
+                            0,
+                            9
+                        ],
+                        "nice": false
+                    },
+                    "title": "State population (millions)"
+                },
+                "y": {
+                    "field": "yy",
+                    "type": "quantitative",
+                    "scale": {
+                        "domain": [
+                            0,
+                            2.4
+                        ],
+                        "nice": false
+                    },
+                    "title": "Deaths per 100,000 people"
+                },
+                "text": {
+                    "value": "95%"
+                }
+            }
+        },
+        {
+            "data": {
+                "values": [
+                    {
+                        "r": 0.581,
+                        "pop": 9
+                    }
+                ]
+            },
+            "mark": {
+                "type": "text",
+                "align": "left",
+                "baseline": "middle",
+                "dx": 6,
+                "fontSize": 11,
+                "fontWeight": 700,
+                "color": "#4a5560"
+            },
+            "encoding": {
+                "x": {
+                    "field": "pop",
+                    "type": "quantitative",
+                    "scale": {
+                        "domain": [
+                            0,
+                            9
+                        ],
+                        "nice": false
+                    },
+                    "title": "State population (millions)"
+                },
+                "y": {
+                    "field": "r",
+                    "type": "quantitative",
+                    "scale": {
+                        "domain": [
+                            0,
+                            2.4
+                        ],
+                        "nice": false
+                    },
+                    "title": "Deaths per 100,000 people"
+                },
+                "text": {
+                    "value": ["national","death","rate"]
+                }
+            }
+        },
+        {
+            "data": {
+                "name": "states"
+            },
+            "mark": {
+                "type": "circle",
+                "size": 150,
+                "opacity": 1,
+                "stroke": "white",
+                "strokeWidth": 0
+            },
+            "encoding": {
+                "x": {
+                    "field": "pop",
+                    "type": "quantitative",
+                    "scale": {
+                        "domain": [
+                            0,
+                            9
+                        ],
+                        "nice": false
+                    },
+                    "title": "State population (millions)"
+                },
+                "y": {
+                    "field": "rate",
+                    "type": "quantitative",
+                    "scale": {
+                        "domain": [
+                            0,
+                            2.4
+                        ],
+                        "nice": false
+                    },
+                    "title": "Deaths per 100,000 people"
+                },
+                "color": {
+                    "field": "status",
+                    "type": "nominal",
+                    "scale": {
+                        "domain": [
+                            "Higher than expected",
+                            "Within expectation",
+                            "Lower than expected"
+                        ],
+                        "range": [
+                            "#D4682A",
+                            "#6b7780",
+                            "#7fb0d6"
+                        ]
+                    },
+                    "legend": {
+                        "title": "Rate against the national rate",
+                        "orient": "none",
+                        "legendX": {
+                            "expr": "width * 0.70"
+                        },
+                        "legendY": 5,
+                        "direction": "vertical",
+                        "symbolType": "circle",
+                        "symbolSize": 110,
+                        "labelFontSize": 11,
+                        "titleFontSize": 12,
+                        "titleFontWeight": 600,
+                        "titleColor": "#1f2a33",
+                        "labelColor": "#4a5560",
+                        "rowPadding": 4
+                    }
+                },
+                "tooltip": [
+                    {
+                        "field": "state",
+                        "title": "State"
+                    },
+                    {
+                        "field": "deaths",
+                        "type": "quantitative",
+                        "title": "Deaths"
+                    },
+                    {
+                        "field": "pop",
+                        "type": "quantitative",
+                        "title": "Population (millions)",
+                        "format": ".2f"
+                    },
+                    {
+                        "field": "rate",
+                        "type": "quantitative",
+                        "title": "Deaths per 100,000",
+                        "format": ".2f"
+                    },
+                    {
+                        "field": "expected",
+                        "type": "quantitative",
+                        "title": "Expected at the national rate",
+                        "format": ".1f"
+                    },
+                    {
+                        "field": "status",
+                        "title": "Compared with chance"
+                    }
+                ]
+            }
+        },
+        {
+            "data": {
+                "name": "states"
+            },
+            "transform": [
+                {
+                    "filter": "datum.grp === 'R'"
+                }
+            ],
+            "mark": {
+                "type": "text",
+                "align": "right",
+                "baseline": "middle",
+                "dx": -10,
+                "dy": -10,
+                "fontSize": 12,
+                "fontWeight": 700,
+                "color": "#1f2a33"
+            },
+            "encoding": {
+                "x": {
+                    "field": "pop",
+                    "type": "quantitative",
+                    "scale": {
+                        "domain": [
+                            0,
+                            9
+                        ],
+                        "nice": false
+                    },
+                    "title": "State population (millions)"
+                },
+                "y": {
+                    "field": "rate",
+                    "type": "quantitative",
+                    "scale": {
+                        "domain": [
+                            0,
+                            2.4
+                        ],
+                        "nice": false
+                    },
+                    "title": "Deaths per 100,000 people"
+                },
+                "text": {
+                    "field": "label"
+                }
+            }
+        },
+        {
+            "data": {
+                "name": "states"
+            },
+            "transform": [
+                {
+                    "filter": "datum.grp === 'L'"
+                }
+            ],
+            "mark": {
+                "type": "text",
+                "align": "left",
+                "baseline": "middle",
+                "dx": 10,
+                "dy": 0,
+                "fontSize": 12,
+                "fontWeight": 700,
+                "color": "#1f2a33"
+            },
+            "encoding": {
+                "x": {
+                    "field": "pop",
+                    "type": "quantitative",
+                    "scale": {
+                        "domain": [
+                            0,
+                            9
+                        ],
+                        "nice": false
+                    },
+                    "title": "State population (millions)"
+                },
+                "y": {
+                    "field": "rate",
+                    "type": "quantitative",
+                    "scale": {
+                        "domain": [
+                            0,
+                            2.4
+                        ],
+                        "nice": false
+                    },
+                    "title": "Deaths per 100,000 people"
+                },
+                "text": {
+                    "field": "label"
+                }
+            }
+        },
+        {
+            "data": {
+                "name": "states"
+            },
+            "transform": [
+                {
+                    "filter": "datum.grp === 'C'"
+                }
+            ],
+            "mark": {
+                "type": "text",
+                "align": "center",
+                "baseline": "middle",
+                "dx": 0,
+                "dy": -13,
+                "fontSize": 12,
+                "fontWeight": 700,
+                "color": "#1f2a33"
+            },
+            "encoding": {
+                "x": {
+                    "field": "pop",
+                    "type": "quantitative",
+                    "scale": {
+                        "domain": [
+                            0,
+                            9
+                        ],
+                        "nice": false
+                    },
+                    "title": "State population (millions)"
+                },
+                "y": {
+                    "field": "rate",
+                    "type": "quantitative",
+                    "scale": {
+                        "domain": [
+                            0,
+                            2.4
+                        ],
+                        "nice": false
+                    },
+                    "title": "Deaths per 100,000 people"
+                },
+                "text": {
+                    "field": "label"
+                }
+            }
+        },
+        {
+            "data": {
+                "name": "states"
+            },
+            "transform": [
+                {
+                    "filter": "datum.grp === 'R'"
+                },
+                {
+                    "filter": "datum.note !== ''"
+                }
+            ],
+            "mark": {
+                "type": "text",
+                "align": "right",
+                "baseline": "middle",
+                "dx": -10,
+                "dy": 4,
+                "fontSize": 11,
+                "fontWeight": 400,
+                "color": "#1f2a33"
+            },
+            "encoding": {
+                "x": {
+                    "field": "pop",
+                    "type": "quantitative",
+                    "scale": {
+                        "domain": [
+                            0,
+                            9
+                        ],
+                        "nice": false
+                    },
+                    "title": "State population (millions)"
+                },
+                "y": {
+                    "field": "rate",
+                    "type": "quantitative",
+                    "scale": {
+                        "domain": [
+                            0,
+                            2.4
+                        ],
+                        "nice": false
+                    },
+                    "title": "Deaths per 100,000 people"
+                },
+                "text": {
+                    "field": "note"
+                }
+            }
+        },
+        {
+            "data": {
+                "name": "states"
+            },
+            "transform": [
+                {
+                    "filter": "datum.grp === 'L'"
+                },
+                {
+                    "filter": "datum.note !== ''"
+                }
+            ],
+            "mark": {
+                "type": "text",
+                "align": "left",
+                "baseline": "middle",
+                "dx": 10,
+                "dy": 14,
+                "fontSize": 11,
+                "fontWeight": 400,
+                "color": "#1f2a33"
+            },
+            "encoding": {
+                "x": {
+                    "field": "pop",
+                    "type": "quantitative",
+                    "scale": {
+                        "domain": [
+                            0,
+                            9
+                        ],
+                        "nice": false
+                    },
+                    "title": "State population (millions)"
+                },
+                "y": {
+                    "field": "rate",
+                    "type": "quantitative",
+                    "scale": {
+                        "domain": [
+                            0,
+                            2.4
+                        ],
+                        "nice": false
+                    },
+                    "title": "Deaths per 100,000 people"
+                },
+                "text": {
+                    "field": "note"
+                }
+            }
+        }
+    ],
+    "config": {
+        "view": {
+            "stroke": null
+        }
+    }
+}

@@ -1,11 +1,11 @@
 rank,beach,state,lat,lon,location,country,fact_lines
-1,Bate Bay Beaches,NSW,-34.04,151.16,"Sutherland Shire, Sydney",Gweagal,"Nine beaches and four ocean pools,|including Sydney's longest stretch|of sand (4.8 km), reachable by train"
-2,Pinky Beach,WA,-31.99,115.55,Rottnest Island (Wadjemup),Whadjuk Noongar,"About 1 km from the ferry jetty, beside|the 1900 Bathurst Lighthouse. The sand|looks pink in late-afternoon light"
-3,Beachcomber Cove,QLD,-20.92,149.04,Cape Hillsborough,Yuwibara,"Picked for its remote, 'slow travel'|feel: wind and waves, not crowds"
-4,Tallow Beach,NSW,-28.67,153.62,Byron Bay,Bundjalung + Arakwal,"One of two NSW beaches in the top 10,|alongside #1 Bate Bay"
-5,Hellfire Bay,WA,-33.98,122.16,"Cape Le Grand National Park, near Esperance",Nyungar + Ngadju,"One of two WA beaches in the top five,|a remote national park cove"
-6,Godfreys Beach,TAS,-40.76,145.30,"The Nut, Stanley",palawa,"Sits beneath The Nut, singled out by|Tourism Australia as an iconic backdrop"
-7,Inskip Point,QLD,-25.81,153.06,Inskip,Kabi Kabi + Butchulla,"Queensland's second entry,|alongside #3 Beachcomber Cove"
-8,Mount Martha,VIC,-38.27,145.01,Mornington Peninsula,Boon Wurrung,Victoria's only entry|in the 2026 top 10
-9,Smoky Bay,SA,-32.38,133.93,Smoky Bay,Wirangu,South Australia's only entry|in the 2026 top 10
-10,Ellery Creek Big Hole,NT,-23.78,133.07,"West MacDonnell Ranges, west of Alice Springs",Arrernte,"An inland waterhole with icy water|and rugged cliffs, far from any coast"
+1,Bate Bay Beaches,NSW,-34.04,151.16,"Sutherland Shire, Sydney",Gweagal,"Nine beaches and four ocean pools,|including Sydney's longest stretch|of undeveloped sand (4.8 km).|Reachable by train from the city."
+2,Pinky Beach,WA,-31.99,115.55,Rottnest Island (Wadjemup),Whadjuk Noongar,"Framed by the 1900-built Bathurst|Lighthouse. White sand turns pink in|low afternoon light, and a coral|reef close to shore suits snorkellers."
+3,Beachcomber Cove,QLD,-20.92,149.04,Cape Hillsborough,Yuwibara,"Reached on a 2.2 km return walk over|a ridge in Cape Hillsborough National|Park. Steep forest encloses the cove,|and Cascade Creek crosses the beach."
+4,Tallow Beach,NSW,-28.67,153.62,Byron Bay,Bundjalung + Arakwal,"Seven km of undeveloped sand south of|Cape Byron, in Arakwal National Park.|Named for tallow that washed ashore|after an 1864 shipwreck."
+5,Hellfire Bay,WA,-33.98,122.16,Cape Le Grand National Park,Nyungar + Ngadju,"Thought to be named after St Elmo's|fire, a bluish glow that can appear|above ships' masts. A secluded bay|between rocky headlands."
+6,Godfreys Beach,TAS,-40.76,145.30,"The Nut, Stanley",palawa,"Little penguins come ashore here at|dusk, watched from a platform lit with|red light. Nearby rises The Nut,|a 143 m volcanic plug."
+7,Inskip Point,QLD,-25.81,153.06,Inskip,Kabi Kabi + Butchulla,"A narrow finger of sand built up by|wind and waves. It's the departure|point for 4WD barges to K'gari, and|a popular beach camping spot."
+8,Mount Martha,VIC,-38.27,145.01,Mornington Peninsula,Boon Wurrung,"A 2 km beach split by Balcombe Creek,|known for its bathing boxes. Beach|matting for accessibility is laid|daily from November to May."
+9,Smoky Bay,SA,-32.38,133.93,Smoky Bay,Wirangu,"Named by Matthew Flinders in 1802|for the smoke of Aboriginal fires he|saw onshore. Today an oyster-growing|town with a long timber jetty."
+10,Ellery Creek Big Hole,NT,-23.78,133.07,West MacDonnell Ranges,Arrernte,"An inland waterhole, 80 km west of|Alice Springs, carved out by floods.|Known to the Arrernte as Udepata.|Its water is cold even in summer."

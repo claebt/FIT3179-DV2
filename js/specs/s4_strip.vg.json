@@ -1,7 +1,8 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {"text": "Distribution of beaches by hazard rating", "anchor": "start", "font": "Fraunces", "fontSize": 20, "fontWeight": 600, "color": "#1f2a33", "offset": 14},
   "width": "container",
-  "height": 420,
+  "height": 500,
   "autosize": {"type": "fit", "contains": "padding"},
   "background": null,
   "data": {
@@ -22,7 +23,7 @@
       "field": "N_FACILITIES", "type": "ordinal",
       "title": "Number of facilities (of 13)",
       "sort": "ascending",
-      "scale": {"domain": [0,1,2,3,4,5,6,7,8,9,10,11,12,13], "paddingInner": 0.25},
+      "scale": {"domain": [13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0], "paddingInner": 0.25},
       "axis": {"labelFontSize": 11, "titleFontSize": 12, "titleColor": "#1f2a33", "domain": false, "ticks": false}
     }
   },
@@ -33,7 +34,7 @@
         "x": {
           "field": "x0", "type": "quantitative", "title": "Share of beaches (%)",
           "scale": {"domain": [0, 100]},
-          "axis": {"values": [0, 25, 50, 75, 100], "labelFontSize": 11, "titleFontSize": 12,
+          "axis": {"values": [0, 25, 50, 75, 100], "labelFontSize": 11, "titlePadding": 12, "titleFontSize": 12,
                    "titleColor": "#1f2a33", "grid": false, "domain": false, "ticks": false}
         },
         "x2": {"field": "x1"},
@@ -66,7 +67,22 @@
         "text": {"field": "seg_label"},
         "color": {"condition": {"test": "datum.haz_order == 2", "value": "white"}, "value": "#1f2a33"}
       }
-    }
+    },
+    {
+  "transform": [{"filter": "datum.haz_order === 1 && datum.N_FACILITIES === 3"}],
+  "mark": {"type": "rule", "stroke": "#a63d14", "strokeWidth": 2, "strokeCap": "round"},
+  "encoding": {"x": {"value": {"expr": "width + 4"}}, "y": {"field": "N_FACILITIES", "type": "ordinal", "bandPosition": 0}, "y2": {"value": {"expr": "height + 105"}}}
+},
+{
+  "transform": [{"filter": "datum.haz_order === 1 && datum.N_FACILITIES === 3"}],
+  "mark": {"type": "text", "align": "right", "baseline": "top", "fontSize": 12.5, "fontWeight": 700, "color": "#a63d14"},
+  "encoding": {"x": {"value": {"expr": "width - 4"}}, "y": {"value": {"expr": "height + 54"}}, "text": {"value": "With 0–3 facilities, hazard is higher:"}}
+},
+{
+  "transform": [{"filter": "datum.haz_order === 1 && datum.N_FACILITIES === 3"}],
+  "mark": {"type": "text", "align": "right", "baseline": "top", "lineBreak": "|", "lineHeight": 15, "fontSize": 12, "color": "#1f2a33"},
+  "encoding": {"x": {"value": {"expr": "width - 4"}}, "y": {"value": {"expr": "height + 73"}}, "text": {"value": "29–38% of these beaches are rated 7–10,|against 5–9% of those with 4–6 facilities."}}
+}
   ],
   "config": {"view": {"stroke": null}}
 }

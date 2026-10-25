@@ -1,0 +1,169 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {"text": "Has water quality improved from 2025 to 2026?", "anchor": "start", "font": "Fraunces", "fontSize": 20, "fontWeight": 600, "color": "#1f2a33", "offset": 14},
+  "description": "Section 5 dumbbell chart (a connected dot plot). For each group of NSW swim sites, two dots show the share graded Good or Very Good in the 2025 and 2026 State of the Beaches reports, joined by a line so the change reads as a distance. The label at the right gives the change in percentage points. Groups overlap (Sydney ocean beaches are part of all ocean beaches) because they are the report's own groupings. Data: data/beachwatch_trend.csv, typed in from the NSW Beachwatch State of the Beaches 2026 report and the NSW Government release.",
+  "width": "container",
+  "height": 420,
+  "autosize": {"type": "fit", "contains": "padding"},
+  "background": null,
+  "layer": [
+    {
+      "description": "The connecting line from the 2025 value to the 2026 value.",
+      "data": {"url": "data/beachwatch_trend.csv", "format": {"type": "csv", "parse": {"y2025": "number", "y2026": "number"}}},
+      "mark": {"type": "rule", "strokeWidth": 4, "stroke": "#dddcdd", "strokeCap": "round"},
+      "encoding": {
+        "y": {
+          "field": "group",
+          "type": "nominal",
+          "title": null,
+          "sort": ["Ocean beaches", "Sydney ocean beaches", "Sydney Harbour", "All swim sites", "Estuarine sites"],
+          "scale": {"paddingInner": 0.5},
+          "axis": {"labelFontSize": 12, "labelLimit": 190, "domain": false, "ticks": false, "labelPadding": 10}
+        },
+        "x": {
+          "scale": {"domain": [58, 106]},
+          "type": "quantitative",
+          "field": "y2025",
+          "title": "Share of sites graded Good or Very Good (%)",
+          "axis": {
+            "values": [60, 70, 80, 90, 100],
+            "labelFontSize": 11,
+            "titleFontSize": 12,
+            "titlePadding": 12,
+            "titleColor": "#1f2a33",
+            "gridColor": "#e7e0d2",
+            "domain": false,
+            "ticks": false
+          }
+        },
+        "x2": {"field": "y2026"}
+      }
+    },
+    {
+      "description": "The dots and their value labels. The fold transform turns each group's two columns (y2025, y2026) into two rows so one circle mark can draw both.",
+      "data": {"url": "data/beachwatch_trend.csv", "format": {"type": "csv", "parse": {"y2025": "number", "y2026": "number"}}},
+      "transform": [
+        {"fold": ["y2025", "y2026"], "as": ["yr", "pct"]},
+        {"calculate": "datum.yr === 'y2025' ? '2025 report' : '2026 report'", "as": "year"}
+      ],
+      "layer": [
+        {
+          "mark": {"type": "circle", "size": 190, "opacity": 1, "stroke": "white", "strokeWidth": 0},
+          "encoding": {
+            "y": {
+              "field": "group",
+              "type": "nominal",
+              "title": null,
+              "sort": ["Ocean beaches", "Sydney ocean beaches", "Sydney Harbour", "All swim sites", "Estuarine sites"],
+              "scale": {"paddingInner": 0.5},
+              "axis": {"labelFontSize": 12, "labelLimit": 190, "domain": false, "ticks": false, "labelPadding": 10}
+            },
+            "x": {"scale": {"domain": [58, 106]}, "type": "quantitative", "field": "pct"},
+            "color": {
+              "field": "year",
+              "type": "nominal",
+              "scale": {"domain": ["2025 report", "2026 report"], "range": ["#d9c7df", "#6b3f7a"]},
+              "legend": {
+                "title": null,
+                "orient": "none",
+                "legendX": -140,
+                "legendY": 365,
+                "direction": "horizontal",
+                "columns": 2,
+                "columnPadding": 24,
+                "symbolType": "circle",
+                "symbolSize": 160,
+                "symbolOpacity": 1,
+                "labelFontSize": 11,
+                "labelColor": "#4a5560"
+              }
+            },
+            "tooltip": [
+              {"field": "group", "title": "Group"},
+              {"field": "year", "title": "Report"},
+              {"field": "pct", "type": "quantitative", "title": "% Good or Very Good"}
+            ]
+          }
+        },
+        {
+          "mark": {"type": "text", "dy": -15, "fontSize": 11, "fontWeight": 600, "color": "#1f2a33"},
+          "encoding": {
+            "y": {
+              "field": "group",
+              "type": "nominal",
+              "title": null,
+              "sort": ["Ocean beaches", "Sydney ocean beaches", "Sydney Harbour", "All swim sites", "Estuarine sites"],
+              "scale": {"paddingInner": 0.5},
+              "axis": {"labelFontSize": 12, "labelLimit": 190, "domain": false, "ticks": false, "labelPadding": 10}
+            },
+            "x": {"scale": {"domain": [58, 106]}, "type": "quantitative", "field": "pct"},
+            "text": {"field": "pct", "type": "quantitative"}
+          }
+        }
+      ]
+    },
+    {
+      "description": "Change label. The right-hand end of each pair is found with max(), and the change is 2026 minus 2025 in percentage points.",
+      "data": {"url": "data/beachwatch_trend.csv", "format": {"type": "csv", "parse": {"y2025": "number", "y2026": "number"}}},
+      "transform": [
+        {"calculate": "max(datum.y2025, datum.y2026)", "as": "mx"},
+        {"calculate": "datum.y2026 - datum.y2025", "as": "d"},
+        {"calculate": "(datum.d >= 0 ? '+' : '') + datum.d + ' pts'", "as": "delta"}
+      ],
+      "mark": {"type": "text", "align": "left", "dx": 16, "fontSize": 12, "fontWeight": 700, "color": "#6b3f7a"},
+      "encoding": {
+        "y": {
+          "field": "group",
+          "type": "nominal",
+          "title": null,
+          "sort": ["Ocean beaches", "Sydney ocean beaches", "Sydney Harbour", "All swim sites", "Estuarine sites"],
+          "scale": {"paddingInner": 0.5},
+          "axis": {"labelFontSize": 12, "labelLimit": 190, "domain": false, "ticks": false, "labelPadding": 10}
+        },
+        "x": {"scale": {"domain": [58, 106]}, "type": "quantitative", "field": "mx"},
+        "text": {"field": "delta"}
+      }
+    },
+    {
+      "data": {"url": "data/beachwatch_trend.csv", "format": {"type": "csv", "parse": {"y2025": "number", "y2026": "number"}}},
+      "transform": [{"filter": "datum.group === 'Sydney ocean beaches'"}],
+      "mark": {"type": "text", "align": "right", "baseline": "bottom", "dx": 200, "dy": 35, "fontSize": 13, "fontWeight": 700, "color": "#6b3f7a"},
+      "encoding": {
+        "x": {"field": "y2025", "type": "quantitative", "scale": {"domain": [58, 106]}},
+        "y": {"field": "group", "type": "nominal", "sort": ["Ocean beaches", "Sydney ocean beaches", "Sydney Harbour", "All swim sites", "Estuarine sites"], "scale": {"paddingInner": 0.5}},
+        "text": {"value": "Biggest jump"}
+      }
+    },
+    {
+      "data": {"url": "data/beachwatch_trend.csv", "format": {"type": "csv", "parse": {"y2025": "number", "y2026": "number"}}},
+      "transform": [{"filter": "datum.group === 'Sydney ocean beaches'"}],
+      "mark": {"type": "text", "align": "right", "baseline": "top", "dx": 200, "dy": 40, "lineBreak": "|", "lineHeight": 15, "fontSize": 12, "color": "#1f2a33"},
+      "encoding": {
+        "x": {"field": "y2025", "type": "quantitative", "scale": {"domain": [58, 106]}},
+        "y": {"field": "group", "type": "nominal", "sort": ["Ocean beaches", "Sydney ocean beaches", "Sydney Harbour", "All swim sites", "Estuarine sites"], "scale": {"paddingInner": 0.5}},
+        "text": {"value": "Statewide results|improved with drier|weather,which cut|stormwater runoff"}
+      }
+    },
+    {
+      "data": {"url": "data/beachwatch_trend.csv", "format": {"type": "csv", "parse": {"y2025": "number", "y2026": "number"}}},
+      "transform": [{"filter": "datum.group === 'Estuarine sites'"}],
+      "mark": {"type": "text", "align": "left", "baseline": "bottom", "dx": 72, "dy": -8, "fontSize": 13, "fontWeight": 700, "color": "#6b3f7a"},
+      "encoding": {
+        "x": {"field": "y2026", "type": "quantitative", "scale": {"domain": [58, 106]}},
+        "y": {"field": "group", "type": "nominal", "sort": ["Ocean beaches", "Sydney ocean beaches", "Sydney Harbour", "All swim sites", "Estuarine sites"], "scale": {"paddingInner": 0.5}},
+        "text": {"value": "Lowest in both years"}
+      }
+    },
+    {
+      "data": {"url": "data/beachwatch_trend.csv", "format": {"type": "csv", "parse": {"y2025": "number", "y2026": "number"}}},
+      "transform": [{"filter": "datum.group === 'Estuarine sites'"}],
+      "mark": {"type": "text", "align": "left", "baseline": "top", "dx": 72, "dy": -5, "lineBreak": "|", "lineHeight": 15, "fontSize": 12, "color": "#1f2a33"},
+      "encoding": {
+        "x": {"field": "y2026", "type": "quantitative", "scale": {"domain": [58, 106]}},
+        "y": {"field": "group", "type": "nominal", "sort": ["Ocean beaches", "Sydney ocean beaches", "Sydney Harbour", "All swim sites", "Estuarine sites"], "scale": {"paddingInner": 0.5}},
+        "text": {"value": "Estuaries exchange water slowly, so pollution|takes longer to disperse after rain"}
+      }
+    }
+  ],
+  "config": {"view": {"stroke": null}}
+}

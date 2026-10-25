@@ -1,5 +1,5 @@
 /* ==========================================================================
-   style.css: typography, colour, and the look of the cards and controls.
+   style.css: typography, colour, and the look of the sections and controls.
    (Page widths and the hero's structure are in layout.css.)
    ========================================================================== */
 
@@ -7,7 +7,7 @@
    changing the palette means editing one line. */
 :root {
   --ink: #1f2a33;   /* main text colour */
-  --sea: #1b6ca8;   /* accent blue: callout bars, stat bars, slider */
+  --sea: #1b6ca8;   /* accent blue: hint bubbles, stat bars, slider */
 }
 
 /* Body text uses the sans-serif; fonts are loaded from Google Fonts in index.html */
@@ -25,7 +25,7 @@ p { max-width: 65ch; }
   font-size: 0.8rem;
   color: #6b7780;
   margin: 6px 0 0;
-  max-width: none;   /* sources can run the full width of the card */
+  max-width: none;
 }
 
 
@@ -96,45 +96,63 @@ p { max-width: 65ch; }
 .hero-toc a:hover { border-bottom-color: #ffffff; }
 
 
-/* ---------- Chart cards (the white boxes) ---------- */
+/* ---------- Sections (the .card class stays, but it no longer draws a box) ---------- */
 .card {
-  background: #ffffff;
-  border: 1px solid #e6e0d4;
-  border-radius: 16px;
-  box-shadow: 0 2px 14px rgba(31, 42, 51, 0.06);   /* soft lift off the cream page */
-  padding: 28px 32px 20px;
-  margin: 24px 0;
+  background: none;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0;
+  margin: 20px 0 0;
 }
 .card h3 { font-size: 1.5rem; margin: 0 0 8px; }
 
 .card-desc { color: #4a5560; margin: 0 0 6px; }          /* one-line description of a chart */
-.card-howto {                                            /* the italic "How to read" line */
+/* The italic "How to read" line, now a boxed callout */
+.card-howto {
+  background: #f3efe6;
+  border: 1px solid #e2dccf;
+  border-left: 4px solid #6b7780;
+  border-radius: 4px;
+  padding: 10px 16px;
+  margin: 0 0 16px;
   font-size: 0.85rem;
   font-style: italic;
-  color: #6b7780;
-  margin: 0 0 16px;
+  color: #4a5560;
+  max-width: none;
 }
 .card .vis { margin: 8px 0 16px; }
 
-/* The grey "Key takeaway" box with a blue bar on its left edge */
-.callout {
-  background: #eef2f4;
-  border-left: 4px solid var(--sea);
+/* Interaction hint: the grey bubble with a blue bar on its left edge.
+   Used only under charts the reader can act on (hover, drag, click). */
+.hint {
+  background: #ffffff;
+  border: 1px solid #e2dccf;
+  border-left: 4px solid #1f2a33;
   border-radius: 4px;
-  padding: 12px 16px;
-  margin: 12px 0;
-  max-width: 680px;
-  font-size: 0.95rem;
+  padding: 10px 16px;
+  margin: 12px 0 0;
+  font-size: 0.9rem;
+  color: var(--ink);
+  max-width: 500px;
+}
+.hint strong {
+  color: #1f2a33;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-right: 2px;
 }
 
-/* A source line inside a card gets a divider above it */
+/* A source line at the end of a section gets a divider above it */
 .card .source {
   border-top: 1px solid #e6e0d4;
   padding-top: 12px;
-  margin-top: 20px;
+  margin-top: 24px;
 }
 
-/* Sub-headings placed directly in a card (the full-width charts) and inside
+/* Sub-headings placed directly in a section (the full-width charts) and inside
    the two-column layout share one style */
 .card > h4, .card-split h4 {
   font-family: "Fraunces", serif;
@@ -143,7 +161,7 @@ p { max-width: 65ch; }
   margin: 0 0 6px;
 }
 
-/* A thin divider line between two rows of charts in one card */
+/* A thin divider line between two rows of charts in one section */
 .card-rule {
   border: none;
   border-top: 1px solid #e6e0d4;
@@ -151,20 +169,20 @@ p { max-width: 65ch; }
 }
 
 
-/* ---------- Two-column card: charts side by side with level sightlines ----------
+/* ---------- Two-column layout: charts side by side with level sightlines ----------
    Each column is a grid that "inherits" its rows from the parent (subgrid),
-   so the heading, description, chart and takeaway in the left column line up
+   so the heading, description, how-to-read and chart in the left column line up
    exactly with those in the right column, even if the text lengths differ. */
 .card-split {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);   /* two equal halves; minmax(0, ...) lets a column
                                                               shrink below its chart's width so the divider stays centred */
-  grid-template-rows: repeat(5, auto);                    /* five shared rows: heading, description, how-to, chart, takeaway */
+  grid-template-rows: repeat(4, auto);                    /* four shared rows: heading, description, how-to-read, chart */
   margin-top: 16px;
 }
 .card-split > .col {
   display: grid;
-  grid-row: span 5;                 /* the column covers all five rows */
+  grid-row: span 4;                 /* the column covers all five rows */
   grid-template-rows: subgrid;      /* ...and uses the parent's row sizes */
   align-content: start;
   padding: 0 28px;
@@ -184,7 +202,7 @@ p { max-width: 65ch; }
   min-width: 0;
   overflow: hidden;   /* a chart that is slightly too wide is clipped instead of pushing the divider */
 }
-.card-split .callout { align-self: start; max-width: none; margin: 0; }
+.card-split .hint { align-self: start; max-width: none; margin: 0; }
 
 /* On phones, drop the grid and stack the columns one above the other */
 @media (max-width: 767px) {
@@ -200,7 +218,7 @@ p { max-width: 65ch; }
 
 /* ---------- Vega tooltips ----------
    Vega draws tooltips in its own element outside the chart, so they are
-   styled by id here to match the cards. */
+   styled by id here to match the page. */
 #vg-tooltip-element {
   font-family: "Source Sans 3", sans-serif;
   font-size: 13px;
@@ -236,7 +254,12 @@ p { max-width: 65ch; }
   font-size: 0.9rem;
   margin-bottom: 6px;
 }
-.range-title { color: #6b7780; }
+.range-title {  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0 0 6px;
+  max-width: none;}
+
 .range-value { font-weight: 700; color: var(--ink); }
 
 .range-track { position: relative; height: 24px; }
@@ -252,7 +275,7 @@ p { max-width: 65ch; }
   position: absolute;
   top: 10px; height: 4px;
   border-radius: 2px;
-  background: var(--sea);
+  background: #8c5c14;
 }
 .range-track input[type="range"] {
   position: absolute;
@@ -276,7 +299,7 @@ p { max-width: 65ch; }
   width: 20px; height: 20px;             /* main.js uses 20 as THUMB to line the blue bar up */
   border-radius: 50%;
   background: #ffffff;
-  border: 2px solid var(--sea);
+  border: 2px solid #8c5c14; 
   box-shadow: 0 1px 4px rgba(31, 42, 51, 0.25);
   cursor: pointer;
 }
@@ -285,7 +308,7 @@ p { max-width: 65ch; }
   width: 16px; height: 16px;
   border-radius: 50%;
   background: #ffffff;
-  border: 2px solid var(--sea);
+  border: 2px solid #8c5c14; 
   box-shadow: 0 1px 4px rgba(31, 42, 51, 0.25);
   cursor: pointer;
 }
@@ -316,3 +339,207 @@ p { max-width: 65ch; }
   margin: 0;
 }
 .stat-item .txt { font-size: 0.9rem; color: #4a5560; margin: 4px 0 0; max-width: none; }
+
+
+/* ---------- Section 7: the four checks and the data notes ---------- */
+/* ---------- Section 7: text on the left, the four checks in a 2 x 2 grid on the right ---------- */
+.conclusion {
+  display: grid;
+  grid-template-columns: minmax(0, 320px) minmax(0, 1fr);
+  column-gap: 56px;
+  align-items: start;
+  margin-top: 16px;
+}
+.conclusion-text .card-desc { margin: 0 0 14px; max-width: none; }
+
+.look-for {
+  list-style: none;
+  counter-reset: look;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.look-for li {
+  counter-increment: look;
+  background: #ffffff;
+  border: 1px solid #e2dccf;
+  border-left: 4px solid #1f2a33;
+  border-radius: 4px;
+  padding: 16px 18px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--ink);
+
+  display: grid;
+  grid-template-columns: 28px 1fr;   /* fixed width for the number column */
+  grid-template-rows: 28px 1fr;
+  column-gap: 10px;
+  row-gap: 4px;
+  align-items: center;
+}
+
+
+.look-for li::before {
+  content: counter(look);
+  grid-column: 1;
+  grid-row: 1;
+  font-family: "Fraunces", serif;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #1f2a33;
+  line-height: 1;
+}
+
+.look-for strong {
+  grid-column: 2;
+  grid-row: 1;
+  font-size: 1.2rem;
+  font-family: "Fraunces", serif;
+}
+
+.look-for .look-desc {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+@media (max-width: 899px) { .conclusion { grid-template-columns: 1fr; row-gap: 20px; } }
+@media (max-width: 599px) { .look-for { grid-template-columns: 1fr; } }
+
+.data-notes { margin: 8px 0 0; padding-left: 20px; color: #4a5560; font-size: 0.95rem; max-width: 75ch; }
+.data-notes li { margin-bottom: 6px; }
+
+/* ---------- Section 3: slider and legend on one row ---------- */
+.map-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 16px 40px;
+  margin: 14px 0 4px;
+}
+.map-controls .range-filter { margin: 0; flex: 0 1 420px; }
+
+.map-legend { width: 260px; }
+.legend-title {                          /* same size and spacing as the slider's heading line */
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0 0 6px;
+  max-width: none;
+}
+.legend-bar {                            /* 24px tall, like the slider track, with the bar centred in it */
+  display: flex;
+  height: 14px;
+  margin: 5px 0;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.legend-bar span { flex: 1; display: block; }
+.legend-ticks {
+  position: relative;
+  height: 16px;
+  font-size: 0.75rem;
+  color: #6b7780;
+}
+.legend-ticks span { position: absolute; transform: translateX(-50%); white-space: nowrap; }
+.legend-ticks span:first-child { transform: none; }
+.legend-ticks span:last-child  { transform: translateX(-100%); }
+
+/* ---------- Three-column layout: text in the first third, chart across the other two ---------- */
+.card-thirds {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);   /* one third and two thirds */
+  margin-top: 16px;
+}
+.card-thirds > .col {
+  padding: 0 28px;
+  min-width: 0;
+  box-sizing: border-box;
+}
+.card-thirds > .col:first-child { padding-left: 0; }
+.card-thirds > .col:last-child  { padding-right: 0; border-left: 1px solid #e6e0d4; }   /* the divider, as in the two-column layout */
+.card-thirds .vis { margin: 0; min-width: 0; overflow: hidden; }
+
+@media (max-width: 767px) {
+  .card-thirds { grid-template-columns: 1fr; }
+  .card-thirds > .col { padding: 0; }
+  .card-thirds > .col:last-child { border-left: none; border-top: 1px solid #e6e0d4; margin-top: 24px; padding-top: 24px; }
+}
+
+/* Grade words: plain coloured text, no chips */
+.grade { white-space: nowrap; font-weight: 600; }
+.grade-vg { color: #14508a; }   /* Very Good: dark blue */
+.grade-g  { color: #3a78b0; }   /* Good: lighter blue */
+.grade-p  { color: #b5541b; }   /* Poor: burnt orange */
+.grade-vp { color: #a63d14; }   /* Very Poor: dark red-brown */
+.grade-f  { color: inherit; font-weight: inherit; }   /* Fair isn't used in the text */
+
+/* ---------- Sources footer: a dark band so it reads as the end of the page ---------- */
+#sources {
+  background: #F0EADD;
+  color: #1f2a33;
+  margin-top: 0;
+  padding: 48px 0 56px;
+}
+#sources h3 { font-size: 1.5rem; margin: 0 0 18px; color: #1f2a33; }
+
+.src-block { margin: 0 0 28px; }
+.src-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #4a5560;
+  margin: 0 0 10px;
+  max-width: none;
+}
+.src-block ul { margin: 0; padding-left: 1.2em; list-style: disc; }
+.src-block li { padding: 0 0 8px 2px; font-size: 0.88rem; line-height: 1.5; color: #1f2a33; break-inside: avoid; }
+.src-block li::marker { color: #b5541b; }
+.src-block em { color: #1f2a33; }
+.src-block a {
+  color: #8f3f16;
+  text-decoration: underline;
+  text-decoration-color: #c8652b;
+  text-underline-offset: 2px;
+}
+.src-block a:hover { color: #6f2f10; }
+.src-key { font-size: 0.8rem; color: #4a5560; margin: 6px 0 0; max-width: none; }
+
+.src-credits {
+  margin: 8px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid #bfb49f;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: #4a5560;
+  max-width: 90ch;
+}
+.src-credits strong { color: #1f2a33; }
+
+.src-cols { column-count: 2; column-gap: 56px; }
+.src-cols li { break-inside: avoid; }
+@media (max-width: 767px) { .src-cols { column-count: 1; } }
+
+/* ---------- Section heading numbers: a small circle badge before the title ---------- */
+h2 {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.h2-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #1f2a33;       /* swap for #16283a if you want a more vivid navy, closer to your screenshot */
+  color: #ffffff;
+  font-family: "Fraunces", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+}

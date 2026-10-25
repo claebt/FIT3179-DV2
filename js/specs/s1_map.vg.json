@@ -1,33 +1,49 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "background": null,
-  "spacing": 24,
+  "spacing": 31,
   "hconcat": [
     {
-      "width": 570,
-      "height": 548,
+      "width": 710,
+      "height": 682,
+      "title": {"text": "Coastline length by state", "anchor": "start", "font": "Fraunces", "fontSize": 20, "fontWeight": 600, "color": "#1f2a33", "offset": 14, "frame": "group"},
       "projection": {"type": "conicEqualArea", "parallels": [-18, -36], "rotate": [-132, 0, 0]},
       "layer": [
         {
           "data": {"url": "data/aus_states.json", "format": {"type": "topojson", "feature": "states"}},
-          "transform": [{
-            "lookup": "properties.STE_NAME21",
-            "from": {"data": {"url": "data/coastline_by_state.csv"}, "key": "state",
-                     "fields": ["total_km", "mainland_km", "island_km"]}
-          }],
+          "transform": [
+            {
+              "lookup": "properties.STE_NAME21",
+              "from": {
+                "data": {"url": "data/coastline_by_state.csv"},
+                "key": "state",
+                "fields": ["total_km", "mainland_km", "island_km"]
+              }
+            }
+          ],
           "mark": {"type": "geoshape", "stroke": "white", "strokeWidth": 1},
           "encoding": {
             "color": {
-              "field": "total_km", "type": "quantitative",
+              "field": "total_km",
+              "type": "quantitative",
               "scale": {"scheme": "blues", "domain": [0, 25000]},
               "legend": {
-                "title": "Coastline (km)", "orient": "left", "direction": "vertical",
+                "title": "Coastline (km)",
+                "orient": "bottom-left",
+                "direction": "horizontal",
                 "values": [0, 5000, 10000, 15000, 20000, 25000],
                 "labelExpr": "datum.value === 0 ? '0' : datum.value / 1000 + 'k'",
-                "gradientLength": 220, "gradientThickness": 14, "gradientStrokeWidth": 0,
-                "labelOverlap": false, "labelFontSize": 11, "labelColor": "#4a5560",
-                "titleFontSize": 12, "titleFontWeight": 600, "titleColor": "#1f2a33",
-                "titlePadding": 8, "offset": 8
+                "gradientLength": 230,
+                "gradientThickness": 12,
+                "gradientStrokeWidth": 0,
+                "labelOverlap": false,
+                "labelFontSize": 11,
+                "labelColor": "#4a5560",
+                "titleFontSize": 12,
+                "titleFontWeight": 600,
+                "titleColor": "#1f2a33",
+                "titlePadding": 6,
+                "offset": 8
               }
             },
             "tooltip": [
@@ -37,6 +53,10 @@
               {"field": "island_km", "type": "quantitative", "title": "Islands (km)", "format": ","}
             ]
           }
+        },
+        {
+          "data": {"url": "data/wa_coast.json", "format": {"type": "topojson", "feature": "wa_coast"}},
+          "mark": {"type": "geoshape", "fill": null, "stroke": "#6e2008", "strokeWidth": 3, "strokeJoin": "round"}
         },
         {
           "data": {"url": "data/top10_beaches.csv", "format": {"parse": {"rank": "number"}}},
@@ -53,61 +73,83 @@
           "layer": [
             {"mark": {"type": "circle", "size": 1000, "color": "#d9b97a", "stroke": "white", "strokeWidth": 1.5}},
             {
-              "mark": {"type": "text", "color": "white", "fontSize": 15, "fontWeight": 700},
+              "mark": {"type": "text", "color": "white", "fontSize": 17, "fontWeight": 700},
               "encoding": {"text": {"field": "rank", "type": "quantitative"}}
             }
           ]
+        },
+        {
+          "data": {"values": [{"k": 1}]},
+          "mark": {"type": "rule", "stroke": "#6e2008", "strokeWidth": 1.8},
+          "encoding": {"x": {"value": 85}, "y": {"value": 473}, "y2": {"value": 564}}
+        },
+        {
+          "data": {"values": [{"k": 1}]},
+          "mark": {"type": "circle", "size": 90, "fill": "#6e2008", "stroke": "white", "strokeWidth": 1.5},
+          "encoding": {"x": {"value": 85}, "y": {"value": 473}}
+        },
+        {
+          "data": {"values": [{"k": 1}]},
+          "mark": {"type": "text", "align": "left", "baseline": "bottom", "fontSize": 15, "fontWeight": 700, "color": "#6e2008"},
+          "encoding": {"x": {"value": 106}, "y": {"value": 561}, "text": {"value": "Western Australia: 20,788 km"}}
+        },
+        {
+          "data": {"values": [{"k": 1}]},
+          "mark": {"type": "text", "align": "left", "baseline": "top", "lineHeight": 17, "fontSize": 14, "color": "#1f2a33"},
+          "encoding": {
+            "x": {"value": 106},
+            "y": {"value": 569},
+            "text": {"value": ["About 35% of Australia's coastline,", "and about 1.6 times Queensland's"]}
+          }
         }
       ]
     },
     {
-      "width": 280,
-      "height": 548,
+      "width": 338,
+      "height": 682,
+      "title": {"text": "Best beaches 2026", "anchor": "start", "font": "Fraunces", "fontSize": 20, "fontWeight": 600, "color": "#1f2a33", "offset": 14, "frame": "group"},
       "layer": [
         {
           "data": {"values": [{"k": 1}]},
           "mark": {"type": "rule", "stroke": "#d9cfbd", "strokeWidth": 1},
-          "encoding": {"x": {"value": -12}, "y": {"value": 0}, "y2": {"value": 548}}
-        },
-        {
-          "data": {"values": [{"k": 1}]},
-          "mark": {"type": "text", "align": "left", "baseline": "top", "fontSize": 20, "fontWeight": 600, "color": "#1f2a33"},
-          "encoding": {"x": {"value": 0}, "y": {"value": 6}, "text": {"value": "Best Beaches 2026"}}
+          "encoding": {"x": {"value": -16}, "y": {"value": 0}, "y2": {"value": 682}}
         },
         {
           "data": {"url": "data/top10_beaches.csv", "format": {"parse": {"rank": "number"}}},
           "transform": [{"calculate": "datum.beach + ' (' + datum.state + ')'", "as": "label"}],
           "encoding": {
-            "y": {"field": "rank", "type": "ordinal", "sort": "ascending", "axis": null,
-                  "scale": {"range": [40, 360]}}
+            "y": {"field": "rank", "type": "ordinal", "sort": "ascending", "axis": null, "scale": {"range": [20, 448]}}
           },
           "layer": [
             {
-              "params": [{
-                "name": "beachHover",
-                "select": {"type": "point", "fields": ["rank"], "on": "pointerover", "clear": "pointerout"}
-              }],
+              "params": [
+                {
+                  "name": "beachHover",
+                  "select": {"type": "point", "fields": ["rank"], "on": "pointerover", "clear": "pointerout"}
+                }
+              ],
               "mark": {"type": "bar", "fill": "#eef2f4", "cornerRadius": 4},
               "encoding": {
-                "x": {"value": 0}, "x2": {"value": 280},
+                "x": {"value": 0},
+                "x2": {"value": 338},
                 "fillOpacity": {"condition": {"param": "beachHover", "empty": false, "value": 1}, "value": 0}
               }
             },
             {
-              "mark": {"type": "circle", "size": 500, "color": "#d9b97a", "stroke": "white", "strokeWidth": 1.5},
+              "mark": {"type": "circle", "size": 640, "color": "#d9b97a", "stroke": "white", "strokeWidth": 1.5},
               "encoding": {
-                "x": {"value": 12},
+                "x": {"value": 15},
                 "opacity": {"condition": {"param": "beachHover", "empty": true, "value": 1}, "value": 0.3}
               }
             },
             {
-              "mark": {"type": "text", "color": "white", "fontSize": 12, "fontWeight": 700},
-              "encoding": {"x": {"value": 12}, "text": {"field": "rank", "type": "quantitative"}}
+              "mark": {"type": "text", "color": "white", "fontSize": 14, "fontWeight": 700},
+              "encoding": {"x": {"value": 15}, "text": {"field": "rank", "type": "quantitative"}}
             },
             {
-              "mark": {"type": "text", "align": "left", "fontSize": 12, "color": "#1f2a33"},
+              "mark": {"type": "text", "align": "left", "fontSize": 14, "color": "#1f2a33"},
               "encoding": {
-                "x": {"value": 28},
+                "x": {"value": 38},
                 "text": {"field": "label"},
                 "opacity": {"condition": {"param": "beachHover", "empty": true, "value": 1}, "value": 0.35}
               }
@@ -117,18 +159,19 @@
         {
           "data": {"values": [{"k": 1}]},
           "mark": {"type": "rule", "stroke": "#d9cfbd", "strokeWidth": 1},
-          "encoding": {"x": {"value": 0}, "x2": {"value": 280}, "y": {"value": 376}}
+          "encoding": {"x": {"value": 0}, "x2": {"value": 338}, "y": {"value": 468}}
         },
         {
           "data": {"values": [{"k": 1}]},
-          "mark": {"type": "text", "align": "left", "baseline": "top", "fontSize": 10, "fontWeight": 700, "color": "#6b7780"},
-          "encoding": {"x": {"value": 0}, "y": {"value": 388}, "text": {"value": "ABOUT THIS BEACH"}}
+          "mark": {"type": "text", "align": "left", "baseline": "top", "fontSize": 11, "fontWeight": 700, "color": "#6b7780"},
+          "encoding": {"x": {"value": 0}, "y": {"value": 483}, "text": {"value": "ABOUT THIS BEACH"}}
         },
         {
           "data": {"values": [{"k": 1}]},
-          "mark": {"type": "text", "align": "left", "baseline": "top", "fontSize": 12, "fontStyle": "italic", "color": "#6b7780"},
+          "mark": {"type": "text", "align": "left", "baseline": "top", "fontSize": 13, "fontStyle": "italic", "color": "#6b7780"},
           "encoding": {
-            "x": {"value": 0}, "y": {"value": 410},
+            "x": {"value": 0},
+            "y": {"value": 510},
             "text": {"value": "Hover over a beach in the list for details"},
             "opacity": {"condition": {"param": "beachHover", "empty": true, "value": 1}, "value": 0}
           }
@@ -142,24 +185,24 @@
           ],
           "layer": [
             {
-              "mark": {"type": "text", "align": "left", "baseline": "top", "fontSize": 14, "fontWeight": 700, "color": "#1f2a33", "limit": 280},
-              "encoding": {"x": {"value": 0}, "y": {"value": 408}, "text": {"field": "title"}}
+              "mark": {"type": "text", "align": "left", "baseline": "top", "fontSize": 16, "fontWeight": 700, "color": "#1f2a33", "limit": 338},
+              "encoding": {"x": {"value": 0}, "y": {"value": 508}, "text": {"field": "title"}}
             },
             {
-              "mark": {"type": "text", "align": "left", "baseline": "top", "fontSize": 12, "color": "#4a5560", "limit": 280},
-              "encoding": {"x": {"value": 0}, "y": {"value": 428}, "text": {"field": "location"}}
+              "mark": {"type": "text", "align": "left", "baseline": "top", "fontSize": 13, "color": "#4a5560", "limit": 338},
+              "encoding": {"x": {"value": 0}, "y": {"value": 533}, "text": {"field": "location"}}
             },
             {
-              "mark": {"type": "text", "align": "left", "baseline": "top", "fontSize": 12, "fontWeight": 600, "color": "#1b6ca8", "limit": 280},
-              "encoding": {"x": {"value": 0}, "y": {"value": 444}, "text": {"field": "country_line"}}
+              "mark": {"type": "text", "align": "left", "baseline": "top", "fontSize": 13, "fontWeight": 600, "color": "#1b6ca8", "limit": 338},
+              "encoding": {"x": {"value": 0}, "y": {"value": 553}, "text": {"field": "country_line"}}
             },
             {
               "mark": {"type": "rule", "stroke": "#e6e0d4"},
-              "encoding": {"x": {"value": 0}, "x2": {"value": 280}, "y": {"value": 466}}
+              "encoding": {"x": {"value": 0}, "x2": {"value": 338}, "y": {"value": 580}}
             },
             {
-              "mark": {"type": "text", "align": "left", "baseline": "top", "lineBreak": "|", "lineHeight": 15, "fontSize": 12, "color": "#4a5560", "limit": 280},
-              "encoding": {"x": {"value": 0}, "y": {"value": 476}, "text": {"field": "fact_lines"}}
+              "mark": {"type": "text", "align": "left", "baseline": "top", "lineBreak": "|", "lineHeight": 18, "fontSize": 14, "color": "#4a5560", "limit": 338},
+              "encoding": {"x": {"value": 0}, "y": {"value": 592}, "text": {"field": "fact_lines"}}
             }
           ]
         }

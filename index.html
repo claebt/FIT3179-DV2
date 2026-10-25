@@ -5,16 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Why We Love the Coast</title>
 
-  <!-- Vega libraries (major-version pins = latest v5/v6, needed for "params" selections) -->
+  <!-- Vega libraries (needed for "params" selections) -->
   <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
 
-  <!-- Pure.css grid (Week 5) -->
+  <!-- Pure.css (base reset only; layout is custom CSS Grid) -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css">
 
-  <!-- Google Fonts: swap for your chosen coastal typeface -->
+  <!-- Google Fonts: Fraunces (headings) and Source Sans 3 (body) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;800&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
@@ -61,281 +61,373 @@
 
     <!-- SECTION 1 -->
 <section id="s1">
-  <h2>A coastline like no other</h2>
+  <h2><span class="h2-num">1</span>A coastline like no other</h2>
 
   <div class="card">
-    <h3>Western Australia alone has more coastline than most countries</h3>
-    <p class="card-desc">
-      Australia's coastline is spread very unevenly. Western Australia, Queensland and the
-      Northern Territory hold most of it, while New South Wales, the most populous state,
-      has one of the shortest.
-    </p>
-    <p class="card-howto">
-      How to read: darker blue means more coastline. Hover over a state for its mainland and
-      island split, or over an orange dot for one of 2026's best beaches.
-    </p>
+    <div class="card-split">
+      <div class="col">
+        <div>
+          <p class="card-desc" style="margin-bottom: 22px;">
+            Western Australia alone has more coastline than most countries. Australia's coastline is spread
+            very unevenly: Western Australia, Queensland and the Northern Territory hold most of it, while
+            New South Wales, the most populous state, has one of the shortest.
+          </p>
+          <p class="card-howto">How to read: darker blue means more coastline.</p>
+        </div>
+      </div>
+
+      <div class="col">
+        <div>
+          <p class="card-desc">
+            Western Australia's 20,788 km is about 35% of the national total, and almost 40% of Australia's
+            coastline is around islands. The numbered circles are Tourism Australia's ten best beaches for 2026 — though Ellery Creek Big Hole sits inland, nowhere near the coast.
+          </p>
+          <div class="hint" style="margin-top: 22px;"><strong>Try it:</strong> Hover over a beach in the list to read more about it.</div>
+        </div>
+      </div>
+    </div>
 
     <div id="vis_s1_map" class="vis"></div>
 
-    <div class="callout">
-      <strong>Key takeaway:</strong> Western Australia's 20,788 km is about 35% of the national
-      total, and almost 40% of Australia's coastline is around islands.
-    </div>
-
-    <p class="source">
-      Source: Geoscience Australia, <em>Border Lengths - States and Territories</em>;
-      Tourism Australia, <em>Australia's Best Beaches 2026</em>;
-      ABS, <em>ASGS Edition 3 State and Territory boundaries</em>.
-    </p>
   </div>
 </section>
 
     <!-- SECTION 2 -->
 <section id="s2">
-  <h2>Where we go and what we do</h2>
+  <h2><span class="h2-num">2</span>Where we go and what we do</h2>
 
   <div class="card">
-    <h3>The coast is part of everyday Australian life</h3>
-    <p class="card-desc">
-      87% of Australians live within 50 km of the coast, and more than 16 million adults
-      made over 630 million coastal visits in a single year.
-    </p>
-
     <div class="card-split">
-      <!-- Left column -->
       <div class="col">
-        <h4>88 in every 100 coastal visits are to a beach</h4>
-        <p class="card-desc">When Australians head to the coast, they overwhelmingly head to the sand.</p>
-        <p class="card-howto">How to read: each square is 1% of coastal visits.</p>
-        <div id="vis_s2_waffle" class="vis"></div>
-        <div class="callout">
-          <strong>Key takeaway:</strong> for most people, "the coast" means the beach.
+        <div>
+          <p class="card-desc">
+            The coast is part of everyday Australian life. 87% of Australians live within 50 km of the coast,
+            and more than 16 million adults made over 630 million coastal visits in a single year.
+            For most Australians, the coast means the beach: <strong style="color: #8a5a14;">88 of every 100</strong> coastal visits are to a beach,
+            which is more than <strong>550 million</strong> visits in a year. 
+          </p>
+          <p class="card-howto" style="margin-top: 22px;">How to read: each square is 1% of coastal visits, or more than 6 million. Sand-coloured squares are visits to a beach, and grey squares are visits to anywhere else on the coast.</p>
         </div>
+        <div id="vis_s2_waffle" class="vis"></div>
       </div>
 
-      <!-- Right column -->
       <div class="col">
-        <h4>Swimming is by far the most popular coastal activity</h4>
-        <p class="card-desc">More than half of adults swim at the coast, but most only go occasionally.</p>
-        <p class="card-howto">How to read: dark blue is at least once a month, light blue is less often.</p>
-        <div id="vis_s2_activities" class="vis"></div>
-        <div class="callout">
-          <strong>Key takeaway:</strong> surfing and rock fishing are the only activities where
-          regulars outnumber occasional participants.
+        <div>
+          <p class="card-desc">
+            <strong>Swimming</strong> is by far the most popular coastal activity: 57% of coastal visitors swim or wade, but
+            most of them go less than once a month. <strong style="color: #1b6ca8;">Surfing and rock fishing</strong> are the only activities where
+            regulars outnumber occasional participants.
+          </p>
+          <p class="card-howto" style="margin-top: 52px;">How to read: activity names run down the middle. Bars to the right are people who go at least once a month, and bars to the left go less often. The bracket marks the two activities where the right bar is longer.</p>
         </div>
+        <div id="vis_s2_activities" class="vis"></div>
       </div>
     </div>
 
-    <p class="source">Source: Surf Life Saving Australia, <em>National Coastal Safety Report 2025</em>.</p>
   </div>
 </section>
 
+<!-- SECTION 3 -->
 <section id="s3">
-  <h2>3. What's at the beach</h2>
+  <h2><span class="h2-num">3</span>What's at the beach</h2>
 
   <div class="card">
-    <h3>Facilities vary enormously from beach to beach</h3>
-    <p class="card-desc">
-      Beach-by-beach data isn't publicly available nationally, so from here we zoom
-      into Victoria, which publishes open data on every ocean beach.
-    </p>
+        <div class="card-split">
+      <div class="col">
+        <div>
+          <p class="card-desc">
+            Facilities vary enormously from beach to beach. Beach-by-beach data isn't publicly available nationally, so from here we zoom into Victoria, which publishes open data on every ocean beach. The 13 facilities tracked range from the basic, like toilets and drinking water, to the comparatively rare, like showers and swimming pools.
+          </p>
+          <div class="hint" style="margin-top: 22px;"><strong>Try it:</strong> Drag the two handles in the slider below the map to show only beaches with that many facilities.</div>
+        </div>
+      </div>
 
-    <h4>Where Victoria's beaches are well equipped</h4>
-    <p class="card-desc">734 ocean beaches, each coloured by how many of 13 facilities it has.</p>
-    <p class="card-howto">How to read: darker blue means more facilities. Hover over a dot for the beach name.</p>
-    <div id="vis_s3_map" class="vis"></div>
-    <div class="range-filter">
-      <div class="range-head">
-        <span class="range-title">Show beaches with</span>
-        <span class="range-value" id="fac-label">0 to 13 facilities</span>
-      </div>
-      <div class="range-track">
-        <div class="range-fill" id="fac-fill"></div>
-        <input type="range" id="fac-min" min="0" max="13" step="1" value="0" aria-label="Minimum facilities">
-        <input type="range" id="fac-max" min="0" max="13" step="1" value="13" aria-label="Maximum facilities">
-      </div>
-      <div class="range-ticks">
-        <span>0</span><span>13</span>
+      <div class="col">
+        <div>
+          <p class="card-desc">
+            Each of Victoria's 734 ocean beaches is a dot, coloured by how many of the 13 recorded facilities
+            it has. Most of Victoria's coast has
+            none at all, and the darkest dots, beaches with 10 or more facilities, are few (29 of 734) and
+            cluster around the bays near Melbourne.
+          </p>
+          <p class="card-howto" style="margin-top: 52px;">How to read: darker brown means more facilities. Hover over a dot for the beach's name and how many facilities it has.</p>
+        </div>
       </div>
     </div>
-    <div class="callout">
-      <strong>Key takeaway:</strong> [write this once you've seen where the dark dots are]
+
+    <div id="vis_s3_map" class="vis"></div>
+    <div class="map-controls">
+      <div class="range-filter">
+        <div class="range-head">
+          <span class="range-title">Show beaches with</span>
+          <span class="range-value" id="fac-label">0 to 13 facilities</span>
+        </div>
+        <div class="range-track">
+          <div class="range-fill" id="fac-fill"></div>
+          <input type="range" id="fac-min" min="0" max="13" step="1" value="0" aria-label="Minimum facilities">
+          <input type="range" id="fac-max" min="0" max="13" step="1" value="13" aria-label="Maximum facilities">
+        </div>
+        <div class="range-ticks">
+          <span>0</span><span>13</span>
+        </div>
+      </div>
+
+      <div class="map-legend">
+        <p class="legend-title">Number of facilities</p>
+        <div class="legend-bar">
+          <span style="background:#d6d0c2"></span>
+          <span style="background:#dcb459"></span>
+          <span style="background:#c48a30"></span>
+          <span style="background:#8c5c14"></span>
+          <span style="background:#553507"></span>
+        </div>
+        <div class="legend-ticks">
+          <span style="left:0%">None</span>
+          <span style="left:20%">1</span>
+          <span style="left:40%">4</span>
+          <span style="left:60%">7</span>
+          <span style="left:80%">10</span>
+          <span style="left:100%">13</span>
+        </div>
+      </div>
     </div>
 
     <hr class="card-rule">
 
     <div class="card-split">
       <div class="col">
-        <h4>Almost three in four beaches have no facilities at all</h4>
-        <p class="card-desc">The number of Victorian beaches in each facility band, in the same colours as the map.</p>
-        <p class="card-howto">How to read: each bar is a group of beaches. Percentages may not add to 100 because of rounding.</p>
+        <p class="card-desc">
+          <b>Almost three in four beaches have no facilities at all.</b> Grouping the 734 beaches by how many
+          facilities they have shows 535 (73%) with none, and just 29 (4%) with ten or more. Most of the
+          rest have only one to six facilities, and just 64 beaches have seven or more.
+        </p>
+        <p class="card-howto" style="margin-top: 22px;">How to read: each dot's distance from zero is the number of beaches in that band, in the same colours as the map.</p>
         <div id="vis_s3_hist" class="vis"></div>
-        <div class="callout">
-          <strong>Key takeaway:</strong> [write this once you've seen the chart]
-        </div>
       </div>
 
       <div class="col">
-        <h4>Which facilities come as a package</h4>
-        <p class="card-desc">If a beach has one facility, how likely is it to have each of the others?</p>
-        <p class="card-howto">How to read: pick a row, then read across. Darker cells mean the column facility is more likely.</p>
+        <p class="card-desc">
+          Facilities tend to come as a package. If a beach has one facility, this shows how likely it is to
+          have each of the others: every beach with a pool also has toilets, water and a kiosk, but just 8%
+          of beaches with toilets have a pool.
+        </p>
+        <p class="card-howto" style="margin-top: 22px;">How to read: pick a row, then read across. Darker cells means how likely the row's facility also has the column's.</p>
         <div id="vis_s3_cooccur" class="vis"></div>
-        <div class="callout">
-          <strong>Key takeaway:</strong> [keep your existing heatmap takeaway]
-        </div>
       </div>
     </div>
 
-    <p class="source">
-      Source: DataVic (DEECA), <em>Beach Facilities and Safety Rating</em>, derived from the
-      Australian Beach Safety and Management Program, 1999.
-    </p>
   </div>
 </section>
 
+<!-- SECTION 4 -->
 <section id="s4">
-  <h2>4. What the beach is like</h2>
+  <h2><span class="h2-num">4</span>What the beach is like</h2>
 
   <div class="card">
-    <h3>What makes a beach hazardous?</h3>
-    <p class="card-desc">
-      Facilities are only half the picture. The same Victorian survey also scored every ocean
-      beach from 0 to 10 for physical hazards that could affect swimming safety.
-    </p>
-
     <div class="card-split">
       <div class="col">
-        <h4>Do well-equipped beaches tend to be safer?</h4>
-        <p class="card-desc">For each facility band, the share of beaches at each hazard rating.</p>
-        <p class="card-howto">How to read: each bar is a group of beaches. Darker orange means a higher hazard rating.</p>
+        <div>
+          <p class="card-desc">
+            What makes a beach hazardous? Facilities are only half the picture. The same Victorian survey also
+            scored every ocean beach from 0 to 10 for physical hazards that could affect swimming safety. Do
+            well-equipped beaches tend to be safer? Only partly: 38% of beaches with no facilities are rated
+            7–10, against 9% of those with four or five, and none with ten or more.
+          </p>
+          <p class="card-howto" style="margin-top: 22px;">How to read: each bar is the group of beaches with that many facilities. Darker orange means a higher hazard rating.</p>
+        </div>
         <div id="vis_s4_strip" class="vis"></div>
-        <div class="callout">
-          <strong>Key takeaway:</strong> [write this once you've seen the chart]
-        </div>
       </div>
 
       <div class="col">
-        <h4>Which physical features go with higher hazard?</h4>
-        <p class="card-desc">For each hazard rating, the share of beaches that have each feature.</p>
-        <p class="card-howto">How to read: darker cells mean more of the beaches at that rating have the feature. Faded cells are based on fewer than 5 beaches.</p>
+        <div>
+          <p class="card-desc">
+            Which physical features go with higher hazard? For each hazard rating, this shows the share of
+            beaches that have each feature recorded in the survey, such as rocks, reefs, headlands, sharks and
+            winds. Reefs, rocks and headlands generally grow more common as the rating rises, while structures
+            go the other way: 62% at rating 1, but 4% or fewer from rating 4 up.
+          </p>
+          <p class="card-howto" style="margin-top: 22px;">How to read: darker cells mean more of the beaches at that rating have the feature. Blank cells mean no beaches at that rating have the feature.</p>
+        </div>
         <div id="vis_s4_flags" class="vis"></div>
-        <div class="callout">
-          <strong>Key takeaway:</strong> [write this once you've seen the heatmap]
-        </div>
       </div>
     </div>
 
-    <p class="source">
-      Source: DataVic (DEECA), <em>Beach Facilities and Safety Rating</em>, derived from the
-      Australian Beach Safety and Management Program, 1999.
-    </p>
   </div>
 </section>
 
+<!-- SECTION 5 -->
 <section id="s5">
-  <h2>5. Is the water clean?</h2>
+  <h2><span class="h2-num">5</span>Is the water clean?</h2>
 
   <div class="card">
-    <h3>Ocean beaches nearly always pass, but sheltered waters don't</h3>
-    <p class="card-desc">
-      Beach water quality is graded from Very Good to Very Poor. In 2026, 97% of monitored NSW
-      ocean beaches were Good or Very Good, but only 79% of all swim sites were. Estuaries,
-      lakes, lagoons and rivers did worse because they flush more slowly after rain.
-    </p>
-
     <div class="card-split">
       <div class="col">
-        <h4>Bacteria levels at Sydney swim sites</h4>
-        <p class="card-desc">Each circle is one monitored swim site with at least 20 samples and a 2026 grade.</p>
-        <p class="card-howto">
-          How to read: a bigger circle means more enterococci in the 2025 samples. Colour is the
-          site's long-term annual grade, so the two can differ. Click a grade in the legend to show
-          only those sites, or hover over a circle for details.
-        </p>
-        <div id="vis_s5_map" class="vis"></div>
-        <div class="callout">
-          <strong>Key takeaway:</strong> [write this once you've seen the map]
+        <div>
+          <p class="card-desc">
+            Ocean beaches nearly always pass, but sheltered waters don't: 97% of monitored NSW ocean beaches
+            were <span class="grade grade-g">Good</span> or <span class="grade grade-vg">Very Good</span> in 2026, against 79% of all swim sites, because estuaries, lakes, lagoons
+            and rivers flush more slowly after rain. Each circle on the map is one swim site, and a bigger
+            circle means more enterococci, a bacteria that signals faecal contamination.
+          </p>
+          <p class="card-howto" style="margin-top: 22px;">How to read: blue means a better grade and orange a worse one, so a large orange circle is a site that is both graded poorly and has high bacteria counts. Colour is the site's long-term annual grade, so the two can differ.</p>
+          <div class="hint"><strong>Try it:</strong> Click a grade or enterococci level in the legends below to filter only those sites. Click off the legend to reset.</div>
         </div>
+        <div id="vis_s5_map" class="vis"></div>
       </div>
 
       <div class="col">
-        <h4>How grades differ across regions</h4>
-        <p class="card-desc">The share of each region's swim sites at each grade.</p>
-        <p class="card-howto">
-          How to read: each bar adds up to 100% of that region's sites. Regions at the top have
-          the highest share of Good or Very Good sites.
-        </p>
-        <div id="vis_s5_regions" class="vis"></div>
-        <div class="callout">
-          <strong>Key takeaway:</strong> [write this once you've seen the chart]
+        <div>
+          <p class="card-desc">
+            Grades differ across regions. Beach water quality is graded from <span class="grade grade-vg">Very Good</span> to <span class="grade grade-vp">Very Poor</span>, and each
+            bar shows the share of a region's graded swim sites at each grade. Shoalhaven Coast and Port
+            Stephens have only <span class="grade grade-vg">Very Good</span> sites, while Western Sydney has none, and most of its sites are <span class="grade grade-p">Poor</span>
+            or <span class="grade grade-vp">Very Poor</span>. Only Port Hacking, Botany Bay and Western Sydney have <span class="grade grade-vp">Very Poor</span> sites.
+          </p>
+          <p class="card-howto" style="margin-top: 22px;">How to read: each bar adds up to 100% of that region's graded sites. Regions at the top have the highest share of <span class="grade grade-g">Good</span> or <span class="grade grade-vg">Very Good</span> sites, and regions at the bottom have the lowest.</p>
+          <div class="hint" style="margin-bottom: 22px;"><strong>Linked to the map:</strong> Click a grade in the map's legend and that grade stays solid here.</div>  
         </div>
+        <div id="vis_s5_regions" class="vis"></div>
       </div>
     </div>
 
-    <p class="source">
-      Source: NSW Department of Climate Change, Energy, the Environment and Water,
-      <em>Beachwatch, State of the Beaches 2026</em>; Beachwatch water quality data
-      (enterococci samples, 1 January to 31 December 2025).
-    </p>
+    <hr class="card-rule">
+
+    <div class="card-thirds">
+      <div class="col">
+        <p class="card-desc">
+          Water quality improved in every group shown, but estuaries still lag. Between the 2025 and 2026
+          reports, the share of NSW swim sites graded <b><span class="grade grade-g">Good</span></b> or <b><span class="grade grade-vg">Very Good</span></b> rose from 95% to 97% for ocean beaches,
+          from 87% to 97% for Sydney's ocean beaches, from 78% to 81% for Sydney Harbour, from 76% to 79% for
+          all swim sites, and from 63% to 69% for estuarine sites.
+        </p>
+        <p class="card-howto" style="margin-top: 22px;">How to read: each pair of dots joins one group's 2025 and 2026 results, and the label on the right is the change in percentage points. Groups overlap, since Sydney's ocean beaches are also part of all ocean beaches.</p>
+      </div>
+
+      <div class="col">
+        <div id="vis_s5_trend" class="vis"></div>
+      </div>
+    </div>
+
   </div>
 </section>
 
+<!-- SECTION 6 -->
 <section id="s6">
-  <h2>6. Enjoying it safely</h2>
+  <h2><span class="h2-num">6</span>Enjoying it safely</h2>
 
   <div class="card">
-    <h3>Every coastal drowning last year happened away from the flags and patrols</h3>
-    <p class="card-desc">
-      Last year 154 people drowned on Australia's coast, the highest number on record. The
-      national report found that none of those deaths happened between the red and yellow flags
-      while a patrol was on duty.
-    </p>
-
     <div class="card-split">
       <div class="col">
-        <h4>Coastal drowning deaths by state, 2024/25</h4>
-        <p class="card-desc">Each state is resized to match its number of deaths: a state with twice the deaths covers twice the area. Colour shows the rate per 100,000 people.</p>
-        <p class="card-howto">How to read: small states have fewer deaths partly because fewer people live there, so compare colours for risk, not sizes. States are moved closer together to save space. Hover for exact figures.</p>
-        <div id="vis_s6_cartogram" class="vis"></div>
-        <div class="callout">
-          <strong>Key takeaway:</strong> [write this once you've seen the cartogram]
+        <div>
+          <p class="card-desc">
+            Every coastal drowning last year happened away from the flags and patrols. Last year 154 people
+            drowned on Australia's coast, the highest number on record. The national report found none of
+            the 154 deaths happened between the red and yellow flags while a patrol was on duty, and nearly
+            three in four (73%) were over 1 km from a Surf Life Saving service. Lifesavers patrol only 6% of
+            beaches in peak summer, and 1% year-round. Each state is resized to match its deaths, so a state
+            with twice the deaths covers twice the area, and colour shows the rate per 100,000 people.
+          </p>
+          <p class="card-howto" style="margin-top: 22px;">How to read: small states have fewer deaths partly because fewer people live there, so compare colours for risk, not sizes. States are moved closer together to save space. Hover for exact figures.</p>
         </div>
+        <div id="vis_s6_cartogram" class="vis"></div>
       </div>
 
       <div class="col">
-        <h4>Why the flags matter</h4>
-        <p class="card-desc">What the national report found about where and how people drowned.</p>
-        <p class="card-howto">National figures for 2024/25, except patrol coverage.</p>
-        <div class="stat-stack">
-          <div class="stat-item"><p class="num">154</p><p class="txt">coastal drowning deaths, the highest ever recorded</p></div>
-          <div class="stat-item"><p class="num">100%</p><p class="txt">outside the flags, outside patrol times, or at unpatrolled locations</p></div>
-          <div class="stat-item"><p class="num">73%</p><p class="txt">more than 1 km from a Surf Life Saving service</p></div>
-          <div class="stat-item"><p class="num">6%</p><p class="txt">of Australia's beaches have lifesavers in peak summer, and 1% year-round</p></div>
+        <div>
+          <p class="card-desc">
+            A high rate can come from small numbers. This funnel plot compares each state with the national
+            rate of 0.58 deaths per 100,000 people, and states outside the shaded funnel differ by more than
+            chance. Victoria's 20 deaths are about half the 40 expected, and Western Australia's 27 are above
+            the 17 expected. South Australia, with the highest rate, falls just inside the funnel, as do
+            Tasmania and the Northern Territory, whose rates rest on only five and one deaths. New South
+            Wales and Queensland, the two largest states for deaths, both sit close to the national rate.
+          </p>
+          <p class="card-howto" style="margin-top: 22px;">How to read: each dot is a state, and the dashed line is the national rate. Dots outside the inner band differ from it by more than chance would usually allow, and the outer band is stricter.</p>
         </div>
-        <div class="callout">
-          <strong>Key takeaway:</strong> [your tip: swim between the flags]
-        </div>
+        <div id="vis_s6_funnel" class="vis"></div>
       </div>
     </div>
 
-    <p class="source">
-      Source: Surf Life Saving Australia, <em>National Coastal Safety Report 2025</em>;
-      <em>Coastal Safety Brief: Unpatrolled Beaches 2025</em>.
-    </p>
+  </div>
+</section>
+
+<!-- SECTION 7 -->
+<section id="s7">
+  <h2><span class="h2-num">7</span>What to look for in a beach</h2>
+
+  <div class="card">
+    <div class="conclusion">
+      <div class="conclusion-text">
+        <p class="card-desc">
+          A great beach is more than a beautiful one. Back to the question this story started with: what
+          makes a great Australian beach, and how do you find yours? The data points to four things worth
+          checking before you go.
+        </p>
+        <p class="card-desc">
+          So pick a beach with the facilities you need, check its conditions and water quality before you
+          go, and swim between the flags.
+        </p>
+      </div>
+
+      <ol class="look-for">
+        <li>
+          <strong>Facilities</strong>
+          <span class="look-desc">Almost three in four Victorian beaches have none, so check for toilets and water first.</span>
+        </li>
+        <li>
+          <strong>Conditions</strong>
+          <span class="look-desc">Victorian beaches carry a hazard rating for physical features that could affect swimming. Check it so you know what you're facing.</span>
+        </li>
+        <li>
+          <strong>Water</strong>
+          <span class="look-desc">Rain is the main cause of beach pollution, so check your state's water-quality forecast before you swim.</span>
+        </li>
+        <li>
+          <strong>Flags</strong>
+          <span class="look-desc">Swim between the red and yellow flags. Last year's coastal drownings all happened outside them, outside patrol times, or at unpatrolled locations.</span>
+        </li>
+      </ol>
+    </div>
   </div>
 </section>
 
   </main>
 
-  <footer class="container" id="sources">
+  <footer id="sources">
+    <div class="container">
     <h3>Sources</h3>
-    <ul>
-      <li>Data source - publisher, URL, date accessed</li>
-    </ul>
-    <p>Author: Caleb Tay · Created: October 2026 · AI use acknowledged: ...</p>
+
+    <div class="src-block">
+      <p class="src-label">Data sources</p>
+      <ul class="src-cols">
+        <li>ABS, <em>Australian Statistical Geography Standard (ASGS) Edition 3: Digital boundary files</em> (2021), for the state outlines on the coastline map and the drowning cartogram. <a href="https://www.abs.gov.au/statistics/standards/australian-statistical-geography-standard-asgs/edition-3-july-2021-june-2026/access-and-downloads/digital-boundary-files">abs.gov.au</a></li>
+        <li>ABS, <em>National, state and territory population, June 2025</em> (2025), for the state populations in the funnel plot. <a href="https://www.abs.gov.au/statistics/people/population/national-state-and-territory-population/jun-2025">abs.gov.au</a></li>
+        <li>Beachwatch (NSW Department of Climate Change, Energy, the Environment and Water), <em>Beachwatch water quality data</em> (n.d.), for swim-site grades and enterococci samples from 1 January to 31 December 2025 in the Sydney map and regions chart. <a href="https://www.beachwatch.nsw.gov.au">beachwatch.nsw.gov.au</a></li>
+        <li>DEECA, <em>Beach facilities and safety rating</em> (n.d.), for the facilities and hazard ratings of every Victorian ocean beach (CC BY 4.0, derived from the Australian Beach Safety and Management Program, 1999). <a href="https://discover.data.vic.gov.au/dataset/beach-facilities-and-safety-rating">data.vic.gov.au</a></li>
+        <li>Geoscience Australia, <em>Border lengths – States and territories</em> (2014), for the coastline length of each state. <a href="https://www.ga.gov.au/scientific-topics/national-location-information/dimensions/border-lengths">ga.gov.au</a></li>
+        <li>SLSA, <em>National coastal safety report 2025</em> (2025), for the share of coastal visits to beaches, the activity shares, and coastal drowning deaths and rates by state. <a href="https://issuu.com/surflifesavingaustralia/docs/slsa_ncsr_2025">issuu.com</a></li>
+        <li>SLSA, <em>Coastal safety brief: Unpatrolled beaches 2025</em> (2025), for the share of beaches patrolled. <a href="https://issuu.com/surflifesavingaustralia/docs/slsa_cs_brief_-_unpatrolled_beaches_2025">issuu.com</a></li>
+        <li>SLSA, <em>Surf Life Saving Australia releases National Coastal Safety Report 2025</em> (2025), for the headline drowning figures. <a href="https://sls.com.au/surf-life-saving-australia-releases-national-coastal-safety-report-2025/">sls.com.au</a></li>
+        <li>Tourism Australia, <em>Bate Bay named Australia’s top beach for 2026</em> (2026), for the ten best beaches on the map. <a href="https://www.tourism.australia.com/en/news-and-events/news/bate-bay-named-australias-top-beach-for-2026.html">tourism.australia.com</a></li>
+        <p class="src-key">ABS: Australian Bureau of Statistics. SLSA: Surf Life Saving Australia. DEECA: Victorian Department of Energy, Environment and Climate Action.</p>
+      </ul>
+    </div>
+
+    <div class="src-block">
+      <p class="src-label">Image credits</p>
+      <ul>
+        <li>Larissa Dening, <em>7 best beaches on the East Coast of Australia</em> (2016). <a href="https://larissadening.com/2016/01/14/7-best-beaches-on-the-east-coast-of-australia/">larissadening.com</a></li>
+      </ul>
+    </div>
+
+    <p class="src-credits">
+      
+      <strong>Author:</strong> Caleb Tay · FIT3179 · Data Visualisation 2 · Monash University · October 2026<strong>
+    </p>
+    </div>
   </footer>
 
-  <!-- Load embed script last (Week 7 Part A: external embedding) -->
+  <!-- main.js loads last so the chart <div>s exist when it runs -->
   <script src="js/main.js"></script>
 </body>
 </html>

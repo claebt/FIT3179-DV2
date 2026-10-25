@@ -1,7 +1,8 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {"text": "Number of facilities at Victoria's beaches", "anchor": "start", "font": "Fraunces", "fontSize": 20, "fontWeight": 600, "color": "#1f2a33", "offset": 14},
   "width": "container",
-  "height": 230,
+  "height": 265,
   "autosize": {"type": "fit", "contains": "padding"},
   "background": null,
   "params": [
@@ -17,7 +18,7 @@
   "layer": [
     {
       "data": {"url": "data/vic_outline.json", "format": {"type": "topojson", "feature": "vic"}},
-      "mark": {"type": "geoshape", "clip": true, "fill": "#eef2f4", "stroke": "#b9cfdf", "strokeWidth": 1}
+      "mark": {"type": "geoshape", "clip": true, "fill": "#ece8df", "stroke": "#d2bf93", "strokeWidth": 1}
     },
     {
       "data": {
@@ -27,30 +28,15 @@
       "transform": [
         {"filter": "datum.N_FACILITIES >= minFac && datum.N_FACILITIES <= maxFac"}
       ],
-      "mark": {"type": "circle", "size": 60, "stroke": "white", "strokeWidth": 0.5, "opacity": 0.9},
+      "mark": {"type": "circle", "clip": true, "size": 60, "stroke": "#5e3d0e", "strokeWidth": 0.5, "strokeOpacity": 0.55, "opacity": 0.6},
       "encoding": {
         "longitude": {"field": "lon", "type": "quantitative"},
         "latitude": {"field": "lat", "type": "quantitative"},
         "order": {"field": "N_FACILITIES", "type": "quantitative", "sort": "ascending"},
         "color": {
           "field": "N_FACILITIES", "type": "quantitative",
-          "scale": {
-            "type": "threshold",
-            "domain": [0, 1, 4, 7, 10],
-            "range": ["#cfd8de", "#cfd8de", "#b9d3e8", "#7fb0d6", "#3f85bd", "#14508a"]
-          },
-        "legend": {
-          "title": "Number of facilities",
-          "type": "gradient",
-          "orient": "bottom-right",
-          "offset": 8,
-          "direction": "horizontal",
-          "values": [0, 1, 4, 7, 10, 13],
-          "labelExpr": "datum.value === 0 ? 'None' : datum.value",
-          "gradientLength": 260, "gradientThickness": 12, "gradientStrokeWidth": 0,
-          "labelFontSize": 11, "titleFontSize": 12, "titleFontWeight": 600,
-          "titleColor": "#1f2a33", "labelColor": "#4a5560"
-        }
+          "scale": {"type": "threshold", "domain": [1, 4, 7, 10], "range": ["#d6d0c2", "#dcb459", "#c48a30", "#8c5c14", "#553507"]},
+          "legend": null
         },
         "tooltip": [
           {"field": "BEACH", "type": "nominal", "title": "Beach"},
@@ -61,7 +47,7 @@
     },
     {
       "data": {"values": [{"lon": 144.75, "lat": -38.1}]},
-      "mark": {"type": "circle", "size": 7000, "fill": null, "stroke": "#4a5560",
+      "mark": {"type": "circle", "size": 9000, "fill": null, "stroke": "#4a5560",
                "strokeWidth": 1.2, "strokeDash": [4, 3]},
       "encoding": {
         "longitude": {"field": "lon", "type": "quantitative"},
@@ -106,8 +92,8 @@
         {"calculate": "'Showing ' + datum.n + ' of ' + datum.total + ' beaches'", "as": "label"}
       ],
       "mark": {
-        "type": "text", "align": "right", "baseline": "bottom",
-        "dx": -8, "dy": -100,
+        "type": "text", "align": "left", "baseline": "bottom",
+        "dx": -1095, "dy": 0,
         "fontSize": 14, "fontWeight": 700, "color": "#1f2a33"
       },
       "encoding": {

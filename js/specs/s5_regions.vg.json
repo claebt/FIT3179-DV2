@@ -1,7 +1,16 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "How water quality differs across regions",
+    "anchor": "start",
+    "font": "Fraunces",
+    "fontSize": 20,
+    "fontWeight": 600,
+    "color": "#1f2a33",
+    "offset": 14
+  },
   "width": "container",
-  "height": 420,
+  "height": 450,
   "autosize": {"type": "fit", "contains": "padding"},
   "background": null,
   "params": [{"name": "selGrades", "value": []}],
@@ -12,43 +21,87 @@
     {"calculate": "(datum.grade === 'Very Good' || datum.grade === 'Good') ? 1 : 0", "as": "is_good"},
     {"joinaggregate": [{"op": "mean", "field": "is_good", "as": "good_share"}], "groupby": ["region"]}
   ],
-  "mark": {"type": "bar"},
-  "encoding": {
-    "y": {
-      "field": "region", "type": "nominal", "title": null,
-      "sort": {"field": "good_share", "op": "mean", "order": "descending"},
-      "scale": {"paddingInner": 0.25},
-      "axis": {"labelFontSize": 11, "labelLimit": 140, "domain": false, "ticks": false}
-    },
-    "x": {
-      "aggregate": "count", "type": "quantitative", "stack": "normalize",
-      "title": "Share of swim sites (%)",
-      "axis": {"format": "%", "values": [0, 0.25, 0.5, 0.75, 1], "labelFontSize": 11, "titleFontSize": 12, "titleColor": "#1f2a33", "grid": false, "domain": false, "ticks": false}
-    },
-    "color": {
-      "field": "grade", "type": "nominal",
-      "scale": {
-        "domain": ["Very Good", "Good", "Fair", "Poor", "Very Poor"],
-        "range": ["#14508a", "#7fb0d6", "#f2d58a", "#e0925a", "#a63d14"]
-      },
-      "legend": {
-        "title": "Annual grade", "type": "symbol",
-        "orient": "bottom", "direction": "horizontal", "columns": 5, "columnPadding": 18,
-        "symbolType": "square", "symbolSize": 200,
-        "labelFontSize": 11, "titleFontSize": 12, "titleFontWeight": 600,
-        "titleColor": "#1f2a33", "labelColor": "#4a5560"
+  "layer": [
+    {
+      "mark": {"type": "bar"},
+      "encoding": {
+        "y": {
+          "field": "region",
+          "type": "nominal",
+          "title": null,
+          "sort": {"field": "good_share", "op": "mean", "order": "descending"},
+          "scale": {"paddingInner": 0.25},
+          "axis": {"labelFontSize": 11, "labelLimit": 140, "domain": false, "ticks": false}
+        },
+        "x": {
+          "aggregate": "count",
+          "type": "quantitative",
+          "stack": "normalize",
+          "title": "Share of swim sites (%)",
+          "axis": {
+            "format": "%",
+            "values": [0, 0.25, 0.5, 0.75, 1],
+            "labelFontSize": 11,
+            "titleFontSize": 12,
+            "titlePadding": 12,
+            "titleColor": "#1f2a33",
+            "grid": false,
+            "domain": false,
+            "ticks": false,
+            "offset": 12
+          }
+        },
+        "color": {
+          "field": "grade",
+          "type": "nominal",
+          "scale": {
+            "domain": ["Very Good", "Good", "Fair", "Poor", "Very Poor"],
+            "range": ["#14508a", "#7fb0d6", "#f2d58a", "#e0925a", "#a63d14"]
+          },
+          "legend": {
+            "title": "Annual grade",
+            "type": "symbol",
+            "symbolType": "square",
+            "symbolSize": 200,
+            "labelFontSize": 11,
+            "titleFontSize": 12,
+            "titleFontWeight": 600,
+            "titleColor": "#1f2a33",
+            "labelColor": "#4a5560",
+            "orient": "none",
+            "legendX": {"expr": "width + 20"},
+            "legendY": {"expr": "height / 2 - 62"},
+            "direction": "vertical",
+            "rowPadding": 6,
+            "titlePadding": 8
+          }
+        },
+        "opacity": {
+          "condition": {"test": "length(selGrades) === 0 || indexof(selGrades, datum.grade) >= 0", "value": 1},
+          "value": 0.2
+        },
+        "order": {"field": "grade_order", "type": "quantitative"},
+        "tooltip": [
+          {"field": "region", "type": "nominal", "title": "Region"},
+          {"field": "grade", "type": "nominal", "title": "Grade"},
+          {"aggregate": "count", "type": "quantitative", "title": "Swim sites"}
+        ]
       }
     },
-    "opacity": {
-  "condition": {"test": "length(selGrades) === 0 || indexof(selGrades, datum.grade) >= 0", "value": 1},
-  "value": 0.2
-},
-    "order": {"field": "grade_order", "type": "quantitative"},
-    "tooltip": [
-      {"field": "region", "type": "nominal", "title": "Region"},
-      {"field": "grade", "type": "nominal", "title": "Grade"},
-      {"aggregate": "count", "type": "quantitative", "title": "Swim sites"}
-    ]
-  },
+    {"data": {"values": [{"k": 1}]}, "mark": {"type": "rule", "stroke": "#14508a", "strokeWidth": 4, "strokeCap": "round"}, "encoding": {"x": {"value": {"expr": "width + 6"}}, "y": {"value": {"expr": "height * 0 / 20 + 2"}}, "y2": {"value": {"expr": "height * 5 / 20 - 2"}}}},
+    {"data": {"values": [{"k": 1}]}, "mark": {"type": "text", "align": "left", "baseline": "middle", "fontSize": 12.5, "fontWeight": 700, "color": "#1f2a33"}, "encoding": {"x": {"value": {"expr": "width + 20"}}, "y": {"value": {"expr": "9.5"}}, "text": {"value": "Open-coast"}}},
+    {"data": {"values": [{"k": 1}]}, "mark": {"type": "text", "align": "left", "baseline": "middle", "fontSize": 12.5, "fontWeight": 700, "color": "#1f2a33"}, "encoding": {"x": {"value": {"expr": "width + 20"}}, "y": {"value": {"expr": "24.5"}}, "text": {"value": "beaches:"}}},
+    {"data": {"values": [{"k": 1}]}, "mark": {"type": "text", "align": "left", "baseline": "middle", "fontSize": 12, "fontWeight": 400, "color": "#1f2a33"}, "encoding": {"x": {"value": {"expr": "width + 20"}}, "y": {"value": {"expr": "39.5"}}, "text": {"value": "water exchange is"}}},
+    {"data": {"values": [{"k": 1}]}, "mark": {"type": "text", "align": "left", "baseline": "middle", "fontSize": 12, "fontWeight": 400, "color": "#1f2a33"}, "encoding": {"x": {"value": {"expr": "width + 20"}}, "y": {"value": {"expr": "54.5"}}, "text": {"value": "fast, so pollution"}}},
+    {"data": {"values": [{"k": 1}]}, "mark": {"type": "text", "align": "left", "baseline": "middle", "fontSize": 12, "fontWeight": 400, "color": "#1f2a33"}, "encoding": {"x": {"value": {"expr": "width + 20"}}, "y": {"value": {"expr": "69.5"}}, "text": {"value": "disperses quickly"}}},
+    {"data": {"values": [{"k": 1}]}, "mark": {"type": "text", "align": "left", "baseline": "middle", "fontSize": 12, "fontWeight": 400, "color": "#1f2a33"}, "encoding": {"x": {"value": {"expr": "width + 20"}}, "y": {"value": {"expr": "84.5"}}, "text": {"value": "after rain"}}},
+    {"data": {"values": [{"k": 1}]}, "mark": {"type": "rule", "stroke": "#a63d14", "strokeWidth": 4, "strokeCap": "round"}, "encoding": {"x": {"value": {"expr": "width + 6"}}, "y": {"value": {"expr": "height * 15 / 20 + 2"}}, "y2": {"value": {"expr": "height * 20 / 20 - 2"}}}},
+    {"data": {"values": [{"k": 1}]}, "mark": {"type": "text", "align": "left", "baseline": "middle", "fontSize": 12.5, "fontWeight": 700, "color": "#1f2a33"}, "encoding": {"x": {"value": {"expr": "width + 20"}}, "y": {"value": {"expr": "height - 83"}}, "text": {"value": "Urban waterways:"}}},
+    {"data": {"values": [{"k": 1}]}, "mark": {"type": "text", "align": "left", "baseline": "middle", "fontSize": 12, "fontWeight": 400, "color": "#1f2a33"}, "encoding": {"x": {"value": {"expr": "width + 20"}}, "y": {"value": {"expr": "height - 68"}}, "text": {"value": "slow flushing plus"}}},
+    {"data": {"values": [{"k": 1}]}, "mark": {"type": "text", "align": "left", "baseline": "middle", "fontSize": 12, "fontWeight": 400, "color": "#1f2a33"}, "encoding": {"x": {"value": {"expr": "width + 20"}}, "y": {"value": {"expr": "height - 53"}}, "text": {"value": "stormwater runoff,"}}},
+    {"data": {"values": [{"k": 1}]}, "mark": {"type": "text", "align": "left", "baseline": "middle", "fontSize": 12, "fontWeight": 400, "color": "#1f2a33"}, "encoding": {"x": {"value": {"expr": "width + 20"}}, "y": {"value": {"expr": "height - 38"}}, "text": {"value": "so pollution takes"}}},
+    {"data": {"values": [{"k": 1}]}, "mark": {"type": "text", "align": "left", "baseline": "middle", "fontSize": 12, "fontWeight": 400, "color": "#1f2a33"}, "encoding": {"x": {"value": {"expr": "width + 20"}}, "y": {"value": {"expr": "height - 23"}}, "text": {"value": "longer to clear after"}}},
+    {"data": {"values": [{"k": 1}]}, "mark": {"type": "text", "align": "left", "baseline": "middle", "fontSize": 12, "fontWeight": 400, "color": "#1f2a33"}, "encoding": {"x": {"value": {"expr": "width + 20"}}, "y": {"value": {"expr": "height - 8"}}, "text": {"value": "rain"}}}
+  ],
   "config": {"view": {"stroke": null}}
 }

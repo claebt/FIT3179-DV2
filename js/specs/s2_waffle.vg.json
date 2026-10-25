@@ -1,25 +1,62 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "width": 260,
-  "height": 300,
-  "autosize": {"type": "fit", "contains": "padding"},
+  "title": {"text": "Share of coastal visits by type of place", "anchor": "start", "font": "Fraunces", "fontSize": 20, "fontWeight": 600, "color": "#1f2a33", "offset": 14},
   "background": null,
-  "data": {"sequence": {"start": 0, "stop": 100, "as": "i"}},
-  "transform": [
-    {"calculate": "datum.i % 10", "as": "col"},
-    {"calculate": "floor(datum.i / 10)", "as": "row"},
-    {"calculate": "datum.i < 88 ? 'Beach' : 'Other coastal places'", "as": "type"}
-  ],
-  "mark": {"type": "square", "size": 380, "filled": true},
-  "encoding": {
-    "x": {"field": "col", "type": "ordinal", "axis": null},
-    "y": {"field": "row", "type": "ordinal", "axis": null},
-    "color": {
-      "field": "type", "type": "nominal",
-      "scale": {"domain": ["Beach", "Other coastal places"], "range": ["#d9b97a", "#cfd8de"]},
-      "legend": {"orient": "bottom", "title": null}
+  "padding": {"left": 0, "right": 0, "top": 4, "bottom": 4},
+  "spacing": 8,
+  "hconcat": [
+    {
+      "width": 350,
+      "height": 340,
+      "data": {"sequence": {"start": 0, "stop": 100, "as": "i"}},
+      "transform": [
+        {"calculate": "datum.i % 10", "as": "col"},
+        {"calculate": "floor(datum.i / 10)", "as": "row"},
+        {"calculate": "datum.i < 88 ? 'Beach' : 'Other coastal places'", "as": "type"}
+      ],
+      "mark": {"type": "rect", "cornerRadius": 4},
+      "encoding": {
+        "x": {"field": "col", "type": "ordinal", "axis": null, "scale": {"paddingInner": 0.14, "paddingOuter": 0.07}},
+        "y": {"field": "row", "type": "ordinal", "axis": null, "scale": {"paddingInner": 0.14, "paddingOuter": 0.07}},
+        "color": {
+          "field": "type", "type": "nominal",
+          "scale": {"domain": ["Beach", "Other coastal places"], "range": ["#d9b97a", "#cfd8de"]},
+          "legend": null
+        },
+        "tooltip": [{"field": "type", "title": "Visit type"}]
+      }
     },
-    "tooltip": [{"field": "type", "title": "Visit type"}]
-  },
+    {
+      "width": 136,
+      "height": 372,
+      "layer": [
+        {
+          "data": {"values": [{"k": 1}]},
+          "mark": {"type": "text", "align": "left", "baseline": "top", "lineBreak": "|", "lineHeight": 22, "fontSize": 15, "fontWeight": 700, "fontStyle": "italic", "color": "#8a5a14"},
+          "encoding": {"x": {"value": 0}, "y": {"value": 120}, "text": {"value": "88 in every 100 coastal|visits are to a beach"}}
+        },
+        {
+          "data": {"values": [{"k": 1}]},
+          "mark": {"type": "bar", "cornerRadius": 4, "color": "#d9b97a"},
+          "encoding": {"x": {"value": 0}, "x2": {"value": 16}, "y": {"value": 210}, "y2": {"value": 226}}
+        },
+        {
+          "data": {"values": [{"k": 1}]},
+          "mark": {"type": "text", "align": "left", "baseline": "middle", "fontSize": 12, "color": "#4a5560"},
+          "encoding": {"x": {"value": 26}, "y": {"value": 218}, "text": {"value": "Beach"}}
+        },
+        {
+          "data": {"values": [{"k": 1}]},
+          "mark": {"type": "bar", "cornerRadius": 4, "color": "#cfd8de"},
+          "encoding": {"x": {"value": 0}, "x2": {"value": 16}, "y": {"value": 236}, "y2": {"value": 252}}
+        },
+        {
+          "data": {"values": [{"k": 1}]},
+          "mark": {"type": "text", "align": "left", "baseline": "middle", "fontSize": 12, "color": "#4a5560"},
+          "encoding": {"x": {"value": 26}, "y": {"value": 244}, "text": {"value": "Other coastal places"}}
+        }
+      ]
+    }
+  ],
   "config": {"view": {"stroke": null}}
 }

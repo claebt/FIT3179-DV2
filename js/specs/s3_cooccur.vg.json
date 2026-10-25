@@ -1,7 +1,8 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {"text": "Which facilities are commonly found together?", "anchor": "start", "font": "Fraunces", "fontSize": 20, "fontWeight": 600, "color": "#1f2a33", "offset": 25},
   "width": "container",
-  "height": 420,
+  "height": 460,
   "autosize": {"type": "fit", "contains": "padding"},
   "background": null,
   "data": {"url": "data/vic_beach_facilities.csv"},
@@ -34,24 +35,32 @@
     {
       "mark": {"type": "rect", "stroke": "white", "strokeWidth": 1},
       "encoding": {
-      "color": {
-        "field": "pct", "type": "quantitative",
-        "scale": {
-          "type": "threshold",
-          "domain": [0, 25, 50, 75, 95],
-          "range": ["#f6ecd", "#f6ecd6", "#ecd3a0", "#dcb06a", "#c28a3c", "#6e4210"]
+        "color": {
+          "field": "pct", "type": "quantitative",
+          "scale": {
+            "type": "threshold",
+            "domain": [0, 25, 50, 75, 95],
+            "range": ["#e8f1f8", "#e8f1f8", "#c3dbed", "#88b7da", "#3578ae", "#0f3f73"]
+          },
+          "legend": {
+            "title": ["% also", "with"],
+            "type": "gradient",
+            "titleAlign": "center",
+            "orient": "right",
+            "direction": "vertical",
+            "values": [0, 25, 50, 75, 95],
+            "labelExpr": "datum.value === 0 ? '0' : datum.value",
+            "gradientLength": 200,
+            "gradientThickness": 14,
+            "gradientStrokeWidth": 0,
+            "offset": 12,
+            "labelFontSize": 11,
+            "titleFontSize": 12,
+            "titleFontWeight": 600,
+            "titleColor": "#1f2a33",
+            "labelColor": "#4a5560"
+          }
         },
-        "legend": {
-          "title": "% also with",
-          "type": "gradient",
-          "orient": "bottom", "direction": "horizontal",
-          "values": [0, 25, 50, 75, 95, 100],
-          "labelExpr": "datum.value === 0 ? '0' : datum.value",
-          "gradientLength": 260, "gradientThickness": 12, "gradientStrokeWidth": 0,
-          "labelFontSize": 11, "titleFontSize": 12, "titleFontWeight": 600,
-          "titleColor": "#1f2a33", "labelColor": "#4a5560"
-        }
-      },
         "tooltip": [
           {"field": "label_a", "title": "Beaches with"},
           {"field": "label_b", "title": "...also have"},
@@ -65,9 +74,24 @@
       "mark": {"type": "text", "fontSize": 10, "fontWeight": 600},
       "encoding": {
         "text": {"field": "pct", "type": "quantitative"},
-        "color": {"condition": {"test": "datum.pct >= 75", "value": "white"}, "value": "#1f2a33"}
+        "color": {"condition": {"test": "datum.pct >= 75", "value": "white"}, "value": "#1b2a33"}
       }
-    }
+    },
+    {
+  "transform": [{"filter": "datum.fac_a === 'WATER' && datum.fac_b === 'TOILETS'"}],
+  "mark": {"type": "rect", "color": "#0f3f73"},
+  "encoding": {"x": {"field": "label_b", "type": "nominal"}, "y": {"value": -9}, "y2": {"value": -6}}
+},
+{
+  "transform": [{"filter": "datum.fac_a === 'WATER' && datum.fac_b === 'TOILETS'"}],
+  "mark": {"type": "text", "align": "left", "baseline": "bottom", "fontSize": 13, "fontWeight": 700, "color": "#0f3f73"},
+  "encoding": {"x": {"field": "label_b", "type": "nominal", "bandPosition": 0}, "y": {"value": -31}, "text": {"value": "Toilets are nearly universal"}}
+},
+{
+  "transform": [{"filter": "datum.fac_a === 'WATER' && datum.fac_b === 'TOILETS'"}],
+  "mark": {"type": "text", "align": "left", "baseline": "bottom", "fontSize": 12, "color": "#1b2a33"},
+  "encoding": {"x": {"field": "label_b", "type": "nominal", "bandPosition": 0}, "y": {"value": -14}, "text": {"value": "92–100% of beaches with any other facility have them"}}
+}
   ],
   "config": {"view": {"stroke": null}}
 }

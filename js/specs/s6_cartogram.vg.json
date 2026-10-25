@@ -1,5 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {"text": "Coastal drowning deaths by state 2024/25", "anchor": "start", "font": "Fraunces", "fontSize": 20, "fontWeight": 600, "color": "#1f2a33", "offset": 14},
   "width": "container",
   "height": 440,
   "autosize": {"type": "fit", "contains": "padding"},
@@ -19,7 +20,7 @@
           "scale": {"type": "threshold", "domain": [0.4, 0.6, 0.8], "range": ["#f4c08f", "#eb9a55", "#d4682a", "#9c3410"]},
           "legend": {
             "title": "Drowning rate per 100,000 people", "titleLimit": 400, "type": "symbol",
-            "orient": "bottom-left", "direction": "horizontal", "offset": 6,
+            "orient": "top-left", "direction": "horizontal", "offset": 6,
             "symbolType": "square", "symbolSize": 200, "symbolStrokeColor": "#d9cfbd",
             "values": [0, 0.4, 0.6, 0.8, 1],
             "labelExpr": "['0','0.4','0.6','0.8','1'][datum.index]",
@@ -38,14 +39,19 @@
     {
       "data": {"url": "data/coastal_drowning_2025.csv", "format": {"type": "csv", "parse": {"deaths": "number", "rate": "number", "lat": "number", "lon": "number"}}},
       "transform": [{"calculate": "datum.abbr + ' ' + datum.deaths", "as": "label"}],
-      "mark": {"type": "text", "fontSize": 12, "fontWeight": 700, "align": "center", "baseline": "middle"},
+      "mark": {"type": "text", "fontSize": 11, "fontWeight": 700, "align": "center", "baseline": "middle"},
       "encoding": {
         "longitude": {"field": "lon", "type": "quantitative"},
         "latitude": {"field": "lat", "type": "quantitative"},
         "text": {"field": "label"},
         "color": {"condition": {"test": "datum.abbr === 'WA' || datum.abbr === 'SA' || datum.abbr === 'TAS'", "value": "white"}, "value": "#1f2a33"}
       }
-    }
+    },
+    {"data": {"values": [{"k": 1}]}, "mark": {"type": "rule", "stroke": "#1f2a33", "strokeWidth": 1.2, "strokeCap": "round"}, "encoding": {"x": {"value": 130}, "y": {"value": 290}, "x2": {"value": 130}, "y2": {"value": 225}}},
+    {"data": {"values": [{"k": 1}]}, "mark": {"type": "rule", "stroke": "#1f2a33", "strokeWidth": 1.2, "strokeCap": "round"}, "encoding": {"x": {"value": 180}, "y": {"value": 290}, "x2": {"value": 200}, "y2": {"value": 220}}},
+    {"data": {"values": [{"k": 1}]}, "mark": {"type": "rule", "stroke": "#1f2a33", "strokeWidth": 1.2, "strokeCap": "round"}, "encoding": {"x": {"value": 230}, "y": {"value": 346}, "x2": {"value": 290}, "y2": {"value": 365}}},
+    {"data": {"values": [{"k": 1}]}, "mark": {"type": "text", "align": "left", "baseline": "top", "fontSize": 12.5, "fontWeight": 700, "color": "#9c3410"}, "encoding": {"x": {"value": 100}, "y": {"value": 300}, "text": {"value": ["Highest rates:","SA, WA and TAS"]}}},
+    {"data": {"values": [{"k": 1}]}, "mark": {"type": "text", "align": "left", "baseline": "top", "fontSize": 12, "fontWeight": 400, "color": "#1f2a33"}, "encoding": {"x": {"value": 100}, "y": {"value": 332}, "text": {"value": ["a fifth of the population","but a third of deaths"]}}}
   ],
   "config": {"view": {"stroke": null}}
 }

@@ -1,7 +1,8 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {"text": "Swim site water quality and contamination level", "anchor": "start", "font": "Fraunces", "fontSize": 20, "fontWeight": 600, "color": "#1f2a33", "offset": 14},
   "width": "container",
-  "height": 420,
+  "height": 450,
   "autosize": {"type": "fit", "contains": "padding"},
   "background": null,
   "projection": {
@@ -13,7 +14,7 @@
   "layer": [
     {
       "data": {"url": "data/sydney_outline.json", "format": {"type": "topojson", "feature": "sydney"}},
-      "mark": {"type": "geoshape", "clip": true, "fill": "#eef2f4", "stroke": "#b9cfdf", "strokeWidth": 1}
+      "mark": {"type": "geoshape", "clip": true, "fill": "#ece8df", "stroke": "#d2bf93", "strokeWidth": 1}
     },
     {
       "data": {
@@ -27,7 +28,7 @@
       "transform": [
         {"filter": "datum.lat > -34.25 && datum.lat < -33.45 && datum.lon > 150.55 && datum.lon < 151.65"},
         {"filter": "datum.n >= 20 && datum.grade !== 'Follow up' && datum.grade !== 'Not graded'"},
-        {"calculate": "datum.mean_ent < 10 ? 'Under 10' : datum.mean_ent < 40 ? '10–39' : '40 or more'", "as": "ent_band"},
+        {"calculate": "datum.mean_ent < 10 ? 'Under 10' : datum.mean_ent < 40 ? '10 – 39' : '40 or more'", "as": "ent_band"},
         {"filter": {"param": "gradeSel"}},
         {"filter": {"param": "sizeSel"}}
       ],
@@ -38,10 +39,12 @@
         "order": {"field": "mean_ent", "type": "quantitative", "sort": "descending"},
         "size": {
           "field": "ent_band", "type": "ordinal",
-          "scale": {"type": "ordinal", "domain": ["Under 10", "10–39", "40 or more"], "range": [70, 200, 480]},
+          "scale": {"type": "ordinal", "domain": ["Under 10", "10 – 39", "40 or more"], "range": [70, 200, 480]},
           "legend": {
-            "title": ["Average enterococci", "(cfu/100 mL, click to filter)"], "type": "symbol",
-            "orient": "bottom-right", "offset": 8,
+            "title": ["Average", "enterococci"], "type": "symbol",
+            "orient": "none",
+            "legendX": {"expr": "width - 100"},
+            "legendY": 275,
             "symbolFillColor": "#dbdbdb", "symbolStrokeColor": "#4a5560", "symbolOpacity": 1,
             "labelFontSize": 11, "titleFontSize": 12, "titleFontWeight": 600,
             "titleColor": "#1f2a33", "labelColor": "#4a5560"
@@ -54,8 +57,10 @@
             "range": ["#14508a", "#7fb0d6", "#f2d58a", "#e0925a", "#a63d14"]
           },
           "legend": {
-            "title": ["2026 annual grade", "(click to filter)"], "type": "symbol",
-            "orient": "top-right", "direction": "vertical", "offset": 8,
+            "title": ["2026 annual grade"], "type": "symbol",
+            "orient": "none",
+            "legendX": {"expr": "width - 100"},
+            "legendY": 10,
             "symbolType": "circle", "symbolSize": 140, "symbolOpacity": 1,
             "labelFontSize": 11, "titleFontSize": 12, "titleFontWeight": 600,
             "titleColor": "#1f2a33", "labelColor": "#4a5560"
@@ -81,15 +86,45 @@
         {"filter": "datum.lat > -34.25 && datum.lat < -33.45 && datum.lon > 150.55 && datum.lon < 151.65"},
         {"filter": "datum.n >= 20 && datum.grade !== 'Follow up' && datum.grade !== 'Not graded'"},
         {"joinaggregate": [{"op": "count", "as": "total"}]},
-        {"calculate": "datum.mean_ent < 10 ? 'Under 10' : datum.mean_ent < 40 ? '10–39' : '40 or more'", "as": "ent_band"},
+        {"calculate": "datum.mean_ent < 10 ? 'Under 10' : datum.mean_ent < 40 ? '10 – 39' : '40 or more'", "as": "ent_band"},
         {"filter": {"param": "gradeSel"}},
         {"filter": {"param": "sizeSel"}},
         {"aggregate": [{"op": "count", "as": "shown"}, {"op": "max", "field": "total", "as": "total"}]},
         {"calculate": "'Showing ' + datum.shown + ' of ' + datum.total + ' sites'", "as": "label"}
       ],
-      "mark": {"type": "text", "align": "left", "baseline": "bottom", "dx": 8, "dy": -8, "fontSize": 13, "fontWeight": 700, "color": "#1f2a33"},
+      "mark": {"type": "text", "align": "left", "baseline": "bottom", "dx": 8, "dy": -355, "fontSize": 13, "fontWeight": 700, "color": "#1f2a33"},
       "encoding": {"x": {"value": 0}, "y": {"value": "height"}, "text": {"field": "label"}}
+    },
+{
+  "data": {"values": [{"k": 1}]},
+  "mark": {"type": "circle", "size": 8825, "fill": null, "stroke": "#4a5560", "strokeWidth": 1.2, "strokeDash": [4, 3]},
+  "encoding": {"x": {"value": 226}, "y": {"value": 271}}
+},
+{
+  "data": {"values": [
+    {"x": 12, "y": 239.5, "text": "Highest bacteria cluster", "color": "#1f2a33"},
+    {"x": 12, "y": 254.5, "text": "around the cities, several", "color": "#1f2a33"},
+    {"x": 12, "y": 269.5, "text": "with", "color": "#1f2a33"},
+    {"x": 39, "y": 269.5, "text": "Poor", "color": "#b5541b"},
+    {"x": 70, "y": 269.5, "text": "or", "color": "#1f2a33"},
+    {"x": 86, "y": 269.5, "text": "Very Poor", "color": "#a63d14"},
+    {"x": 12, "y": 284.5, "text": "water quality", "color": "#1f2a33"},
+    {"x": 320, "y": 160, "text": "Almost 75% of sites have", "color": "#1f2a33"},
+    {"x": 320, "y": 175, "text": "Good", "color": "#3a78b0"},
+    {"x": 355, "y": 175, "text": "or", "color": "#1f2a33"},
+    {"x": 370, "y": 175, "text": "Very Good", "color": "#14508a"},
+    {"x": 320, "y": 190, "text": "water quality, yet almost", "color": "#1f2a33"},
+    {"x": 320, "y": 205, "text": "50% of sites have high", "color": "#1f2a33"},
+    {"x": 320, "y": 220, "text": "levels of bacteria", "color": "#1f2a33"}
+  ]},
+  "mark": {"type": "text", "align": "left", "baseline": "middle", "fontSize": 12, "fontStyle": "italic", "fontWeight": 600},
+  "encoding": {
+    "x": {"field": "x", "type": "quantitative", "scale": null, "axis": null},
+    "y": {"field": "y", "type": "quantitative", "scale": null, "axis": null},
+    "text": {"field": "text"},
+    "color": {"field": "color", "type": "nominal", "scale": null, "legend": null}
     }
+  }
     ],
     "config": {"view": {"stroke": null}}
 }

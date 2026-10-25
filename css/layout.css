@@ -16,8 +16,9 @@ html, body { margin: 0; background: #fbf8f2; }
 
 /* One block per story section, separated by a thin line.
    scroll-margin-top leaves a little space above a section when a link scrolls to it. */
-section { padding: 48px 0; border-bottom: 1px solid #e6e0d4; scroll-margin-top: 24px; }
+section { padding: 20px 0; border-bottom: 1px solid #e6e0d4; scroll-margin-top: 24px; }
 
+#s7 { padding-bottom: 64px; }   /* extra breathing room before the dark/beige footer */
 /* Every chart <div> fills the width of whatever holds it, which is what
    makes "width": "container" work in the Vega-Lite specs */
 .vis { width: 100%; }

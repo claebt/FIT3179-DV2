@@ -1,7 +1,16 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Beach features by hazard rating",
+    "anchor": "start",
+    "font": "Fraunces",
+    "fontSize": 20,
+    "fontWeight": 600,
+    "color": "#1f2a33",
+    "offset": 20
+  },
   "width": "container",
-  "height": 420,
+  "height": 480,
   "autosize": {"type": "fit", "contains": "padding"},
   "background": null,
   "data": {"url": "data/vic_beach_facilities.csv", "format": {"type": "csv"}},
@@ -9,21 +18,44 @@
     {"calculate": "toNumber(datum.HAZARD_RAT)", "as": "rating"},
     {"filter": "isValid(datum.rating) && isFinite(datum.rating)"},
     {"joinaggregate": [{"op": "count", "as": "n_rating"}], "groupby": ["rating"]},
-    {"fold": ["ROCKS","REEFS","HEADLANDS","STRUCTURES","INLET","OUTFALLS","WINDS","SHARKS","BLUEBOTTLE","STINGERS"], "as": ["feature", "flag"]},
+    {
+      "fold": ["ROCKS", "REEFS", "HEADLANDS", "STRUCTURES", "INLET", "OUTFALLS", "WINDS", "SHARKS", "BLUEBOTTLE", "STINGERS"],
+      "as": ["feature", "flag"]
+    },
     {"calculate": "datum.flag === 'T' ? 1 : 0", "as": "has"},
-    {"aggregate": [{"op": "sum", "field": "has", "as": "n_with"}, {"op": "max", "field": "n_rating", "as": "n_r"}], "groupby": ["feature", "rating"]},
+    {
+      "aggregate": [{"op": "sum", "field": "has", "as": "n_with"}, {"op": "max", "field": "n_rating", "as": "n_r"}],
+      "groupby": ["feature", "rating"]
+    },
     {"calculate": "round(100 * datum.n_with / datum.n_r)", "as": "pct"},
     {"filter": "datum.pct > 0"}
   ],
   "encoding": {
     "x": {
-      "field": "rating", "type": "ordinal", "title": "Hazard rating (0-10)",
-      "axis": {"labelAngle": 0, "labelFontSize": 11, "titleFontSize": 12, "titleColor": "#1f2a33", "domain": false, "ticks": false}
+      "field": "rating",
+      "type": "ordinal",
+      "title": "Hazard rating",
+      "axis": {
+        "labelAngle": 0,
+        "labelFontSize": 11,
+        "titleFontSize": 12,
+        "titlePadding": 12,
+        "titleColor": "#1f2a33",
+        "domain": false,
+        "ticks": false
+      }
     },
     "y": {
-      "field": "feature", "type": "nominal", "title": null,
-      "sort": {"field": "pct", "op": "mean", "order": "descending"},
-      "axis": {"labelExpr": "upper(slice(datum.value, 0, 1)) + lower(slice(datum.value, 1))", "labelFontSize": 11, "domain": false, "ticks": false}
+      "field": "feature",
+      "type": "nominal",
+      "title": null,
+      "sort": ["SHARKS", "REEFS", "ROCKS", "HEADLANDS", "WINDS", "STRUCTURES", "BLUEBOTTLE", "INLET", "OUTFALLS"],
+      "axis": {
+        "labelExpr": "upper(slice(datum.value, 0, 1)) + lower(slice(datum.value, 1))",
+        "labelFontSize": 11,
+        "domain": false,
+        "ticks": false
+      }
     }
   },
   "layer": [
@@ -31,13 +63,30 @@
       "mark": {"type": "rect", "stroke": "white", "strokeWidth": 1},
       "encoding": {
         "color": {
-          "field": "pct", "type": "quantitative",
-          "scale": {"range": ["#fbeee0", "#b5471a"], "domain": [0, 100]},
+          "field": "pct",
+          "type": "quantitative",
+          "scale": {
+            "type": "threshold",
+            "domain": [25, 50, 75, 95],
+            "range": ["#fbeee0", "#f3cfa6", "#e8a066", "#bb5622", "#6e2008"]
+          },
           "legend": {
-            "title": "% of beaches at this rating", "orient": "bottom", "direction": "horizontal",
-            "gradientLength": 220, "gradientThickness": 12, "gradientStrokeWidth": 0,
-            "values": [0, 25, 50, 75, 100], "labelFontSize": 11, "titleFontSize": 12,
-            "titleFontWeight": 600, "titleColor": "#1f2a33", "labelColor": "#4a5560"
+            "title": ["% with", "feature"],
+            "type": "gradient",
+            "orient": "none",
+            "legendX": {"expr": "width + 20"},
+            "legendY": {"expr": "height - 136"},
+            "direction": "vertical",
+            "values": [0, 25, 50, 75, 95],
+            "labelExpr": "datum.value === 95 ? '95+' : datum.value",
+            "gradientLength": 100,
+            "gradientThickness": 12,
+            "gradientStrokeWidth": 0,
+            "labelFontSize": 11,
+            "titleFontSize": 11,
+            "titleFontWeight": 600,
+            "titleColor": "#1f2a33",
+            "labelColor": "#4a5560"
           }
         },
         "tooltip": [
@@ -50,10 +99,77 @@
       }
     },
     {
-      "mark": {"type": "text", "fontSize": 10, "fontWeight": 600},
+      "mark": {"type": "text", "fontSize": 12, "fontWeight": 600},
       "encoding": {
         "text": {"field": "pct", "type": "quantitative"},
-        "color": {"condition": {"test": "datum.pct > 60", "value": "white"}, "value": "#1f2a33"}
+        "color": {"condition": {"test": "datum.pct >= 75", "value": "white"}, "value": "#1b2a33"}
+      }
+    },
+    {
+      "data": {"values": [{"k": 1}]},
+      "mark": {"type": "rule", "stroke": "#6e2008", "strokeWidth": 3, "strokeCap": "round"},
+      "encoding": {"x": {"value": 0}, "x2": {"value": {"expr": "width"}}, "y": {"value": -7}}
+    },
+    {
+      "data": {"values": [{"k": 1}]},
+      "mark": {"type": "text", "align": "right", "baseline": "bottom", "fontSize": 13, "fontWeight": 700, "color": "#6e2008"},
+      "encoding": {
+        "x": {"value": {"expr": "width"}},
+        "y": {"value": -32},
+        "text": {"value": "Sharks are the most widespread feature"}
+      }
+    },
+    {
+      "data": {"values": [{"k": 1}]},
+      "mark": {"type": "text", "align": "right", "baseline": "bottom", "fontSize": 12, "color": "#1b2a33"},
+      "encoding": {
+        "x": {"value": {"expr": "width"}},
+        "y": {"value": -15},
+        "text": {"value": "found at 89–100% of beaches at every rating"}
+      }
+    },
+    {
+      "data": {"values": [{"k": 1}]},
+      "mark": {"type": "rule", "stroke": "#6e2008", "strokeWidth": 4, "strokeCap": "round"},
+      "encoding": {
+        "x": {"value": {"expr": "width + 6"}},
+        "y": {"value": {"expr": "height / 9 + 3"}},
+        "y2": {"value": {"expr": "height * 4 / 9 - 3"}}
+      }
+    },
+    {
+      "data": {"values": [{"k": 1}]},
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "top",
+        "lineBreak": "|",
+        "lineHeight": 15,
+        "fontSize": 12.5,
+        "fontWeight": 700,
+        "color": "#6e2008"
+      },
+      "encoding": {
+        "x": {"value": {"expr": "width + 20"}},
+        "y": {"value": {"expr": "height / 9 + 3 + (height * 3 / 9 - 6 - 94) / 2"}},
+        "text": {"value": "Reefs, rocks and|headlands climb|with hazard"}
+      }
+    },
+    {
+      "data": {"values": [{"k": 1}]},
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "top",
+        "lineBreak": "|",
+        "lineHeight": 15,
+        "fontSize": 12,
+        "color": "#1b2a33"
+      },
+      "encoding": {
+        "x": {"value": {"expr": "width + 20"}},
+        "y": {"value": {"expr": "height / 9 + 3 + (height * 3 / 9 - 6 - 94) / 2 + 49"}},
+        "text": {"value": "5–21% of beaches|at rating 1, and|79–92% at rating 7"}
       }
     }
   ],
