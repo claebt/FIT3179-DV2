@@ -23,9 +23,6 @@
   ],
   "layer": [
     {
-      "params": [
-        {"name": "legendSel", "select": {"type": "point", "fields": ["grade"]}, "bind": "legend"}
-      ],
       "mark": {"type": "bar"},
       "encoding": {
         "y": {
@@ -61,23 +58,7 @@
             "domain": ["Very Good", "Good", "Fair", "Poor", "Very Poor"],
             "range": ["#14508a", "#7fb0d6", "#f2d58a", "#e0925a", "#a63d14"]
           },
-          "legend": {
-            "title": "Annual grade",
-            "type": "symbol",
-            "symbolType": "square",
-            "symbolSize": 200,
-            "labelFontSize": 11,
-            "titleFontSize": 12,
-            "titleFontWeight": 600,
-            "titleColor": "#1f2a33",
-            "labelColor": "#4a5560",
-            "orient": "none",
-            "legendX": {"expr": "width + 20"},
-            "legendY": {"expr": "height / 2 - 62"},
-            "direction": "vertical",
-            "rowPadding": 6,
-            "titlePadding": 8
-          }
+          "legend": null
         },
         "opacity": {
           "condition": {"test": "length(selGrades) === 0 || indexof(selGrades, datum.grade) >= 0", "value": 1},
