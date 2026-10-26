@@ -63,15 +63,35 @@ charts.forEach(([div, spec]) => {
 function linkGradeSelection() {
   const map = views["#vis_s5_map"];
   const bars = views["#vis_s5_regions"];
-
   if (gradeLinked || !map || !bars) return;
   gradeLinked = true;
 
-  map.addSignalListener("gradeSel", (name, value) => {
+  const toGrades = (value) => {
     const g = value && value.grade;
-    const grades = Array.isArray(g) ? g : (g != null ? [g] : []);
-    bars.signal("selGrades", grades).run();
-  });
+    return Array.isArray(g) ? g : (g != null ? [g] : []);
+  };
+
+  // set a plain signal on a chart, warn (don't crash) if it doesn't exist
+  const setSignal = (view, name, grades) => {
+    try {
+      view.signal(name, grades).run();
+    } catch (e) {
+      console.warn(`Signal "${name}" not found:`, e.message);
+    }
+  };
+
+  const sync = (grades) => {
+    setSignal(bars, "selGrades", grades);
+    setSignal(map, "selGradesMap", grades);
+  };
+
+  map.addSignalListener("gradeSel", (name, value) => sync(toGrades(value)));
+
+  try {
+    bars.addSignalListener("legendSel", (name, value) => sync(toGrades(value)));
+  } catch (e) {
+    console.warn('Signal "legendSel" not found on regions chart:', e.message);
+  }
 }
 
 

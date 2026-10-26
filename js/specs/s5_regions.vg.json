@@ -23,6 +23,9 @@
   ],
   "layer": [
     {
+      "params": [
+        {"name": "legendSel", "select": {"type": "point", "fields": ["grade"]}, "bind": "legend"}
+      ],
       "mark": {"type": "bar"},
       "encoding": {
         "y": {
