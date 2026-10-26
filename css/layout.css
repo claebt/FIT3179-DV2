@@ -34,7 +34,7 @@ section { padding: 20px 0; border-bottom: 1px solid #e6e0d4; scroll-margin-top: 
   background:
     linear-gradient(90deg, rgba(14, 28, 38, 0.85) 0%, rgba(14, 28, 38, 0.55) 45%, rgba(14, 28, 38, 0.15) 100%),
     url("../images/hero.jpg") center / cover no-repeat;
-  border-radius: 0 0 0 32px;
+  border-radius: 0 0 0 100px;
   color: #ffffff;
 }
 
