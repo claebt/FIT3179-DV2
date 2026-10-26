@@ -123,12 +123,9 @@
           "layer": [
             {
               "params": [
-                {
-                  "name": "beachHover",
-                  "select": {"type": "point", "fields": ["rank"], "on": "pointerover", "clear": "pointerout"}
-                }
+                {"name": "beachHover", "select": {"type": "point", "fields": ["rank"], "on": "pointerover", "clear": "pointerout"}}
               ],
-              "mark": {"type": "bar", "fill": "#eef2f4", "cornerRadius": 4},
+              "mark": {"type": "bar", "fill": "#ffffff", "cornerRadius": 4},
               "encoding": {
                 "x": {"value": 0},
                 "x2": {"value": 338},
